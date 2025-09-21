@@ -16,8 +16,22 @@
 2. **Set up environment variables:**
    Create a `.env.local` file in the root directory with:
    ```env
+   # Supabase Configuration
    NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   
+   # Admin Authentication
+   ADMIN_JWT_SECRET=your-super-secret-jwt-key-min-32-characters-change-in-production
+   ADMIN_SESSION_TIMEOUT=24h
+   
+   # File Upload Settings
+   MAX_UPLOAD_SIZE=52428800
+   ALLOWED_FILE_TYPES=pdf,jpg,jpeg,png,webp,doc,docx
+   
+   # Admin Settings
+   ADMIN_EMAIL=admin@sepaktakraw.org
+   SITE_NAME=Sepaktakraw Federation
+   DEFAULT_ADMIN_PASSWORD=ChangeMe123!
    ```
 
 3. **Set up Supabase Storage:**
@@ -29,6 +43,14 @@
    - Set both buckets to public access
 
 4. **Set up Supabase database:**
+   
+   **For a complete database setup, see `DATABASE_SETUP.md` for the full schema and sample data.**
+   
+   **Quick Setup**: Run the main database script from `DATABASE_SETUP.md` in your Supabase SQL Editor.
+   
+   **Migration**: After the main setup, run `database/migration-add-stats-quicklinks.sql` to add stats and quick links tables.
+   
+   **Manual Setup** (if you prefer to create tables individually):
    
    Create the following tables in your Supabase database:
 

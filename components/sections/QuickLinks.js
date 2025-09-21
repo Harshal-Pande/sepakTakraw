@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { 
   Newspaper, 
@@ -18,96 +19,21 @@ import {
 import { Card, CardContent } from '@/components/common/Card'
 import { Button } from '@/components/ui/button'
 
-const quickLinks = [
-  {
-    title: 'News & Updates',
-    description: 'Latest news and announcements',
-    href: '/news',
-    icon: Newspaper,
-    color: 'text-blue-600',
-    bgColor: 'bg-blue-100'
-  },
-  {
-    title: 'Results',
-    description: 'Tournament results and standings',
-    href: '/results',
-    icon: Trophy,
-    color: 'text-yellow-600',
-    bgColor: 'bg-yellow-100'
-  },
-  {
-    title: 'Events',
-    description: 'Upcoming tournaments and events',
-    href: '/events',
-    icon: Calendar,
-    color: 'text-green-600',
-    bgColor: 'bg-green-100'
-  },
-  {
-    title: 'General Body',
-    description: 'Federation members and officials',
-    href: '/general-body',
-    icon: Users,
-    color: 'text-purple-600',
-    bgColor: 'bg-purple-100'
-  },
-  {
-    title: 'Rules & Regulations',
-    description: 'Game rules and regulations',
-    href: '/events/rules-regulations',
-    icon: BookOpen,
-    color: 'text-indigo-600',
-    bgColor: 'bg-indigo-100'
-  },
-  {
-    title: 'MYAS Compliance',
-    description: 'Ministry compliance documents',
-    href: '/myas-compliance',
-    icon: Shield,
-    color: 'text-red-600',
-    bgColor: 'bg-red-100'
-  },
-  {
-    title: 'Anti-DOP Guidelines',
-    description: 'Anti-doping guidelines and policies',
-    href: '/anti-dop-guidelines',
-    icon: AlertTriangle,
-    color: 'text-orange-600',
-    bgColor: 'bg-orange-100'
-  },
-  {
-    title: 'RTI Information',
-    description: 'Right to Information details',
-    href: '/rti',
-    icon: Info,
-    color: 'text-teal-600',
-    bgColor: 'bg-teal-100'
-  },
-  {
-    title: 'Elections',
-    description: 'Election information and results',
-    href: '/elections',
-    icon: Vote,
-    color: 'text-pink-600',
-    bgColor: 'bg-pink-100'
-  },
-  {
-    title: 'History',
-    description: 'Federation history and milestones',
-    href: '/history',
-    icon: History,
-    color: 'text-gray-600',
-    bgColor: 'bg-gray-100'
-  },
-  {
-    title: 'Contact Us',
-    description: 'Get in touch with us',
-    href: '/contact',
-    icon: Phone,
-    color: 'text-cyan-600',
-    bgColor: 'bg-cyan-100'
-  }
-]
+// Icon mapping for dynamic icons
+const iconMap = {
+  'Newspaper': Newspaper,
+  'Trophy': Trophy,
+  'Calendar': Calendar,
+  'Users': Users,
+  'FileText': FileText,
+  'Shield': Shield,
+  'AlertTriangle': AlertTriangle,
+  'Info': Info,
+  'Vote': Vote,
+  'History': History,
+  'Phone': Phone,
+  'BookOpen': BookOpen,
+}
 
 export function QuickLinksSection({ 
   title = "Quick Links",
@@ -115,6 +41,48 @@ export function QuickLinksSection({
   limit = 12,
   className = ""
 }) {
+  const [quickLinks, setQuickLinks] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    const fetchQuickLinks = async () => {
+      try {
+        const response = await fetch('/api/quick-links')
+        const data = await response.json()
+        
+        if (data.success) {
+          setQuickLinks(data.data)
+        } else {
+          setError(data.error)
+        }
+      } catch (err) {
+        setError('Failed to fetch quick links')
+        console.error('Error fetching quick links:', err)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchQuickLinks()
+  }, [])
+
+  if (isLoading) {
+    return <QuickLinksSkeleton className={className} />
+  }
+
+  if (error) {
+    return (
+      <section className={`py-16 ${className}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <p className="text-red-600">Failed to load quick links</p>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
   const displayLinks = showAll ? quickLinks : quickLinks.slice(0, limit)
 
   return (
@@ -133,15 +101,15 @@ export function QuickLinksSection({
         {/* Quick Links Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {displayLinks.map((link, index) => {
-            const Icon = link.icon
+            const Icon = iconMap[link.icon] || Newspaper // Fallback to Newspaper if icon not found
             return (
               <Card
-                key={index}
+                key={link.id || index}
                 className="group hover:shadow-lg transition-all duration-300 hover:scale-105"
                 variant="elevated"
               >
                 <CardContent className="p-6 text-center">
-                  <div className={`w-16 h-16 ${link.bgColor} rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                  <div className={`w-16 h-16 ${link.bg_color} rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}>
                     <Icon className={`w-8 h-8 ${link.color}`} />
                   </div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-primary-blue transition-colors duration-200">
@@ -174,6 +142,45 @@ export function QuickLinksCompact({
   title = "Quick Access",
   className = ""
 }) {
+  const [quickLinks, setQuickLinks] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchQuickLinks = async () => {
+      try {
+        const response = await fetch('/api/quick-links')
+        const data = await response.json()
+        
+        if (data.success) {
+          setQuickLinks(data.data)
+        }
+      } catch (err) {
+        console.error('Error fetching quick links:', err)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchQuickLinks()
+  }, [])
+
+  if (isLoading) {
+    return (
+      <Card className={`${className}`} variant="elevated">
+        <CardContent className="p-6">
+          <div className="animate-pulse">
+            <div className="h-6 bg-gray-200 rounded w-32 mb-4"></div>
+            <div className="grid grid-cols-2 gap-2">
+              {[...Array(8)].map((_, index) => (
+                <div key={index} className="h-10 bg-gray-200 rounded"></div>
+              ))}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    )
+  }
+
   return (
     <Card className={`${className}`} variant="elevated">
       <CardContent className="p-6">
@@ -182,10 +189,10 @@ export function QuickLinksCompact({
         </h3>
         <div className="grid grid-cols-2 gap-2">
           {quickLinks.slice(0, 8).map((link, index) => {
-            const Icon = link.icon
+            const Icon = iconMap[link.icon] || Newspaper
             return (
               <Button
-                key={index}
+                key={link.id || index}
                 asChild
                 variant="ghost"
                 className="justify-start h-auto p-3 text-left hover:bg-gray-100"
