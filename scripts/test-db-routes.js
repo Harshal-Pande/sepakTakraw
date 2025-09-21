@@ -10,11 +10,14 @@
  * 4. Verify schemas are working properly
  */
 
+// Load environment variables
+require('dotenv').config({ path: '.env.local' });
+
 const https = require('https');
 const http = require('http');
 
 // Configuration
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3002';
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3001';
 
 // Environment variable validation
 function validateEnvironment() {
@@ -51,8 +54,6 @@ const API_ROUTES = [
   { path: '/api/general-body', table: 'general_body', name: 'General Body' },
   { path: '/api/history', table: 'history', name: 'History' },
   { path: '/api/hero-images', table: 'hero_images', name: 'Hero Images' },
-  { path: '/api/quick-links', table: 'quick_links', name: 'Quick Links' },
-  { path: '/api/stats', table: 'stats', name: 'Statistics' },
   { path: '/api/contact', table: 'contact_info', name: 'Contact Info' }
 ];
 
@@ -272,7 +273,7 @@ async function testDatabaseConnection() {
   
   try {
     // Test a simple route that should always work
-    const response = await makeRequest(`${BASE_URL}/api/stats`);
+    const response = await makeRequest(`${BASE_URL}/api/news`);
     
     if (response.status === 200) {
       console.log('✅ Database connection successful');
@@ -292,6 +293,11 @@ async function main() {
   console.log('🚀 Starting Database API Routes Test');
   console.log(`📍 Base URL: ${BASE_URL}`);
   console.log('=' .repeat(50));
+
+  // Validate environment variables first
+  if (!validateEnvironment()) {
+    process.exit(1);
+  }
 
   // Test database connection first
   const dbConnected = await testDatabaseConnection();

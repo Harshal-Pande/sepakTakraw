@@ -1,40 +1,63 @@
-import { createClient } from '@/lib/supabase'
-import { createResponse, createErrorResponse, getPaginationParams } from '@/lib/api-helpers'
+import { createResponse, createErrorResponse } from '@/lib/api-helpers'
+
+// Hardcoded stats data since stats table doesn't exist in the schema
+const STATS_DATA = [
+  {
+    id: '1',
+    icon: 'Trophy',
+    value: '150+',
+    label: 'Tournaments',
+    color: 'text-yellow-600',
+    bg_color: 'bg-yellow-100',
+    order_index: 1,
+    is_active: true
+  },
+  {
+    id: '2',
+    icon: 'Users',
+    value: '5000+',
+    label: 'Players',
+    color: 'text-blue-600',
+    bg_color: 'bg-blue-100',
+    order_index: 2,
+    is_active: true
+  },
+  {
+    id: '3',
+    icon: 'Calendar',
+    value: '25+',
+    label: 'Years',
+    color: 'text-green-600',
+    bg_color: 'bg-green-100',
+    order_index: 3,
+    is_active: true
+  },
+  {
+    id: '4',
+    icon: 'Award',
+    value: '50+',
+    label: 'Awards',
+    color: 'text-purple-600',
+    bg_color: 'bg-purple-100',
+    order_index: 4,
+    is_active: true
+  }
+]
 
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url)
-    const { page, limit } = getPaginationParams(searchParams)
     const active = searchParams.get('active') !== 'false' // Default to true
 
-    const supabase = createClient()
-
-    let query = supabase
-      .from('stats')
-      .select('*')
-      .order('order_index', { ascending: true })
-
     // Filter by active status if specified
+    let data = STATS_DATA
     if (active !== null) {
-      query = query.eq('is_active', active)
-    }
-
-    // Apply pagination
-    const from = (page - 1) * limit
-    const to = from + limit - 1
-    query = query.range(from, to)
-
-    const { data, error, count } = await query
-
-    if (error) {
-      throw error
+      data = STATS_DATA.filter(stat => stat.is_active === active)
     }
 
     return Response.json(createResponse(data, 'Stats retrieved successfully', {
-      page,
-      limit,
-      total: count,
-      totalPages: Math.ceil(count / limit)
+      total: data.length,
+      totalPages: 1
     }))
 
   } catch (error) {

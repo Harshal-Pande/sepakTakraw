@@ -1,40 +1,89 @@
-import { createClient } from '@/lib/supabase'
-import { createResponse, createErrorResponse, getPaginationParams } from '@/lib/api-helpers'
+import { createResponse, createErrorResponse } from '@/lib/api-helpers'
+
+// Hardcoded quick links data since quick_links table doesn't exist in the schema
+const QUICK_LINKS_DATA = [
+  {
+    id: '1',
+    title: 'Latest News',
+    description: 'Stay updated with the latest news and announcements',
+    href: '/news',
+    icon: 'Newspaper',
+    color: 'text-blue-600',
+    bg_color: 'bg-blue-100',
+    order_index: 1,
+    is_active: true
+  },
+  {
+    id: '2',
+    title: 'Upcoming Events',
+    description: 'Check out upcoming tournaments and events',
+    href: '/events',
+    icon: 'Calendar',
+    color: 'text-green-600',
+    bg_color: 'bg-green-100',
+    order_index: 2,
+    is_active: true
+  },
+  {
+    id: '3',
+    title: 'Results',
+    description: 'View competition results and standings',
+    href: '/results',
+    icon: 'Trophy',
+    color: 'text-yellow-600',
+    bg_color: 'bg-yellow-100',
+    order_index: 3,
+    is_active: true
+  },
+  {
+    id: '4',
+    title: 'General Body',
+    description: 'Meet our leadership and management team',
+    href: '/general-body',
+    icon: 'Users',
+    color: 'text-purple-600',
+    bg_color: 'bg-purple-100',
+    order_index: 4,
+    is_active: true
+  },
+  {
+    id: '5',
+    title: 'History',
+    description: 'Learn about our federation\'s journey',
+    href: '/history',
+    icon: 'BookOpen',
+    color: 'text-indigo-600',
+    bg_color: 'bg-indigo-100',
+    order_index: 5,
+    is_active: true
+  },
+  {
+    id: '6',
+    title: 'Contact Us',
+    description: 'Get in touch with our team',
+    href: '/contact',
+    icon: 'Phone',
+    color: 'text-red-600',
+    bg_color: 'bg-red-100',
+    order_index: 6,
+    is_active: true
+  }
+]
 
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url)
-    const { page, limit } = getPaginationParams(searchParams)
     const active = searchParams.get('active') !== 'false' // Default to true
 
-    const supabase = createClient()
-
-    let query = supabase
-      .from('quick_links')
-      .select('*')
-      .order('order_index', { ascending: true })
-
     // Filter by active status if specified
+    let data = QUICK_LINKS_DATA
     if (active !== null) {
-      query = query.eq('is_active', active)
-    }
-
-    // Apply pagination
-    const from = (page - 1) * limit
-    const to = from + limit - 1
-    query = query.range(from, to)
-
-    const { data, error, count } = await query
-
-    if (error) {
-      throw error
+      data = QUICK_LINKS_DATA.filter(link => link.is_active === active)
     }
 
     return Response.json(createResponse(data, 'Quick links retrieved successfully', {
-      page,
-      limit,
-      total: count,
-      totalPages: Math.ceil(count / limit)
+      total: data.length,
+      totalPages: 1
     }))
 
   } catch (error) {
