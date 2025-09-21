@@ -4,18 +4,18 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { AdminPage } from '@/components/admin/common/AdminPage'
 import { Badge } from '@/components/ui/badge'
-import { Calendar, MapPin } from 'lucide-react'
+import { FileText, Calendar, Vote } from 'lucide-react'
 import { format } from 'date-fns'
 
-export default function AdminEventsPage() {
-  const [events, setEvents] = useState([])
+export default function AdminElectionsPage() {
+  const [elections, setElections] = useState([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
   const router = useRouter()
 
-  const fetchEvents = async () => {
+  const fetchElections = async () => {
     setLoading(true)
     try {
       const params = new URLSearchParams({
@@ -27,32 +27,34 @@ export default function AdminEventsPage() {
         params.append('search', searchTerm)
       }
       
-      const response = await fetch(`/api/events?${params}`)
+      const response = await fetch(`/api/elections?${params}`)
       const data = await response.json()
       
       if (data.success) {
-        setEvents(data.data)
+        setElections(data.data)
         setTotalPages(data.pagination?.totalPages || 1)
       }
     } catch (error) {
-      console.error('Error fetching events:', error)
+      console.error('Error fetching elections:', error)
     } finally {
       setLoading(false)
     }
   }
 
   const handleView = (item) => {
-    window.open(`/events/${item.id}`, '_blank')
+    if (item.document_url) {
+      window.open(item.document_url, '_blank')
+    }
   }
 
-  const getEventStatus = (eventDate) => {
+  const getElectionStatus = (electionDate) => {
     const today = new Date()
-    const event = new Date(eventDate)
-    const diffTime = event - today
+    const election = new Date(electionDate)
+    const diffTime = election - today
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
     
-    if (diffDays < 0) return { label: 'Past', variant: 'secondary' }
-    if (diffDays <= 7) return { label: 'Upcoming', variant: 'default' }
+    if (diffDays < 0) return { label: 'Completed', variant: 'secondary' }
+    if (diffDays <= 30) return { label: 'Upcoming', variant: 'default' }
     return { label: 'Scheduled', variant: 'outline' }
   }
 
@@ -63,9 +65,10 @@ export default function AdminEventsPage() {
       render: (item) => (
         <div className="max-w-xs">
           <p className="truncate font-medium">{item.title}</p>
-          {item.photos && item.photos.length > 0 && (
+          {item.document_url && (
             <Badge variant="outline" className="mt-1 text-xs">
-              {item.photos.length} Photos
+              <FileText className="w-3 h-3 mr-1" />
+              Has Document
             </Badge>
           )}
         </div>
@@ -81,22 +84,12 @@ export default function AdminEventsPage() {
       )
     },
     {
-      key: 'event_date',
-      label: 'Date',
+      key: 'election_date',
+      label: 'Election Date',
       render: (item) => (
         <div className="flex items-center text-sm text-gray-500">
           <Calendar className="w-4 h-4 mr-1" />
-          {format(new Date(item.event_date), 'MMM dd, yyyy')}
-        </div>
-      )
-    },
-    {
-      key: 'location',
-      label: 'Location',
-      render: (item) => (
-        <div className="flex items-center text-sm text-gray-500">
-          <MapPin className="w-4 h-4 mr-1" />
-          <span className="truncate max-w-32">{item.location}</span>
+          {format(new Date(item.election_date), 'MMM dd, yyyy')}
         </div>
       )
     },
@@ -104,9 +97,10 @@ export default function AdminEventsPage() {
       key: 'status',
       label: 'Status',
       render: (item) => {
-        const status = getEventStatus(item.event_date)
+        const status = getElectionStatus(item.election_date)
         return (
           <Badge variant={status.variant}>
+            <Vote className="w-3 h-3 mr-1" />
             {status.label}
           </Badge>
         )
@@ -116,9 +110,9 @@ export default function AdminEventsPage() {
 
   return (
     <AdminPage
-      title="Events Management"
-      description="Manage tournaments and events"
-      data={events}
+      title="Elections Management"
+      description="Manage federation elections and voting"
+      data={elections}
       columns={columns}
       loading={loading}
       searchTerm={searchTerm}
@@ -127,10 +121,10 @@ export default function AdminEventsPage() {
       totalPages={totalPages}
       onPageChange={setCurrentPage}
       onView={handleView}
-      createHref="/admin/events/create"
-      createLabel="Add Event"
-      emptyMessage="No events found"
-      fetchData={fetchEvents}
+      createHref="/admin/elections/create"
+      createLabel="Add Election"
+      emptyMessage="No elections found"
+      fetchData={fetchElections}
     />
   )
 }
