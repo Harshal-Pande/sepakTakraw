@@ -46,14 +46,10 @@ export default function CreateNewsPage() {
   })
 
   const handleFileUpload = (field, url) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: url
-    }))
+    form.setValue(field, url)
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+  const onSubmit = async (values) => {
     setIsSubmitting(true)
     setError('')
 
@@ -63,7 +59,7 @@ export default function CreateNewsPage() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(values)
       })
 
       const data = await response.json()
@@ -99,64 +95,86 @@ export default function CreateNewsPage() {
 
         {/* Form */}
         <AdminCard>
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             {error && (
               <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
                 <p className="text-red-600 text-sm">{error}</p>
               </div>
             )}
 
-            <div>
-              <Label htmlFor="title">Title *</Label>
-              <Input
-                id="title"
-                name="title"
-                value={formData.title}
-                onChange={handleInputChange}
-                placeholder="Enter news title"
-                required
-                className="mt-1"
-              />
-            </div>
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Title *</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter news title" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-            <div>
-              <Label htmlFor="description">Description *</Label>
-              <Textarea
-                id="description"
-                name="description"
-                value={formData.description}
-                onChange={handleInputChange}
-                placeholder="Enter news description"
-                rows={6}
-                required
-                className="mt-1"
-              />
-            </div>
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description *</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Enter news description"
+                      rows={6}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-            <div>
-              <Label>Featured Image</Label>
-              <FileUpload
-                type="image"
-                onUpload={(url) => handleFileUpload('featured_image', url)}
-                maxSize={5}
-                className="mt-1"
-              />
-            </div>
+            <FormField
+              control={form.control}
+              name="featured_image"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Featured Image</FormLabel>
+                  <FormControl>
+                    <FileUpload
+                      type="image"
+                      onUpload={(url) => handleFileUpload('featured_image', url)}
+                      maxSize={5}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-            <div>
-              <Label>Document (PDF)</Label>
-              <FileUpload
-                type="document"
-                onUpload={(url) => handleFileUpload('document_url', url)}
-                maxSize={10}
-                className="mt-1"
-              />
-            </div>
+            <FormField
+              control={form.control}
+              name="document_url"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Document (PDF)</FormLabel>
+                  <FormControl>
+                    <FileUpload
+                      type="document"
+                      onUpload={(url) => handleFileUpload('document_url', url)}
+                      maxSize={10}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             <div className="flex gap-4 pt-6">
               <Button
                 type="submit"
-                disabled={isSubmitting || !formData.title || !formData.description}
+                disabled={isSubmitting}
                 className="bg-primary-blue hover:bg-primary-blue/90 text-white"
               >
                 {isSubmitting ? (
@@ -181,6 +199,7 @@ export default function CreateNewsPage() {
               </Button>
             </div>
           </form>
+          </Form>
         </AdminCard>
       </div>
     </AdminLayout>
