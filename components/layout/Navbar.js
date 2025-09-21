@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 import { Menu, X, Phone } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import { ModeToggle } from '@/components/mode-toggle'
 
 const navigationItems = [
   { name: 'Home', href: '/' },
@@ -72,6 +73,9 @@ export default function Navbar() {
               <Phone className="w-4 h-4" />
               <span className="text-sm">+91 98765 43210</span>
             </div>
+
+            {/* Theme Toggle */}
+            <ModeToggle />
 
             {/* Mobile Menu Button */}
             <Sheet open={isOpen} onOpenChange={setIsOpen}>

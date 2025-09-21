@@ -6,6 +6,7 @@ import { Menu, X, Bell, User, LogOut, Settings } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { ModeToggle } from '@/components/mode-toggle'
 
 export default function AdminNavbar({ user, onMenuClick }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -57,6 +58,9 @@ export default function AdminNavbar({ user, onMenuClick }) {
 
         {/* Right side */}
         <div className="flex items-center gap-4">
+          {/* Theme Toggle */}
+          <ModeToggle />
+
           {/* Notifications */}
           <Button variant="ghost" size="sm" className="relative">
             <Bell className="w-5 h-5" />
