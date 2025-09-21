@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { DocumentViewer } from '@/components/common/DocumentViewer'
 import { SearchBox, SearchResults } from '@/components/common/SearchBox'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/common/Card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { FileText, Calendar, Download } from 'lucide-react'
 

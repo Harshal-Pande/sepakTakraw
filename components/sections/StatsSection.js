@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Trophy, Users, Calendar, Award, Loader2 } from 'lucide-react'
-import { Card, CardContent } from '@/components/common/Card'
+import { Card, CardContent } from '@/components/ui/card'
 
 // Icon mapping for dynamic icons
 const iconMap = {

@@ -16,7 +16,7 @@ import {
   Phone,
   BookOpen
 } from 'lucide-react'
-import { Card, CardContent } from '@/components/common/Card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 
 // Icon mapping for dynamic icons
