@@ -72,7 +72,7 @@ export function EventsSection({
               {title}
             </h2>
             <p className="text-lg text-gray-600">
-              Don't miss out on exciting tournaments and events
+              Don&apos;t miss out on exciting tournaments and events
             </p>
           </div>
           
