@@ -2,6 +2,9 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as z from 'zod'
 import AdminLayout from '@/components/admin/layout/AdminLayout'
 import { AdminCard } from '@/components/admin/common/AdminCard'
 import { Button } from '@/components/ui/button'
@@ -9,27 +12,38 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { FileUpload } from '@/components/common/FileUpload'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
 import { ArrowLeft, Save, Loader2 } from 'lucide-react'
 import Link from 'next/link'
 
+const formSchema = z.object({
+  title: z.string().min(1, 'Title is required'),
+  description: z.string().min(1, 'Description is required'),
+  document_url: z.string().optional(),
+  featured_image: z.string().optional(),
+})
+
 export default function CreateNewsPage() {
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    document_url: '',
-    featured_image: ''
-  })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
   const router = useRouter()
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }))
-  }
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      title: '',
+      description: '',
+      document_url: '',
+      featured_image: '',
+    },
+  })
 
   const handleFileUpload = (field, url) => {
     setFormData(prev => ({
