@@ -117,7 +117,7 @@ export default function ResultsPage() {
 
   useEffect(() => {
     fetchResults(1, '', selectedYear)
-  }, [])
+  }, [selectedYear])
 
   if (error) {
     return (
