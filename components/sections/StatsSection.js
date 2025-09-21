@@ -1,40 +1,60 @@
 'use client'
 
-import { Trophy, Users, Calendar, Award } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Trophy, Users, Calendar, Award, Loader2 } from 'lucide-react'
 import { Card, CardContent } from '@/components/common/Card'
 
-const stats = [
-  {
-    icon: Trophy,
-    value: '150+',
-    label: 'Tournaments Won',
-    color: 'text-primary-gold',
-    bgColor: 'bg-primary-gold/10'
-  },
-  {
-    icon: Users,
-    value: '500+',
-    label: 'Active Players',
-    color: 'text-primary-blue',
-    bgColor: 'bg-primary-blue/10'
-  },
-  {
-    icon: Calendar,
-    value: '25+',
-    label: 'Events This Year',
-    color: 'text-green-600',
-    bgColor: 'bg-green-100'
-  },
-  {
-    icon: Award,
-    value: '50+',
-    label: 'Medals Won',
-    color: 'text-purple-600',
-    bgColor: 'bg-purple-100'
-  }
-]
+// Icon mapping for dynamic icons
+const iconMap = {
+  'Trophy': Trophy,
+  'Users': Users,
+  'Calendar': Calendar,
+  'Award': Award,
+}
 
 export function StatsSection({ className = '' }) {
+  const [stats, setStats] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await fetch('/api/stats')
+        const data = await response.json()
+        
+        if (data.success) {
+          setStats(data.data)
+        } else {
+          setError(data.error)
+        }
+      } catch (err) {
+        setError('Failed to fetch stats')
+        console.error('Error fetching stats:', err)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchStats()
+  }, [])
+
+  if (isLoading) {
+    return <StatsSectionSkeleton />
+  }
+
+  if (error) {
+    return (
+      <section className={`py-16 bg-gray-50 ${className}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <p className="text-red-600">Failed to load statistics</p>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
   return (
     <section className={`py-16 bg-gray-50 ${className}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -49,15 +69,15 @@ export function StatsSection({ className = '' }) {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {stats.map((stat, index) => {
-            const Icon = stat.icon
+            const Icon = iconMap[stat.icon] || Trophy // Fallback to Trophy if icon not found
             return (
               <Card 
-                key={index} 
+                key={stat.id || index} 
                 className="text-center hover:shadow-lg transition-all duration-300 hover:scale-105"
                 variant="elevated"
               >
                 <CardContent className="p-6">
-                  <div className={`w-16 h-16 ${stat.bgColor} rounded-full flex items-center justify-center mx-auto mb-4`}>
+                  <div className={`w-16 h-16 ${stat.bg_color} rounded-full flex items-center justify-center mx-auto mb-4`}>
                     <Icon className={`w-8 h-8 ${stat.color}`} />
                   </div>
                   <div className={`text-3xl font-bold ${stat.color} mb-2`}>
