@@ -280,3 +280,12 @@ Your admin panel is now fully functional! You can:
 - ✅ Customize the interface
 
 The admin panel provides a complete content management solution for your Sepaktakraw website with enterprise-level security and functionality.
+
+
+
+
+SUPABASE VARIABLES
+SUPABASE_SERVICE_ROLE_SECRET=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd1ZnZzY3lrcW15b2l0dW10dmJsIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1ODQ2OTY5OCwiZXhwIjoyMDc0MDQ1Njk4fQ.n_wzWipOh_yecTkinMyxktmSmNx0x62uYRwVVlibOw8
+SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd1ZnZzY3lrcW15b2l0dW10dmJsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg0Njk2OTgsImV4cCI6MjA3NDA0NTY5OH0.d5j3HlhQ_LbZoVcM78x1s7DOyzv-EUsMWaHW5Eumz2Y
+SUPABASE_URL=https://gufvscykqmyoitumtvbl.supabase.co
+
