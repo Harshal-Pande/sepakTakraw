@@ -48,7 +48,7 @@ export default function AdminLayout({ children }) {
   }
   
   return (
-    <div className="min-h-screen bg-gray-50 admin-layout">
+    <div className="min-h-screen bg-gray-50 font-sans">
       <AdminNavbar 
         user={user}
         onMenuClick={() => setSidebarOpen(!sidebarOpen)}
