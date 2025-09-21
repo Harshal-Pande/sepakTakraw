@@ -3,7 +3,7 @@
 import { useState, useRef } from 'react'
 import { Upload, X, FileText, Image, Loader2, CheckCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from './Card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 
 export function FileUpload({ 

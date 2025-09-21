@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Download, ExternalLink, FileText, AlertCircle, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from './Card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 
 export function DocumentViewer({ 
