@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import AdminNavbar from './AdminNavbar'
 import AdminSidebar from './AdminSidebar'
-import LoadingSpinner from '../common/LoadingSpinner'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export default function AdminLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -35,7 +35,12 @@ export default function AdminLayout({ children }) {
   }, [router])
   
   if (loading) {
-    return <LoadingSpinner />
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
+        <Skeleton className="w-8 h-8 rounded-full" />
+        <Skeleton className="w-32 h-4 mt-4" />
+      </div>
+    )
   }
   
   if (!user) {

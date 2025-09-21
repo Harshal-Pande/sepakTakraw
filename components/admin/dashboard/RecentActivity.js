@@ -1,5 +1,6 @@
 import { AdminCard } from '../common/AdminCard'
 import { formatDistanceToNow } from 'date-fns'
+import { cn } from '@/lib/utils'
 
 export function RecentActivity({ activities = [] }) {
   const getActionIcon = (action) => {
