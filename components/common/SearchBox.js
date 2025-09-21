@@ -179,7 +179,7 @@ export function SearchResults({
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold">
-          Search Results for "{query}"
+          Search Results for &quot;{query}&quot;
         </h3>
         <Badge variant="outline">
           {results.length} result{results.length !== 1 ? 's' : ''}

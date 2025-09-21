@@ -145,7 +145,7 @@ export function FileUpload({
               {type === 'document' ? (
                 <FileText className="w-12 h-12 text-gray-400 mx-auto" />
               ) : (
-                <Image className="w-12 h-12 text-gray-400 mx-auto" />
+                <Image className="w-12 h-12 text-gray-400 mx-auto" alt="Upload image" />
               )}
               <div>
                 <p className="text-lg font-medium text-gray-900">

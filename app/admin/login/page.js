@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Loader2, Eye, EyeOff } from 'lucide-react'
+import Link from 'next/link'
 
 export default function AdminLogin() {
   const [formData, setFormData] = useState({
@@ -162,9 +163,9 @@ export default function AdminLogin() {
 
         <div className="text-center">
           <p className="text-sm text-gray-600">
-            <a href="/" className="text-primary-blue hover:text-primary-blue/80">
+            <Link href="/" className="text-primary-blue hover:text-primary-blue/80">
               ← Back to Website
-            </a>
+            </Link>
           </p>
         </div>
       </div>
