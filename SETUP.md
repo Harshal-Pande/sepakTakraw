@@ -20,7 +20,15 @@
    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
    ```
 
-3. **Set up Supabase database:**
+3. **Set up Supabase Storage:**
+   
+   First, create storage buckets in your Supabase dashboard:
+   - Go to Storage in your Supabase dashboard
+   - Create a bucket named `documents` (for PDFs, DOCs, etc.)
+   - Create a bucket named `images` (for JPGs, PNGs, etc.)
+   - Set both buckets to public access
+
+4. **Set up Supabase database:**
    
    Create the following tables in your Supabase database:
 
@@ -192,6 +200,44 @@ sepaktakraw-website/
 │   ├── validations.js      # Input validation
 │   └── api-helpers.js      # API utilities
 └── public/                 # Static assets
+```
+
+## File Upload System
+
+The application supports file uploads through Supabase Storage:
+
+**Supported File Types:**
+- **Documents**: PDF, DOC, DOCX (max 10MB)
+- **Images**: JPG, PNG, WEBP (max 5MB)
+
+**File Upload Flow:**
+1. Files are uploaded to Supabase Storage buckets
+2. Public URLs are generated and stored in database
+3. Files are served directly from Supabase CDN
+
+**API Endpoints:**
+- `POST /api/upload/documents` - Upload document files
+- `POST /api/upload/images` - Upload image files
+
+**Database Fields:**
+- `document_url` - Stores the public URL of uploaded documents
+- `featured_image` - Stores the public URL of uploaded images
+- `photos` - Array of image URLs for events
+
+**Usage Example:**
+```javascript
+// Upload a document
+const formData = new FormData()
+formData.append('file', pdfFile)
+formData.append('folder', 'documents')
+
+const response = await fetch('/api/upload/documents', {
+  method: 'POST',
+  body: formData
+})
+
+const result = await response.json()
+// result.data.url contains the public URL
 ```
 
 ## Customization

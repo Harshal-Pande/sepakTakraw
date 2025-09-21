@@ -34,24 +34,100 @@ export async function GET(request) {
 
 export async function POST(request) {
   try {
-    const body = await request.json()
+    const contentType = request.headers.get('content-type')
     
-    // Validate the input
-    const validatedData = validateNews.parse(body)
-    
-    const supabase = createClient()
-    
-    const { data, error } = await supabase
-      .from('news')
-      .insert([validatedData])
-      .select()
-    
-    if (error) throw error
-    
-    return Response.json(
-      createResponse(data[0], 'News created successfully'),
-      { status: 201 }
-    )
+    if (contentType?.includes('multipart/form-data')) {
+      // Handle file upload with form data
+      const formData = await request.formData()
+      
+      const title = formData.get('title')
+      const description = formData.get('description')
+      const documentFile = formData.get('document')
+      const imageFile = formData.get('image')
+      
+      if (!title || !description) {
+        return Response.json(
+          createErrorResponse('Title and description are required', 'VALIDATION_ERROR'),
+          { status: 400 }
+        )
+      }
+
+      let documentUrl = null
+      let featuredImage = null
+
+      // Upload document if provided
+      if (documentFile && documentFile.size > 0) {
+        const docFormData = new FormData()
+        docFormData.append('file', documentFile)
+        docFormData.append('folder', 'documents')
+        
+        const docResponse = await fetch(`${request.nextUrl.origin}/api/upload/documents`, {
+          method: 'POST',
+          body: docFormData
+        })
+        
+        const docResult = await docResponse.json()
+        if (docResult.success) {
+          documentUrl = docResult.data.url
+        }
+      }
+
+      // Upload image if provided
+      if (imageFile && imageFile.size > 0) {
+        const imgFormData = new FormData()
+        imgFormData.append('file', imageFile)
+        imgFormData.append('folder', 'images')
+        
+        const imgResponse = await fetch(`${request.nextUrl.origin}/api/upload/images`, {
+          method: 'POST',
+          body: imgFormData
+        })
+        
+        const imgResult = await imgResponse.json()
+        if (imgResult.success) {
+          featuredImage = imgResult.data.url
+        }
+      }
+
+      const supabase = createClient()
+      
+      const { data, error } = await supabase
+        .from('news')
+        .insert([{
+          title,
+          description,
+          document_url: documentUrl,
+          featured_image: featuredImage
+        }])
+        .select()
+      
+      if (error) throw error
+      
+      return Response.json(
+        createResponse(data[0], 'News created successfully'),
+        { status: 201 }
+      )
+    } else {
+      // Handle JSON data (existing functionality)
+      const body = await request.json()
+      
+      // Validate the input
+      const validatedData = validateNews.parse(body)
+      
+      const supabase = createClient()
+      
+      const { data, error } = await supabase
+        .from('news')
+        .insert([validatedData])
+        .select()
+      
+      if (error) throw error
+      
+      return Response.json(
+        createResponse(data[0], 'News created successfully'),
+        { status: 201 }
+      )
+    }
   } catch (error) {
     console.error('Error creating news:', error)
     
