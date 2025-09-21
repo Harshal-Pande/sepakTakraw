@@ -2,8 +2,15 @@
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react'
+import { Play, Pause } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel'
 
 export default function Hero({ images = [] }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
