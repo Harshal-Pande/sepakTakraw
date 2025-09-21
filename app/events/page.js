@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { EventCard, EventCardSkeleton } from '@/components/common/EventCard'
 import { SearchBox, SearchResults } from '@/components/common/SearchBox'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/common/Card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 
 export default function EventsPage() {

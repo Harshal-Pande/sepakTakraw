@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { NewsCard, NewsCardSkeleton } from '@/components/common/NewsCard'
 import { SearchBox, SearchResults } from '@/components/common/SearchBox'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/common/Card'
+import { Card, CardContent } from '@/components/ui/card'
 
 export default function NewsPage() {
   const [news, setNews] = useState([])
