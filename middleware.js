@@ -1,6 +1,55 @@
 import { NextResponse } from 'next/server'
+import { verifyToken } from '@/lib/auth'
 
 export function middleware(request) {
+  // Protect admin routes
+  if (request.nextUrl.pathname.startsWith('/admin')) {
+    const token = request.cookies.get('admin-token')?.value
+    
+    if (!token) {
+      return NextResponse.redirect(new URL('/admin/login', request.url))
+    }
+    
+    const user = verifyToken(token)
+    if (!user) {
+      return NextResponse.redirect(new URL('/admin/login', request.url))
+    }
+    
+    // Add user info to headers for API routes
+    const requestHeaders = new Headers(request.headers)
+    requestHeaders.set('x-admin-user', JSON.stringify(user))
+    
+    return NextResponse.next({
+      request: {
+        headers: requestHeaders,
+      },
+    })
+  }
+  
+  // Protect admin API routes
+  if (request.nextUrl.pathname.startsWith('/api/admin')) {
+    const token = request.cookies.get('admin-token')?.value
+    
+    if (!token) {
+      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
+    }
+    
+    const user = verifyToken(token)
+    if (!user) {
+      return NextResponse.json({ success: false, error: 'Invalid token' }, { status: 401 })
+    }
+    
+    // Add user info to headers
+    const requestHeaders = new Headers(request.headers)
+    requestHeaders.set('x-admin-user', JSON.stringify(user))
+    
+    return NextResponse.next({
+      request: {
+        headers: requestHeaders,
+      },
+    })
+  }
+
   // Handle CORS for API routes
   if (request.nextUrl.pathname.startsWith('/api/')) {
     const response = NextResponse.next()
@@ -38,12 +87,8 @@ export function middleware(request) {
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     */
-    '/((?!_next/static|_next/image|favicon.ico).*)',
+    '/admin/:path*',
+    '/api/admin/:path*',
+    '/api/:path*'
   ],
 }
