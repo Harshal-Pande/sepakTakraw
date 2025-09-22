@@ -17,7 +17,8 @@ const https = require('https');
 const http = require('http');
 
 // Configuration
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3001';
+// Force localhost:3000 as requested
+const BASE_URL = 'http://localhost:3000';
 
 // Environment variable validation
 function validateEnvironment() {
@@ -54,7 +55,10 @@ const API_ROUTES = [
   { path: '/api/general-body', table: 'general_body', name: 'General Body' },
   { path: '/api/history', table: 'history', name: 'History' },
   { path: '/api/hero-images', table: 'hero_images', name: 'Hero Images' },
-  { path: '/api/contact', table: 'contact_info', name: 'Contact Info' }
+  { path: '/api/contact', table: 'contact_info', name: 'Contact Info' },
+  // Newly added routes switched from mock to DB-backed
+  { path: '/api/stats', table: null, name: 'Stats', readOnly: true },
+  { path: '/api/quick-links', table: null, name: 'Quick Links', readOnly: true },
 ];
 
 // Sample data for each table
@@ -185,9 +189,7 @@ function makeRequest(url, method = 'GET', data = null) {
       }
     };
 
-    if (data) {
-      options.body = JSON.stringify(data);
-    }
+    const bodyString = data ? JSON.stringify(data) : null;
 
     const protocol = url.startsWith('https') ? https : http;
     
@@ -205,6 +207,9 @@ function makeRequest(url, method = 'GET', data = null) {
     });
 
     req.on('error', reject);
+    if (bodyString) {
+      req.write(bodyString);
+    }
     req.end();
   });
 }
@@ -224,8 +229,12 @@ async function testRoute(route) {
         console.log(`✅ ${route.name}: ${count} records found`);
         
         if (count === 0) {
+          if (route.readOnly) {
+            console.log(`ℹ️  ${route.name} is read-only. Skipping population.`);
+          } else {
           console.log(`⚠️  ${route.name} table is empty. Adding sample data...`);
           await populateTable(route);
+          }
         } else {
           console.log(`✅ ${route.name} table has data`);
         }

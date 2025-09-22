@@ -1,4 +1,5 @@
 import { createResponse, createErrorResponse } from '@/lib/api-helpers'
+import { createClient } from '@/lib/supabase'
 
 // Hardcoded quick links data since quick_links table doesn't exist in the schema
 const QUICK_LINKS_DATA = [
@@ -72,19 +73,31 @@ const QUICK_LINKS_DATA = [
 
 export async function GET(request) {
   try {
-    const { searchParams } = new URL(request.url)
-    const active = searchParams.get('active') !== 'false' // Default to true
+    const supabase = createClient()
 
-    // Filter by active status if specified
-    let data = QUICK_LINKS_DATA
-    if (active !== null) {
-      data = QUICK_LINKS_DATA.filter(link => link.is_active === active)
+    // Prefer system_settings JSON configuration if present
+    const { data: settingsRow, error: settingsError } = await supabase
+      .from('system_settings')
+      .select('value')
+      .eq('key', 'quick_links')
+      .single()
+
+    if (settingsError && settingsError.code !== 'PGRST116') {
+      // Ignore row-not-found; otherwise throw
+      throw settingsError
     }
 
-    return Response.json(createResponse(data, 'Quick links retrieved successfully', {
-      total: data.length,
-      totalPages: 1
-    }))
+    let links = Array.isArray(settingsRow?.value) ? settingsRow.value : null
+
+    // Fallback to previous in-memory defaults when not configured
+    if (!links) {
+      links = QUICK_LINKS_DATA
+    }
+
+    // Sort by order_index when present
+    links.sort((a, b) => (a.order_index ?? 0) - (b.order_index ?? 0))
+
+    return Response.json(createResponse(links, 'Quick links retrieved successfully'))
 
   } catch (error) {
     console.error('Quick links fetch error:', error)

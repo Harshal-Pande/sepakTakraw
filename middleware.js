@@ -4,6 +4,10 @@ import { verifyToken } from '@/lib/auth'
 export function middleware(request) {
   // Protect admin routes
   if (request.nextUrl.pathname.startsWith('/admin')) {
+    // Allow unauthenticated access to the admin login page
+    if (request.nextUrl.pathname === '/admin/login') {
+      return NextResponse.next()
+    }
     const token = request.cookies.get('admin-token')?.value
     
     if (!token) {
