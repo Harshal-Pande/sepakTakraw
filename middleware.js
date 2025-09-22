@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { verifyToken } from '@/lib/auth'
 
+export const runtime = 'nodejs'
+
 export function middleware(request) {
   // Protect admin routes
   if (request.nextUrl.pathname.startsWith('/admin')) {
@@ -8,21 +10,38 @@ export function middleware(request) {
 
     // Admin login route: if already authenticated, send to /admin; otherwise allow
     if (request.nextUrl.pathname === '/admin/login') {
+      console.log('[MW] /admin/login hit', {
+        path: request.nextUrl.pathname,
+        hasToken: Boolean(token)
+      })
       if (token) {
         const user = verifyToken(token)
+        console.log('[MW] /admin/login token present, verify result', {
+          verified: Boolean(user)
+        })
         if (user) {
+          console.log('[MW] redirecting authenticated user from /admin/login -> /admin')
           return NextResponse.redirect(new URL('/admin', request.url))
         }
       }
+      console.log('[MW] allowing unauthenticated access to /admin/login')
       return NextResponse.next()
     }
     
     if (!token) {
+      console.log('[MW] missing token for admin route, redirecting to /admin/login', {
+        path: request.nextUrl.pathname
+      })
       return NextResponse.redirect(new URL('/admin/login', request.url))
     }
     
     const user = verifyToken(token)
+    console.log('[MW] admin route token verify', {
+      path: request.nextUrl.pathname,
+      verified: Boolean(user)
+    })
     if (!user) {
+      console.log('[MW] invalid token, redirect to /admin/login')
       return NextResponse.redirect(new URL('/admin/login', request.url))
     }
     
@@ -30,6 +49,7 @@ export function middleware(request) {
     const requestHeaders = new Headers(request.headers)
     requestHeaders.set('x-admin-user', JSON.stringify(user))
     
+    console.log('[MW] allowing admin route', { path: request.nextUrl.pathname })
     return NextResponse.next({
       request: {
         headers: requestHeaders,
