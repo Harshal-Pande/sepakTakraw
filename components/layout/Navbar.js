@@ -27,6 +27,11 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
 
+  // Hide public navbar on all admin routes
+  if (pathname && pathname.startsWith('/admin')) {
+    return null
+  }
+
   return (
     <nav className="bg-navbar fixed w-full top-0 z-50 shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

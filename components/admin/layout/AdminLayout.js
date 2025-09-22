@@ -1,12 +1,17 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import AdminNavbar from './AdminNavbar'
 import AdminSidebar from './AdminSidebar'
 import { Skeleton } from '@/components/ui/skeleton'
 
 export default function AdminLayout({ children }) {
+  const pathname = usePathname()
+  // Allow login route to render without admin chrome and auth check
+  if (pathname === '/admin/login') {
+    return <>{children}</>
+  }
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)

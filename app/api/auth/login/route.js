@@ -17,26 +17,34 @@ export async function POST(request) {
     const supabase = createClient()
     
     // Find user
+    const normalizedEmail = String(email).trim().toLowerCase()
     const { data: user, error } = await supabase
       .from('admin_users')
       .select('*')
-      .eq('email', email)
+      .eq('email', normalizedEmail)
       .eq('is_active', true)
       .single()
     
     if (error || !user) {
+      console.warn('[AUTH] Login failed: user not found or inactive', {
+        email: normalizedEmail,
+        supabaseError: error?.message || null
+      })
       return NextResponse.json({
         success: false,
-        error: 'Invalid credentials'
+        error: 'Invalid credentials',
+        code: process.env.NODE_ENV === 'development' ? 'USER_NOT_FOUND' : undefined
       }, { status: 401 })
     }
     
     // Verify password
     const isValidPassword = await verifyPassword(password, user.password_hash)
     if (!isValidPassword) {
+      console.warn('[AUTH] Login failed: bad password', { email: normalizedEmail })
       return NextResponse.json({
         success: false,
-        error: 'Invalid credentials'
+        error: 'Invalid credentials',
+        code: process.env.NODE_ENV === 'development' ? 'BAD_PASSWORD' : undefined
       }, { status: 401 })
     }
     
@@ -82,7 +90,7 @@ export async function POST(request) {
     return response
     
   } catch (error) {
-    console.error('Login error:', error)
+    console.error('[AUTH] Login error:', error)
     return NextResponse.json({
       success: false,
       error: 'Login failed'

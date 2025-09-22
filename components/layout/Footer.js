@@ -1,5 +1,8 @@
+"use client"
+
 import Link from 'next/link'
 import { Phone, Mail, MapPin, Clock } from 'lucide-react'
+import { usePathname } from 'next/navigation'
 
 const footerLinks = {
   'Quick Links': [
@@ -22,6 +25,11 @@ const footerLinks = {
 }
 
 export default function Footer() {
+  const pathname = usePathname()
+  // Hide public footer on all admin routes (e.g., /admin, /admin/login, /admin/*)
+  if (pathname && pathname.startsWith('/admin')) {
+    return null
+  }
   return (
     <footer className="bg-primary-blue text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

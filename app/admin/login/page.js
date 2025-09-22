@@ -24,11 +24,11 @@ export default function AdminLogin() {
     // Check if already logged in
     const checkAuth = async () => {
       try {
-        const response = await fetch('/api/auth/verify')
+        const response = await fetch('/api/auth/verify', { credentials: 'include' })
         const data = await response.json()
         
         if (data.success) {
-          router.push('/admin')
+          router.replace('/admin')
         }
       } catch (error) {
         // Not logged in, stay on login page
@@ -49,13 +49,15 @@ export default function AdminLogin() {
         headers: {
           'Content-Type': 'application/json'
         },
+        credentials: 'include',
         body: JSON.stringify(formData)
       })
 
       const data = await response.json()
 
       if (data.success) {
-        router.push('/admin')
+        // Force a full reload so the httpOnly cookie is present on first render
+        window.location.assign('/admin')
       } else {
         setError(data.error || 'Login failed')
       }
