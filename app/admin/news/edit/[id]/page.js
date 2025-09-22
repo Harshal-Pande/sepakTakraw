@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import AdminLayout from '@/components/admin/layout/AdminLayout'
+// AdminLayout is applied at the route level; avoid local wrapping
 import { AdminCard } from '@/components/admin/common/AdminCard'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -95,19 +95,16 @@ export default function EditNewsPage({ params }) {
 
   if (isLoading) {
     return (
-      <AdminLayout>
-        <div className="flex items-center justify-center h-64">
-          <div className="text-center">
-            <div className="w-8 h-8 border-4 border-gray-200 border-t-primary-blue rounded-full animate-spin mx-auto"></div>
-            <p className="mt-2 text-gray-600">Loading news article...</p>
-          </div>
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center">
+          <div className="w-8 h-8 border-4 border-gray-200 border-t-primary-blue rounded-full animate-spin mx-auto"></div>
+          <p className="mt-2 text-gray-600">Loading news article...</p>
         </div>
-      </AdminLayout>
+      </div>
     )
   }
 
   return (
-    <AdminLayout>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center gap-4">
@@ -211,6 +208,5 @@ export default function EditNewsPage({ params }) {
           </form>
         </AdminCard>
       </div>
-    </AdminLayout>
   )
 }

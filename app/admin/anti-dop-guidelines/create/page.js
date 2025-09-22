@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import AdminLayout from '@/components/admin/layout/AdminLayout'
+// AdminLayout is already applied at /app/admin/layout.js; avoid double wrapping
 import { AdminCard } from '@/components/admin/common/AdminCard'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -74,7 +74,6 @@ export default function CreateAntiDopGuidelinesPage() {
   }
 
   return (
-    <AdminLayout>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center gap-4">
@@ -181,6 +180,5 @@ export default function CreateAntiDopGuidelinesPage() {
           </Form>
         </AdminCard>
       </div>
-    </AdminLayout>
   )
 }

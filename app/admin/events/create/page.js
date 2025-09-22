@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import AdminLayout from '@/components/admin/layout/AdminLayout'
+// AdminLayout is applied via app/admin/layout.js; do not wrap again here
 import { AdminCard } from '@/components/admin/common/AdminCard'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -75,7 +75,6 @@ export default function CreateEventPage() {
   }
 
   return (
-    <AdminLayout>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center gap-4">
@@ -221,6 +220,5 @@ export default function CreateEventPage() {
           </form>
         </AdminCard>
       </div>
-    </AdminLayout>
   )
 }

@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import AdminLayout from '@/components/admin/layout/AdminLayout'
 import { AdminCard } from '@/components/admin/common/AdminCard'
 import { AdminDataTable } from '@/components/admin/common/AdminDataTable'
 import { Button } from '@/components/ui/button'
@@ -57,7 +56,6 @@ export function AdminPage({
   }
 
   return (
-    <AdminLayout>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex justify-between items-start">
@@ -97,6 +95,5 @@ export function AdminPage({
           )}
         </AdminCard>
       </div>
-    </AdminLayout>
   )
 }
