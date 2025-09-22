@@ -12,7 +12,7 @@ export function AdminCard({
   ...props 
 }) {
   return (
-    <Card className={cn("shadow-sm border border-gray-200", className)} {...props}>
+    <Card className={cn("bg-white text-gray-900 shadow-sm border border-gray-200", className)} {...props}>
       {header && <CardHeader>{header}</CardHeader>}
       {title && (
         <CardHeader>

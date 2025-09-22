@@ -1,4 +1,5 @@
 import AdminLayout from '@/components/admin/layout/AdminLayout'
+import { ThemeProvider } from '@/components/theme-provider'
 
 export const metadata = {
   title: 'Admin Dashboard - Sepaktakraw Federation',
@@ -6,5 +7,9 @@ export const metadata = {
 }
 
 export default function AdminRootLayout({ children }) {
-  return <AdminLayout>{children}</AdminLayout>
+  return (
+    <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+      <AdminLayout>{children}</AdminLayout>
+    </ThemeProvider>
+  )
 }

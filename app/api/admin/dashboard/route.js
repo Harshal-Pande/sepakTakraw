@@ -23,6 +23,13 @@ export async function GET(request) {
     
     const supabase = createClient()
     
+    // Date windows for dynamic change calculations (last 7d vs prior 7d)
+    const now = new Date()
+    const startThis = new Date(now)
+    startThis.setDate(startThis.getDate() - 7)
+    const startPrev = new Date(startThis)
+    startPrev.setDate(startPrev.getDate() - 7)
+
     // Get stats from all tables
     const [
       newsCount,
@@ -63,6 +70,26 @@ export async function GET(request) {
         .order('created_at', { ascending: false })
         .limit(5)
     ])
+
+    // Compute last 7 days vs previous 7 days counts for percentage change
+    const [newsThis, newsPrev, eventsThis, eventsPrev, resultsThis, resultsPrev, gbThis, gbPrev] = await Promise.all([
+      supabase.from('news').select('*', { count: 'exact', head: true }).gte('created_at', startThis.toISOString()),
+      supabase.from('news').select('*', { count: 'exact', head: true }).gte('created_at', startPrev.toISOString()).lt('created_at', startThis.toISOString()),
+      supabase.from('events').select('*', { count: 'exact', head: true }).gte('created_at', startThis.toISOString()),
+      supabase.from('events').select('*', { count: 'exact', head: true }).gte('created_at', startPrev.toISOString()).lt('created_at', startThis.toISOString()),
+      supabase.from('results').select('*', { count: 'exact', head: true }).gte('created_at', startThis.toISOString()),
+      supabase.from('results').select('*', { count: 'exact', head: true }).gte('created_at', startPrev.toISOString()).lt('created_at', startThis.toISOString()),
+      supabase.from('general_body').select('*', { count: 'exact', head: true }).gte('created_at', startThis.toISOString()),
+      supabase.from('general_body').select('*', { count: 'exact', head: true }).gte('created_at', startPrev.toISOString()).lt('created_at', startThis.toISOString()),
+    ])
+
+    const pct = (current, previous) => {
+      const c = current?.count || 0
+      const p = previous?.count || 0
+      if (p === 0 && c === 0) return 0
+      if (p === 0) return 100
+      return Math.round(((c - p) / p) * 100)
+    }
     
     return NextResponse.json({
       success: true,
@@ -80,30 +107,10 @@ export async function GET(request) {
           results: recentResults.data || []
         },
         quickMetrics: [
-          { 
-            label: 'News Articles', 
-            value: newsCount.count || 0, 
-            change: '+5%',
-            icon: 'newspaper'
-          },
-          { 
-            label: 'Events', 
-            value: eventsCount.count || 0, 
-            change: '+2%',
-            icon: 'calendar'
-          },
-          { 
-            label: 'Results', 
-            value: resultsCount.count || 0, 
-            change: '+8%',
-            icon: 'trophy'
-          },
-          { 
-            label: 'General Body', 
-            value: generalBodyCount.count || 0, 
-            change: '+1%',
-            icon: 'users'
-          }
+          { label: 'News Articles', value: newsCount.count || 0, change: pct(newsThis, newsPrev), icon: 'newspaper' },
+          { label: 'Events', value: eventsCount.count || 0, change: pct(eventsThis, eventsPrev), icon: 'calendar' },
+          { label: 'Results', value: resultsCount.count || 0, change: pct(resultsThis, resultsPrev), icon: 'trophy' },
+          { label: 'General Body', value: generalBodyCount.count || 0, change: pct(gbThis, gbPrev), icon: 'users' }
         ]
       }
     })

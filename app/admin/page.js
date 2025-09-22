@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import AdminLayout from '@/components/admin/layout/AdminLayout'
 import { StatsCard } from '@/components/admin/dashboard/StatsCard'
 import { RecentActivity } from '@/components/admin/dashboard/RecentActivity'
 import { AdminCard } from '@/components/admin/common/AdminCard'
@@ -46,35 +45,30 @@ export default function AdminDashboard() {
 
   if (loading) {
     return (
-      <AdminLayout>
-        <div className="flex items-center justify-center h-64">
-          <div className="text-center">
-            <div className="w-8 h-8 border-4 border-gray-200 border-t-primary-blue rounded-full animate-spin mx-auto"></div>
-            <p className="mt-2 text-gray-600">Loading dashboard...</p>
-          </div>
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center">
+          <div className="w-8 h-8 border-4 border-gray-200 border-t-primary-blue rounded-full animate-spin mx-auto"></div>
+          <p className="mt-2 text-gray-600">Loading dashboard...</p>
         </div>
-      </AdminLayout>
+      </div>
     )
   }
 
   if (error) {
     return (
-      <AdminLayout>
-        <div className="text-center py-12">
-          <p className="text-red-600">{error}</p>
-          <Button onClick={() => window.location.reload()} className="mt-4">
-            Retry
-          </Button>
-        </div>
-      </AdminLayout>
+      <div className="text-center py-12">
+        <p className="text-red-600">{error}</p>
+        <Button onClick={() => window.location.reload()} className="mt-4">
+          Retry
+        </Button>
+      </div>
     )
   }
 
   const { stats, recentActivity, recentContent, quickMetrics } = dashboardData || {}
 
   return (
-    <AdminLayout>
-      <div className="space-y-6">
+    <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
@@ -104,7 +98,8 @@ export default function AdminDashboard() {
               key={index}
               title={metric.label}
               value={metric.value}
-              change={metric.change}
+              change={typeof metric.change === 'number' ? `${metric.change > 0 ? '+' : ''}${metric.change}%` : metric.change}
+              trend={typeof metric.change === 'number' ? (metric.change >= 0 ? 'up' : 'down') : 'up'}
               icon={metric.icon === 'newspaper' ? Newspaper : 
                     metric.icon === 'calendar' ? Calendar :
                     metric.icon === 'trophy' ? Trophy :
@@ -230,6 +225,6 @@ export default function AdminDashboard() {
           </AdminCard>
         </div>
       </div>
-    </AdminLayout>
+   
   )
 }
