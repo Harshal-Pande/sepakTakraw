@@ -204,3 +204,4 @@ All components now fetch data from the database through API endpoints.
 The Sepaktakraw website is now **100% database-driven** with a **complete admin panel** and **no mock data**. All components fetch data from the database, and the admin panel provides full content management capabilities.
 
 **The website is ready for production use!**
+
