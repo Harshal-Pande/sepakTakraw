@@ -66,7 +66,7 @@ export default function AdminLayout({ children }) {
           userRole={user.role}
         />
         
-        <main className="flex-1 p-6 lg:pl-72">
+        <main className="flex-1 p-6">
           <div className="max-w-7xl mx-auto">
             {children}
           </div>
