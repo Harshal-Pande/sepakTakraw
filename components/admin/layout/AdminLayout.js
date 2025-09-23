@@ -8,21 +8,24 @@ import { Skeleton } from '@/components/ui/skeleton'
 
 export default function AdminLayout({ children }) {
   const pathname = usePathname()
-  // Allow login route to render without admin chrome and auth check
-  if (pathname === '/admin/login') {
-    return <>{children}</>
-  }
+  const isLoginRoute = pathname === '/admin/login'
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
   const router = useRouter()
   
   useEffect(() => {
+    // Skip auth check on the login route
+    if (isLoginRoute) {
+      setLoading(false)
+      return
+    }
+
     const checkAuth = async () => {
       try {
         const response = await fetch('/api/auth/verify')
         const data = await response.json()
-        
+
         if (data.success) {
           setUser(data.data.user)
         } else {
@@ -35,11 +38,11 @@ export default function AdminLayout({ children }) {
         setLoading(false)
       }
     }
-    
+
     checkAuth()
-  }, [router])
+  }, [router, isLoginRoute])
   
-  if (loading) {
+  if (loading && !isLoginRoute) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
         <Skeleton className="w-8 h-8 rounded-full" />
@@ -48,6 +51,10 @@ export default function AdminLayout({ children }) {
     )
   }
   
+  if (isLoginRoute) {
+    return <>{children}</>
+  }
+
   if (!user) {
     return null
   }
