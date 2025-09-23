@@ -205,3 +205,4 @@ The Sepaktakraw website is now **100% database-driven** with a **complete admin 
 
 **The website is ready for production use!**
 
+
