@@ -4,12 +4,13 @@ import { validateResults } from '@/lib/validations'
 
 export async function GET(request, { params }) {
   try {
+    const { id } = await params
     const supabase = createClient()
     
     const { data, error } = await supabase
       .from('results')
       .select('*')
-      .eq('id', params.id)
+      .eq('id', id)
       .single()
     
     if (error) throw error
@@ -47,7 +48,7 @@ export async function PUT(request, { params }) {
     
     if (error.name === 'ZodError') {
       return Response.json(
-        createErrorResponse('Validation error: ' + error.errors.map(e => e.message).join(', '), 'VALIDATION_ERROR'),
+        createErrorResponse('Validation error: ' + (error.errors || []).map(e => e.message).join(', '), 'VALIDATION_ERROR'),
         { status: 400 }
       )
     }

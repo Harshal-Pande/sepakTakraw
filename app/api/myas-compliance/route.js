@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase'
 import { createResponse, createErrorResponse, getPaginationParams, queryWithPagination } from '@/lib/api-helpers'
-import { validateMyasCompliance } from '@/lib/validations'
+import { validateMYASCompliance } from '@/lib/validations'
 
 export async function GET(request) {
   try {

@@ -65,12 +65,13 @@ export async function PUT(request, { params }) {
 
 export async function DELETE(request, { params }) {
   try {
+    const { id } = await params
     const supabase = createClient()
 
     const { error } = await supabase
       .from('anti_dop_guidelines')
       .delete()
-      .eq('id', params.id)
+      .eq('id', id)
 
     if (error) {
       throw error
