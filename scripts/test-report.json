@@ -1,0 +1,131 @@
+{
+  "timestamp": "2025-09-24T04:29:54.075Z",
+  "summary": {
+    "total": 24,
+    "passed": 0,
+    "failed": 24,
+    "successRate": "0.00"
+  },
+  "details": [
+    {
+      "testName": "Public Page - /",
+      "success": false,
+      "message": "Status: 0"
+    },
+    {
+      "testName": "Public Page - /news",
+      "success": false,
+      "message": "Status: 0"
+    },
+    {
+      "testName": "Public Page - /events",
+      "success": false,
+      "message": "Status: 0"
+    },
+    {
+      "testName": "Public Page - /results",
+      "success": false,
+      "message": "Status: 0"
+    },
+    {
+      "testName": "Public Page - /general-body",
+      "success": false,
+      "message": "Status: 0"
+    },
+    {
+      "testName": "Public Page - /history",
+      "success": false,
+      "message": "Status: 0"
+    },
+    {
+      "testName": "Public Page - /contact",
+      "success": false,
+      "message": "Status: 0"
+    },
+    {
+      "testName": "Public Page - /anti-dop-guidelines",
+      "success": false,
+      "message": "Status: 0"
+    },
+    {
+      "testName": "Public Page - /elections",
+      "success": false,
+      "message": "Status: 0"
+    },
+    {
+      "testName": "Public Page - /myas-compliance",
+      "success": false,
+      "message": "Status: 0"
+    },
+    {
+      "testName": "Public Page - /rti",
+      "success": false,
+      "message": "Status: 0"
+    },
+    {
+      "testName": "Admin Dashboard - Authentication",
+      "success": false,
+      "message": "Failed to authenticate"
+    },
+    {
+      "testName": "Admin Settings - Authentication",
+      "success": false,
+      "message": "Failed to authenticate"
+    },
+    {
+      "testName": "File Upload - Authentication",
+      "success": false,
+      "message": "Failed to authenticate"
+    },
+    {
+      "testName": "news - Authentication",
+      "success": false,
+      "message": "Failed to authenticate"
+    },
+    {
+      "testName": "events - Authentication",
+      "success": false,
+      "message": "Failed to authenticate"
+    },
+    {
+      "testName": "results - Authentication",
+      "success": false,
+      "message": "Failed to authenticate"
+    },
+    {
+      "testName": "general-body - Authentication",
+      "success": false,
+      "message": "Failed to authenticate"
+    },
+    {
+      "testName": "elections - Authentication",
+      "success": false,
+      "message": "Failed to authenticate"
+    },
+    {
+      "testName": "history - Authentication",
+      "success": false,
+      "message": "Failed to authenticate"
+    },
+    {
+      "testName": "anti-dop-guidelines - Authentication",
+      "success": false,
+      "message": "Failed to authenticate"
+    },
+    {
+      "testName": "myas-compliance - Authentication",
+      "success": false,
+      "message": "Failed to authenticate"
+    },
+    {
+      "testName": "rti - Authentication",
+      "success": false,
+      "message": "Failed to authenticate"
+    },
+    {
+      "testName": "hero-images - Authentication",
+      "success": false,
+      "message": "Failed to authenticate"
+    }
+  ]
+}

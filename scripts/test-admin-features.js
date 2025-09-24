@@ -11,7 +11,7 @@ const path = require('path');
 // Configuration
 const BASE_URL = process.env.TEST_BASE_URL || 'http://localhost:3000';
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@sepaktakraw.org';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Admin@123';
 
 // Test data templates
 const TEST_DATA = {
@@ -158,24 +158,25 @@ async function login() {
     return result.data.token;
   } else {
     log('Login failed', 'error');
+    log('Response data:', JSON.stringify(result.data, null, 2));
     return null;
   }
 }
 
 // Test CRUD operations for a specific resource
-async function testResourceCRUD(resourceName, testData) {
+async function testResourceCRUD(resourceName, testData, authToken) {
   log(`\n🧪 Testing ${resourceName} CRUD operations...`);
   
   let createdId = null;
-  const authToken = await login();
   
   if (!authToken) {
-    logTest(`${resourceName} - Authentication`, false, 'Failed to authenticate');
+    logTest(`${resourceName} - Authentication`, false, 'No auth token provided');
     return;
   }
 
   const headers = {
-    'Authorization': `Bearer ${authToken}`
+    'Authorization': `Bearer ${authToken}`,
+    'Content-Type': 'application/json'
   };
 
   // Test CREATE
@@ -266,18 +267,20 @@ async function testResourceCRUD(resourceName, testData) {
 }
 
 // Test admin dashboard
-async function testAdminDashboard() {
+async function testAdminDashboard(authToken) {
   log('\n🧪 Testing admin dashboard...');
   
-  const authToken = await login();
   if (!authToken) {
-    logTest('Admin Dashboard - Authentication', false, 'Failed to authenticate');
+    logTest('Admin Dashboard - Authentication', false, 'No auth token provided');
     return;
   }
 
   try {
     const result = await makeRequest(`${BASE_URL}/api/admin/dashboard`, {
-      headers: { 'Authorization': `Bearer ${authToken}` }
+      headers: { 
+        'Authorization': `Bearer ${authToken}`,
+        'Content-Type': 'application/json'
+      }
     });
     
     if (result.success && result.data.success) {
@@ -424,16 +427,28 @@ async function runTests() {
   // Test public pages first
   await testPublicPages();
   
+  // Login once and get token
+  log('\n🔐 Authenticating...');
+  const authToken = await login();
+  
+  if (!authToken) {
+    log('❌ Cannot proceed without authentication', 'error');
+    generateTestReport();
+    return;
+  }
+  
+  log('✅ Authentication successful, proceeding with admin tests...', 'success');
+  
   // Test admin dashboard and settings
-  await testAdminDashboard();
-  await testAdminSettings();
+  await testAdminDashboard(authToken);
+  await testAdminSettings(authToken);
   
   // Test file upload
-  await testFileUpload();
+  await testFileUpload(authToken);
   
   // Test all resource CRUD operations
   for (const [resourceName, testData] of Object.entries(TEST_DATA)) {
-    await testResourceCRUD(resourceName, testData);
+    await testResourceCRUD(resourceName, testData, authToken);
   }
   
   // Generate test report
