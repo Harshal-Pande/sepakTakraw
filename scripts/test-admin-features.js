@@ -80,16 +80,11 @@ const TEST_DATA = {
     documents: ['https://example.com/compliance.pdf']
   },
   rti: {
-    request_number: `RTI-TEST-${Date.now()}`,
-    applicant_name: 'Test Applicant',
-    applicant_email: 'applicant@example.com',
-    applicant_phone: '+1234567890',
-    subject: 'Test RTI Request',
-    description: 'Test RTI request description',
-    request_date: new Date().toISOString().split('T')[0],
-    response_due_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-    status: 'pending',
-    response: ''
+    designation: 'Test Designation',
+    name: 'Test RTI Officer',
+    address: 'Test Address',
+    email: 'rti@example.com',
+    phone: '+1234567890'
   },
   'hero-images': {
     title: 'Test Hero Image',
