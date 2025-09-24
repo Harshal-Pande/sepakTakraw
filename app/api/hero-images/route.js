@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase'
 import { createResponse, createErrorResponse, getPaginationParams, queryWithPagination } from '@/lib/api-helpers'
-import { validateHeroImage } from '@/lib/validations'
+import { validateHeroImages } from '@/lib/validations'
 
 export async function GET(request) {
   try {
