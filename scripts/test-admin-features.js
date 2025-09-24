@@ -46,8 +46,9 @@ const TEST_DATA = {
   'general-body': {
     name: 'Test Member',
     position: 'Test Position',
+    district: 'Test District',
+    contact: '+1234567890',
     email: 'test@example.com',
-    phone: '+1234567890',
     bio: 'Test member bio',
     photo_url: '',
     order: 1
