@@ -1,10 +1,10 @@
 {
-  "timestamp": "2025-09-24T04:35:31.288Z",
+  "timestamp": "2025-09-24T04:38:43.299Z",
   "summary": {
-    "total": 34,
-    "passed": 11,
-    "failed": 23,
-    "successRate": "32.35"
+    "total": 42,
+    "passed": 21,
+    "failed": 21,
+    "successRate": "50.00"
   },
   "details": [
     {
@@ -99,8 +99,28 @@
     },
     {
       "testName": "results - CREATE",
-      "success": false,
-      "message": "null value in column \"document_url\" of relation \"results\" violates not-null constraint"
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "results - READ (list)",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "results - READ (single)",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "results - UPDATE",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "results - DELETE",
+      "success": true,
+      "message": ""
     },
     {
       "testName": "general-body - CREATE",
@@ -134,8 +154,28 @@
     },
     {
       "testName": "history - CREATE",
-      "success": false,
-      "message": "Missing required field: content"
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "history - READ (list)",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "history - READ (single)",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "history - UPDATE",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "history - DELETE",
+      "success": true,
+      "message": ""
     },
     {
       "testName": "anti-dop-guidelines - CREATE",

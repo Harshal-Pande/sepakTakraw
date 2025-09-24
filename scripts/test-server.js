@@ -25,9 +25,16 @@ async function testServer() {
       })
     });
     
-    const loginData = await loginResponse.json();
+    const loginText = await loginResponse.text();
     console.log('Login Status:', loginResponse.status);
-    console.log('Login Response:', JSON.stringify(loginData, null, 2));
+    console.log('Login Response (raw):', loginText.substring(0, 200) + '...');
+    
+    try {
+      const loginData = JSON.parse(loginText);
+      console.log('Login Response (parsed):', JSON.stringify(loginData, null, 2));
+    } catch (e) {
+      console.log('Failed to parse JSON:', e.message);
+    }
     
     if (loginData.success && loginData.token) {
       console.log('✅ Login successful!');
