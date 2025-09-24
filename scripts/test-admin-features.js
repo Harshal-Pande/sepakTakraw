@@ -294,19 +294,21 @@ async function testAdminDashboard(authToken) {
 }
 
 // Test admin settings
-async function testAdminSettings() {
+async function testAdminSettings(authToken) {
   log('\n🧪 Testing admin settings...');
   
-  const authToken = await login();
   if (!authToken) {
-    logTest('Admin Settings - Authentication', false, 'Failed to authenticate');
+    logTest('Admin Settings - Authentication', false, 'No auth token provided');
     return;
   }
 
   try {
     // Test GET settings
     const getResult = await makeRequest(`${BASE_URL}/api/admin/settings`, {
-      headers: { 'Authorization': `Bearer ${authToken}` }
+      headers: { 
+        'Authorization': `Bearer ${authToken}`,
+        'Content-Type': 'application/json'
+      }
     });
     
     if (getResult.success && getResult.data.success) {
@@ -324,7 +326,10 @@ async function testAdminSettings() {
 
     const postResult = await makeRequest(`${BASE_URL}/api/admin/settings`, {
       method: 'POST',
-      headers: { 'Authorization': `Bearer ${authToken}` },
+      headers: { 
+        'Authorization': `Bearer ${authToken}`,
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(settingsData)
     });
     
@@ -339,12 +344,11 @@ async function testAdminSettings() {
 }
 
 // Test file upload functionality
-async function testFileUpload() {
+async function testFileUpload(authToken) {
   log('\n🧪 Testing file upload...');
   
-  const authToken = await login();
   if (!authToken) {
-    logTest('File Upload - Authentication', false, 'Failed to authenticate');
+    logTest('File Upload - Authentication', false, 'No auth token provided');
     return;
   }
 
