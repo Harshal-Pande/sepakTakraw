@@ -43,7 +43,7 @@ export async function POST(request) {
     const body = await request.json()
     
     // Validate the input
-    const validatedData = validateRtiRequest.parse(body)
+    const validatedData = validateRTIOfficers.parse(body)
     
     const supabase = createClient()
     
