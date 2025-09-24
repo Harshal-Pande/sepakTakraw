@@ -1,0 +1,601 @@
+{
+  "timestamp": "2025-09-24T04:25:20.881Z",
+  "summary": {
+    "total": 118,
+    "passed": 118,
+    "failed": 0,
+    "successRate": "100.00"
+  },
+  "details": [
+    {
+      "testName": "Config File - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Config File - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Config File - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Config File - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Config File - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Config File - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Config File - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Config File - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Admin Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "API Route - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "API Route - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "API Route - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "API Route - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "API Route - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "API Route - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "API Route - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "API Route - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "API Route - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "API Route - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "API Route - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "API Route - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "API Route - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "API Route - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "API Route - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "API Route - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "API Route - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "API Route - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "API Route - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "API Route - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "API Route - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "API Route - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "API Route - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "API Route - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "API Route - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "API Route - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "API Route - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "API Route - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "API Route - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "API Route - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "API Route - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Public Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Public Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Public Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Public Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Public Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Public Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Public Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Public Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Public Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Public Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Public Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Public Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Public Page - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Component - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Component - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Component - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Component - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Component - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Component - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Component - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Component - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Component - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Component - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Component - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Component - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Component - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Component - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Component - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Component - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Component - File exists",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "Package.json - dev script",
+      "success": "next dev --turbopack",
+      "message": ""
+    },
+    {
+      "testName": "Package.json - build script",
+      "success": "next build --turbopack",
+      "message": ""
+    },
+    {
+      "testName": "Package.json - start script",
+      "success": "next start",
+      "message": ""
+    },
+    {
+      "testName": "Package.json - test:admin script",
+      "success": "node scripts/test-admin-features.js",
+      "message": ""
+    },
+    {
+      "testName": "Next.config.mjs - Valid export",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "app/admin/page.js - React client directive",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "app/admin/page.js - Admin components import",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "app/admin/news/page.js - React client directive",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "app/admin/news/page.js - Admin components import",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "app/admin/events/page.js - React client directive",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "app/admin/events/page.js - Admin components import",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "app/admin/results/page.js - React client directive",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "app/admin/results/page.js - Admin components import",
+      "success": true,
+      "message": ""
+    }
+  ]
+}
