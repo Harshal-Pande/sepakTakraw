@@ -87,11 +87,8 @@ const TEST_DATA = {
     phone: '+1234567890'
   },
   'hero-images': {
-    title: 'Test Hero Image',
-    subtitle: 'Test Subtitle',
-    description: 'Test hero image description',
     image_url: 'https://via.placeholder.com/1200x600',
-    display_order: 1,
+    alt_text: 'Test hero image',
     is_active: true
   }
 };
