@@ -69,7 +69,8 @@ const TEST_DATA = {
   'anti-dop-guidelines': {
     title: 'Test Anti-DOP Guideline',
     description: 'Test anti-doping guideline description',
-    document_url: ''
+    year: 2024,
+    document_url: 'https://example.com/anti-dop.pdf'
   },
   'myas-compliance': {
     title: 'Test Compliance Document',
