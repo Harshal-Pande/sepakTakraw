@@ -43,7 +43,7 @@ export async function POST(request) {
     const body = await request.json()
     
     // Validate the input
-    const validatedData = validateHeroImage.parse(body)
+    const validatedData = validateHeroImages.parse(body)
     
     const supabase = createClient()
     
