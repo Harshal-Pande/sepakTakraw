@@ -1,10 +1,10 @@
 {
-  "timestamp": "2025-09-24T04:29:54.075Z",
+  "timestamp": "2025-09-24T04:35:31.288Z",
   "summary": {
-    "total": 24,
-    "passed": 0,
-    "failed": 24,
-    "successRate": "0.00"
+    "total": 34,
+    "passed": 11,
+    "failed": 23,
+    "successRate": "32.35"
   },
   "details": [
     {
@@ -63,69 +63,119 @@
       "message": "Status: 0"
     },
     {
-      "testName": "Admin Dashboard - Authentication",
+      "testName": "Admin Dashboard - Data Fetch",
       "success": false,
-      "message": "Failed to authenticate"
+      "message": "Unauthorized"
     },
     {
-      "testName": "Admin Settings - Authentication",
+      "testName": "Admin Settings - GET",
       "success": false,
-      "message": "Failed to authenticate"
+      "message": "Unauthorized"
     },
     {
-      "testName": "File Upload - Authentication",
+      "testName": "Admin Settings - POST",
       "success": false,
-      "message": "Failed to authenticate"
+      "message": "Unauthorized"
     },
     {
-      "testName": "news - Authentication",
-      "success": false,
-      "message": "Failed to authenticate"
+      "testName": "File Upload - Images",
+      "success": true,
+      "message": ""
     },
     {
-      "testName": "events - Authentication",
-      "success": false,
-      "message": "Failed to authenticate"
+      "testName": "File Upload - Documents",
+      "success": true,
+      "message": ""
     },
     {
-      "testName": "results - Authentication",
+      "testName": "news - CREATE",
       "success": false,
-      "message": "Failed to authenticate"
+      "message": "Unknown error"
     },
     {
-      "testName": "general-body - Authentication",
+      "testName": "events - CREATE",
       "success": false,
-      "message": "Failed to authenticate"
+      "message": "Unknown error"
     },
     {
-      "testName": "elections - Authentication",
+      "testName": "results - CREATE",
       "success": false,
-      "message": "Failed to authenticate"
+      "message": "null value in column \"document_url\" of relation \"results\" violates not-null constraint"
     },
     {
-      "testName": "history - Authentication",
+      "testName": "general-body - CREATE",
       "success": false,
-      "message": "Failed to authenticate"
+      "message": "Unknown error"
     },
     {
-      "testName": "anti-dop-guidelines - Authentication",
-      "success": false,
-      "message": "Failed to authenticate"
+      "testName": "elections - CREATE",
+      "success": true,
+      "message": ""
     },
     {
-      "testName": "myas-compliance - Authentication",
-      "success": false,
-      "message": "Failed to authenticate"
+      "testName": "elections - READ (list)",
+      "success": true,
+      "message": ""
     },
     {
-      "testName": "rti - Authentication",
-      "success": false,
-      "message": "Failed to authenticate"
+      "testName": "elections - READ (single)",
+      "success": true,
+      "message": ""
     },
     {
-      "testName": "hero-images - Authentication",
+      "testName": "elections - UPDATE",
       "success": false,
-      "message": "Failed to authenticate"
+      "message": "Unknown error"
+    },
+    {
+      "testName": "elections - DELETE",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "history - CREATE",
+      "success": false,
+      "message": "Missing required field: content"
+    },
+    {
+      "testName": "anti-dop-guidelines - CREATE",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "anti-dop-guidelines - READ (list)",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "anti-dop-guidelines - READ (single)",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "anti-dop-guidelines - UPDATE",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "anti-dop-guidelines - DELETE",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "myas-compliance - CREATE",
+      "success": false,
+      "message": "Unknown error"
+    },
+    {
+      "testName": "rti - CREATE",
+      "success": false,
+      "message": "Unknown error"
+    },
+    {
+      "testName": "hero-images - CREATE",
+      "success": false,
+      "message": "Unknown error"
     }
   ]
 }

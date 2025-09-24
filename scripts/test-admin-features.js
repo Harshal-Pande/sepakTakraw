@@ -7,6 +7,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
 // Configuration
 const BASE_URL = process.env.TEST_BASE_URL || 'http://localhost:3000';
@@ -39,6 +40,7 @@ const TEST_DATA = {
     score1: 2,
     score2: 1,
     winner: 'Team A',
+    document_url: 'https://example.com/document.pdf',
     photos: []
   },
   'general-body': {
@@ -59,6 +61,7 @@ const TEST_DATA = {
   history: {
     title: 'Test History Entry',
     description: 'Test history description',
+    content: 'Test history content',
     year: 2024,
     image_url: ''
   },
@@ -155,7 +158,7 @@ async function login() {
   
   if (result.success && result.data.success) {
     log('Login successful', 'success');
-    return result.data.token;
+    return result.data.data.token;
   } else {
     log('Login failed', 'error');
     log('Response data:', JSON.stringify(result.data, null, 2));
@@ -181,11 +184,14 @@ async function testResourceCRUD(resourceName, testData, authToken) {
 
   // Test CREATE
   try {
+    log(`Creating ${resourceName} with data:`, JSON.stringify(testData, null, 2));
     const createResult = await makeRequest(`${BASE_URL}/api/${resourceName}`, {
       method: 'POST',
       headers,
       body: JSON.stringify(testData)
     });
+    
+    log(`Create result for ${resourceName}:`, JSON.stringify(createResult, null, 2));
     
     if (createResult.success && createResult.data.success) {
       createdId = createResult.data.data.id;
