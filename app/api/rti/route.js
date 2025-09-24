@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase'
 import { createResponse, createErrorResponse, getPaginationParams, queryWithPagination } from '@/lib/api-helpers'
-import { validateRtiRequest } from '@/lib/validations'
+import { validateRTIOfficers } from '@/lib/validations'
 
 export async function GET(request) {
   try {

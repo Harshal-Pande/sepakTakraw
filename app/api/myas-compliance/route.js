@@ -49,7 +49,7 @@ export async function POST(request) {
     const body = await request.json()
     
     // Validate the input
-    const validatedData = validateMyasCompliance.parse(body)
+    const validatedData = validateMYASCompliance.parse(body)
     
     const supabase = createClient()
     
