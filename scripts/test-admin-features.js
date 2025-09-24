@@ -75,11 +75,9 @@ const TEST_DATA = {
   'myas-compliance': {
     title: 'Test Compliance Document',
     description: 'Test compliance document description',
-    category: 'guidelines',
-    document_type: 'pdf',
-    effective_date: new Date().toISOString().split('T')[0],
-    document_url: '',
-    status: 'active'
+    sno: 1,
+    sub_sno: 1,
+    documents: ['https://example.com/compliance.pdf']
   },
   rti: {
     request_number: `RTI-TEST-${Date.now()}`,
