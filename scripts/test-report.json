@@ -1,10 +1,10 @@
 {
-  "timestamp": "2025-09-24T04:38:43.299Z",
+  "timestamp": "2025-09-24T04:43:21.978Z",
   "summary": {
-    "total": 42,
-    "passed": 21,
-    "failed": 21,
-    "successRate": "50.00"
+    "total": 11,
+    "passed": 0,
+    "failed": 11,
+    "successRate": "0.00"
   },
   "details": [
     {
@@ -61,161 +61,6 @@
       "testName": "Public Page - /rti",
       "success": false,
       "message": "Status: 0"
-    },
-    {
-      "testName": "Admin Dashboard - Data Fetch",
-      "success": false,
-      "message": "Unauthorized"
-    },
-    {
-      "testName": "Admin Settings - GET",
-      "success": false,
-      "message": "Unauthorized"
-    },
-    {
-      "testName": "Admin Settings - POST",
-      "success": false,
-      "message": "Unauthorized"
-    },
-    {
-      "testName": "File Upload - Images",
-      "success": true,
-      "message": ""
-    },
-    {
-      "testName": "File Upload - Documents",
-      "success": true,
-      "message": ""
-    },
-    {
-      "testName": "news - CREATE",
-      "success": false,
-      "message": "Unknown error"
-    },
-    {
-      "testName": "events - CREATE",
-      "success": false,
-      "message": "Unknown error"
-    },
-    {
-      "testName": "results - CREATE",
-      "success": true,
-      "message": ""
-    },
-    {
-      "testName": "results - READ (list)",
-      "success": true,
-      "message": ""
-    },
-    {
-      "testName": "results - READ (single)",
-      "success": true,
-      "message": ""
-    },
-    {
-      "testName": "results - UPDATE",
-      "success": true,
-      "message": ""
-    },
-    {
-      "testName": "results - DELETE",
-      "success": true,
-      "message": ""
-    },
-    {
-      "testName": "general-body - CREATE",
-      "success": false,
-      "message": "Unknown error"
-    },
-    {
-      "testName": "elections - CREATE",
-      "success": true,
-      "message": ""
-    },
-    {
-      "testName": "elections - READ (list)",
-      "success": true,
-      "message": ""
-    },
-    {
-      "testName": "elections - READ (single)",
-      "success": true,
-      "message": ""
-    },
-    {
-      "testName": "elections - UPDATE",
-      "success": false,
-      "message": "Unknown error"
-    },
-    {
-      "testName": "elections - DELETE",
-      "success": true,
-      "message": ""
-    },
-    {
-      "testName": "history - CREATE",
-      "success": true,
-      "message": ""
-    },
-    {
-      "testName": "history - READ (list)",
-      "success": true,
-      "message": ""
-    },
-    {
-      "testName": "history - READ (single)",
-      "success": true,
-      "message": ""
-    },
-    {
-      "testName": "history - UPDATE",
-      "success": true,
-      "message": ""
-    },
-    {
-      "testName": "history - DELETE",
-      "success": true,
-      "message": ""
-    },
-    {
-      "testName": "anti-dop-guidelines - CREATE",
-      "success": true,
-      "message": ""
-    },
-    {
-      "testName": "anti-dop-guidelines - READ (list)",
-      "success": true,
-      "message": ""
-    },
-    {
-      "testName": "anti-dop-guidelines - READ (single)",
-      "success": true,
-      "message": ""
-    },
-    {
-      "testName": "anti-dop-guidelines - UPDATE",
-      "success": true,
-      "message": ""
-    },
-    {
-      "testName": "anti-dop-guidelines - DELETE",
-      "success": true,
-      "message": ""
-    },
-    {
-      "testName": "myas-compliance - CREATE",
-      "success": false,
-      "message": "Unknown error"
-    },
-    {
-      "testName": "rti - CREATE",
-      "success": false,
-      "message": "Unknown error"
-    },
-    {
-      "testName": "hero-images - CREATE",
-      "success": false,
-      "message": "Unknown error"
     }
   ]
 }
