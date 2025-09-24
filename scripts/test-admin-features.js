@@ -56,8 +56,8 @@ const TEST_DATA = {
   elections: {
     title: 'Test Election',
     description: 'Test election description',
-    election_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // 30 days from now
-    document_url: ''
+    election_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30 days from now
+    document_url: 'https://example.com/election.pdf'
   },
   history: {
     title: 'Test History Entry',
