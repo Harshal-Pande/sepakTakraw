@@ -26,6 +26,7 @@ export async function GET(request, { params }) {
 
 export async function PUT(request, { params }) {
   try {
+    const { id } = await params
     const body = await request.json()
     
     // Validate required fields
@@ -46,7 +47,7 @@ export async function PUT(request, { params }) {
         document_url: body.document_url || null,
         updated_at: new Date().toISOString()
       })
-      .eq('id', params.id)
+      .eq('id', id)
       .select()
       .single()
 
