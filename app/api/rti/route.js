@@ -1,38 +1,38 @@
 import { createClient } from '@/lib/supabase'
 import { createResponse, createErrorResponse, getPaginationParams, queryWithPagination } from '@/lib/api-helpers'
-import { validateHeroImage } from '@/lib/validations'
+import { validateRtiRequest } from '@/lib/validations'
 
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url)
     const { page, limit } = getPaginationParams(searchParams)
     const search = searchParams.get('search')
-    const active = searchParams.get('active')
+    const status = searchParams.get('status')
     
     const supabase = createClient()
     
     let query = supabase
-      .from('hero_images')
+      .from('rti_requests')
       .select('*', { count: 'exact' })
-      .order('display_order', { ascending: true })
+      .order('created_at', { ascending: false })
     
     // Add search functionality
     if (search) {
-      query = query.or(`title.ilike.%${search}%,subtitle.ilike.%${search}%,description.ilike.%${search}%`)
+      query = query.or(`subject.ilike.%${search}%,description.ilike.%${search}%,applicant_name.ilike.%${search}%`)
     }
     
-    // Filter by active status
-    if (active !== null) {
-      query = query.eq('is_active', active === 'true')
+    // Filter by status
+    if (status) {
+      query = query.eq('status', status)
     }
     
     const result = await queryWithPagination(query, page, limit)
     
-    return Response.json(createResponse(result.data, 'Hero images fetched successfully', result.pagination))
+    return Response.json(createResponse(result.data, 'RTI requests fetched successfully', result.pagination))
   } catch (error) {
-    console.error('Error fetching hero images:', error)
+    console.error('Error fetching RTI requests:', error)
     return Response.json(
-      createErrorResponse(error, 'HERO_IMAGES_FETCH_ERROR'),
+      createErrorResponse(error, 'RTI_FETCH_ERROR'),
       { status: 500 }
     )
   }
@@ -43,23 +43,23 @@ export async function POST(request) {
     const body = await request.json()
     
     // Validate the input
-    const validatedData = validateHeroImage.parse(body)
+    const validatedData = validateRtiRequest.parse(body)
     
     const supabase = createClient()
     
     const { data, error } = await supabase
-      .from('hero_images')
+      .from('rti_requests')
       .insert([validatedData])
       .select()
     
     if (error) throw error
     
     return Response.json(
-      createResponse(data[0], 'Hero image created successfully'),
+      createResponse(data[0], 'RTI request created successfully'),
       { status: 201 }
     )
   } catch (error) {
-    console.error('Error creating hero image:', error)
+    console.error('Error creating RTI request:', error)
     
     if (error.name === 'ZodError') {
       return Response.json(
@@ -69,7 +69,7 @@ export async function POST(request) {
     }
     
     return Response.json(
-      createErrorResponse(error, 'HERO_IMAGE_CREATE_ERROR'),
+      createErrorResponse(error, 'RTI_CREATE_ERROR'),
       { status: 500 }
     )
   }
