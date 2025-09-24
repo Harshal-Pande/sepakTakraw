@@ -4,12 +4,13 @@ import { validateHistory } from '@/lib/validations'
 
 export async function GET(request, { params }) {
   try {
+    const { id } = await params
     const supabase = createClient()
     
     const { data, error } = await supabase
       .from('history')
       .select('*')
-      .eq('id', params.id)
+      .eq('id', id)
       .single()
     
     if (error) throw error
@@ -26,6 +27,7 @@ export async function GET(request, { params }) {
 
 export async function PUT(request, { params }) {
   try {
+    const { id } = await params
     const body = await request.json()
     
     // Validate the input
@@ -36,7 +38,7 @@ export async function PUT(request, { params }) {
     const { data, error } = await supabase
       .from('history')
       .update(validatedData)
-      .eq('id', params.id)
+      .eq('id', id)
       .select()
     
     if (error) throw error
@@ -61,12 +63,13 @@ export async function PUT(request, { params }) {
 
 export async function DELETE(request, { params }) {
   try {
+    const { id } = await params
     const supabase = createClient()
     
     const { error } = await supabase
       .from('history')
       .delete()
-      .eq('id', params.id)
+      .eq('id', id)
     
     if (error) throw error
     

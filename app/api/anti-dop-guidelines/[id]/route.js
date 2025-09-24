@@ -3,12 +3,13 @@ import { createResponse, createErrorResponse } from '@/lib/api-helpers'
 
 export async function GET(request, { params }) {
   try {
+    const { id } = await params
     const supabase = createClient()
-
+    
     const { data, error } = await supabase
       .from('anti_dop_guidelines')
       .select('*')
-      .eq('id', params.id)
+      .eq('id', id)
       .single()
 
     if (error) {
