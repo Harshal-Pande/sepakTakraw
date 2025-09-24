@@ -9,7 +9,9 @@
     "lint": "eslint",
     "setup:env": "node scripts/setup-env.js",
     "test:db": "node scripts/test-db-routes.js",
-    "seed:db": "node scripts/seed-database.js"
+    "seed:db": "node scripts/seed-database.js",
+    "test:admin": "node scripts/test-admin-features.js",
+    "test:all": "npm run test:db && npm run test:admin"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
