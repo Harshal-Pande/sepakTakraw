@@ -9,33 +9,79 @@ import { validateEvents } from "@/lib/validations";
 
 export async function GET(request) {
 	try {
-		if (process.env.USE_MOCK_DATA === "true") {
-			const mock = {
-				items: [
-					{
-						id: "e1",
-						title: "National Championship",
-						description: "Delhi Indoor Stadium",
-						location: "New Delhi",
-						event_date: new Date(Date.now() + 86400000)
-							.toISOString()
-							.split("T")[0],
-					},
-					{
-						id: "e2",
-						title: "Intercontinental Cup",
-						description: "Opening ceremony & fixtures",
-						location: "Mumbai",
-						event_date: new Date().toISOString().split("T")[0],
-					},
-				],
-				pagination: { page: 1, limit: 6, total: 2 },
+		const useMock = process.env.USE_MOCK_DATA === "true" || !process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+		
+		if (useMock) {
+			const mockEvents = [
+				{
+					id: "1",
+					title: "State Level Championship",
+					description: "Annual state level Sepaktakraw championship for all age groups",
+					event_date: "2024-03-15",
+					location: "Mumbai Sports Complex",
+					photos: ["https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=400&fit=crop"],
+					created_at: "2024-01-15T10:00:00Z"
+				},
+				{
+					id: "2",
+					title: "Training Workshop",
+					description: "Technical training workshop for coaches and referees",
+					event_date: "2024-04-10",
+					location: "Delhi Sports Academy",
+					photos: ["https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=800&h=400&fit=crop"],
+					created_at: "2024-01-10T10:00:00Z"
+				},
+				{
+					id: "3",
+					title: "Youth Development Program",
+					description: "Special program for young players aged 12-18",
+					event_date: "2024-05-20",
+					location: "Bangalore Sports Center",
+					photos: ["https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=400&fit=crop"],
+					created_at: "2024-01-05T10:00:00Z"
+				}
+			];
+
+			const { searchParams } = new URL(request.url);
+			const page = parseInt(searchParams.get("page")) || 1;
+			const limit = parseInt(searchParams.get("limit")) || 12;
+			const search = searchParams.get("search");
+			const upcoming = searchParams.get("upcoming");
+
+			let filteredEvents = mockEvents;
+
+			// Apply search filter
+			if (search) {
+				filteredEvents = mockEvents.filter(event => 
+					event.title.toLowerCase().includes(search.toLowerCase()) ||
+					event.description.toLowerCase().includes(search.toLowerCase()) ||
+					event.location.toLowerCase().includes(search.toLowerCase())
+				);
+			}
+
+			// Apply upcoming filter
+			if (upcoming === "true") {
+				const today = new Date().toISOString().split("T")[0];
+				filteredEvents = filteredEvents.filter(event => event.event_date >= today);
+			}
+
+			// Apply pagination
+			const startIndex = (page - 1) * limit;
+			const endIndex = startIndex + limit;
+			const paginatedEvents = filteredEvents.slice(startIndex, endIndex);
+
+			const pagination = {
+				page,
+				limit,
+				total: filteredEvents.length,
+				totalPages: Math.ceil(filteredEvents.length / limit)
 			};
+
 			return Response.json(
 				createResponse(
-					mock.items,
+					paginatedEvents,
 					"Events fetched successfully (mock)",
-					mock.pagination
+					pagination
 				)
 			);
 		}

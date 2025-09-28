@@ -9,31 +9,65 @@ import { validateNews } from "@/lib/validations";
 
 export async function GET(request) {
 	try {
-		if (process.env.USE_MOCK_DATA === "true") {
-			const mock = {
-				items: [
-					{
-						id: "n1",
-						title: "AIFF launches Vision 2047 roadmap",
-						description: "Strategic plan unveiled for Indian football.",
-						created_at: new Date().toISOString(),
-						featured_image: null,
-					},
-					{
-						id: "n2",
-						title: "India secures historic futsal win",
-						description: "Thrilling performance lights up Kuwait scoreboard.",
-						created_at: new Date().toISOString(),
-						featured_image: null,
-					},
-				],
-				pagination: { page: 1, limit: 6, total: 2 },
+		const useMock = process.env.USE_MOCK_DATA === "true" || !process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+		
+		if (useMock) {
+			const mockNews = [
+				{
+					id: "1",
+					title: "National Sepaktakraw Championship 2024",
+					description: "The annual national championship will be held in Mumbai from March 15-20, 2024. Teams from all states are invited to participate.",
+					featured_image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=400&fit=crop",
+					created_at: "2024-01-15T10:00:00Z"
+				},
+				{
+					id: "2",
+					title: "New Training Program Launched",
+					description: "We are excited to announce a new training program for young Sepaktakraw players. The program will focus on developing fundamental skills and techniques.",
+					featured_image: "https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=800&h=400&fit=crop",
+					created_at: "2024-01-10T10:00:00Z"
+				},
+				{
+					id: "3",
+					title: "International Tournament Results",
+					description: "Our national team has secured second place in the Asian Sepaktakraw Championship held in Thailand. Congratulations to all players!",
+					featured_image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=400&fit=crop",
+					created_at: "2024-01-05T10:00:00Z"
+				}
+			];
+
+			const { searchParams } = new URL(request.url);
+			const page = parseInt(searchParams.get("page")) || 1;
+			const limit = parseInt(searchParams.get("limit")) || 12;
+			const search = searchParams.get("search");
+
+			let filteredNews = mockNews;
+
+			// Apply search filter
+			if (search) {
+				filteredNews = mockNews.filter(news => 
+					news.title.toLowerCase().includes(search.toLowerCase()) ||
+					news.description.toLowerCase().includes(search.toLowerCase())
+				);
+			}
+
+			// Apply pagination
+			const startIndex = (page - 1) * limit;
+			const endIndex = startIndex + limit;
+			const paginatedNews = filteredNews.slice(startIndex, endIndex);
+
+			const pagination = {
+				page,
+				limit,
+				total: filteredNews.length,
+				totalPages: Math.ceil(filteredNews.length / limit)
 			};
+
 			return Response.json(
 				createResponse(
-					mock.items,
+					paginatedNews,
 					"News fetched successfully (mock)",
-					mock.pagination
+					pagination
 				)
 			);
 		}
