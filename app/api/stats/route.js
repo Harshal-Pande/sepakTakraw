@@ -3,7 +3,12 @@ import { createClient } from "@/lib/supabase";
 
 export async function GET(request) {
 	try {
-		if (process.env.USE_MOCK_DATA === "true") {
+		const useMock =
+			process.env.USE_MOCK_DATA === "true" ||
+			!process.env.NEXT_PUBLIC_SUPABASE_URL ||
+			!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+		if (useMock) {
 			const data = [
 				{
 					id: "events",

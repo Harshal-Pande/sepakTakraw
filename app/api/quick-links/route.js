@@ -73,7 +73,12 @@ const QUICK_LINKS_DATA = [
 
 export async function GET(request) {
 	try {
-		if (process.env.USE_MOCK_DATA === "true") {
+		const useMock =
+			process.env.USE_MOCK_DATA === "true" ||
+			!process.env.NEXT_PUBLIC_SUPABASE_URL ||
+			!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+		if (useMock) {
 			const links = [...QUICK_LINKS_DATA].sort(
 				(a, b) => (a.order_index ?? 0) - (b.order_index ?? 0)
 			);

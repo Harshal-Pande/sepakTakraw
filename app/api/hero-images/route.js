@@ -3,20 +3,32 @@ import { createResponse, createErrorResponse } from "@/lib/api-helpers";
 
 export async function GET() {
 	try {
-		if (process.env.USE_MOCK_DATA === "true") {
+		const useMock =
+			process.env.USE_MOCK_DATA === "true" ||
+			!process.env.NEXT_PUBLIC_SUPABASE_URL ||
+			!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+		if (useMock) {
 			const data = [
 				{
-					id: "h1",
+					id: "1",
 					image_url:
-						"https://images.unsplash.com/photo-1521417531039-7957f24b3081?q=80&w=1600&auto=format&fit=crop",
-					alt_text: "Football training",
+						"https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1200&h=600&fit=crop",
+					alt_text: "Sepaktakraw players in action",
 					is_active: true,
 				},
 				{
-					id: "h2",
+					id: "2",
 					image_url:
-						"https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=1600&auto=format&fit=crop",
-					alt_text: "Stadium crowd",
+						"https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=1200&h=600&fit=crop",
+					alt_text: "Sepaktakraw tournament",
+					is_active: true,
+				},
+				{
+					id: "3",
+					image_url:
+						"https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1200&h=600&fit=crop",
+					alt_text: "Sepaktakraw championship",
 					is_active: true,
 				},
 			];
