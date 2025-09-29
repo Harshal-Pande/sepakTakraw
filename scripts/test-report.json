@@ -1,10 +1,10 @@
 {
-  "timestamp": "2025-09-24T04:43:21.978Z",
+  "timestamp": "2025-09-24T04:44:58.822Z",
   "summary": {
-    "total": 11,
-    "passed": 0,
-    "failed": 11,
-    "successRate": "0.00"
+    "total": 50,
+    "passed": 28,
+    "failed": 22,
+    "successRate": "56.00"
   },
   "details": [
     {
@@ -61,6 +61,201 @@
       "testName": "Public Page - /rti",
       "success": false,
       "message": "Status: 0"
+    },
+    {
+      "testName": "Admin Dashboard - Data Fetch",
+      "success": false,
+      "message": "Unauthorized"
+    },
+    {
+      "testName": "Admin Settings - GET",
+      "success": false,
+      "message": "Unauthorized"
+    },
+    {
+      "testName": "Admin Settings - POST",
+      "success": false,
+      "message": "Unauthorized"
+    },
+    {
+      "testName": "File Upload - Images",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "File Upload - Documents",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "news - CREATE",
+      "success": false,
+      "message": "Unknown error"
+    },
+    {
+      "testName": "events - CREATE",
+      "success": false,
+      "message": "Unknown error"
+    },
+    {
+      "testName": "results - CREATE",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "results - READ (list)",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "results - READ (single)",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "results - UPDATE",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "results - DELETE",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "general-body - CREATE",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "general-body - READ (list)",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "general-body - READ (single)",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "general-body - UPDATE",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "general-body - DELETE",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "elections - CREATE",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "elections - READ (list)",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "elections - READ (single)",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "elections - UPDATE",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "elections - DELETE",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "history - CREATE",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "history - READ (list)",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "history - READ (single)",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "history - UPDATE",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "history - DELETE",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "anti-dop-guidelines - CREATE",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "anti-dop-guidelines - READ (list)",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "anti-dop-guidelines - READ (single)",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "anti-dop-guidelines - UPDATE",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "anti-dop-guidelines - DELETE",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "myas-compliance - CREATE",
+      "success": false,
+      "message": "Could not find the 'documents' column of 'myas_compliance' in the schema cache"
+    },
+    {
+      "testName": "rti - CREATE",
+      "success": false,
+      "message": "Could not find the table 'public.rti_requests' in the schema cache"
+    },
+    {
+      "testName": "hero-images - CREATE",
+      "success": true,
+      "message": ""
+    },
+    {
+      "testName": "hero-images - READ (list)",
+      "success": false,
+      "message": "column hero_images.display_order does not exist"
+    },
+    {
+      "testName": "hero-images - READ (single)",
+      "success": false,
+      "message": "Unknown error"
+    },
+    {
+      "testName": "hero-images - UPDATE",
+      "success": false,
+      "message": "Unknown error"
+    },
+    {
+      "testName": "hero-images - DELETE",
+      "success": false,
+      "message": "Unknown error"
     }
   ]
 }
