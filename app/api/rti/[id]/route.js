@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase'
 import { createResponse, createErrorResponse } from '@/lib/api-helpers'
-import { validateRtiRequest } from '@/lib/validations'
+import { validateRTIOfficers } from '@/lib/validations'
 
 export async function GET(request, { params }) {
   try {
@@ -29,8 +29,8 @@ export async function PUT(request, { params }) {
   try {
     const body = await request.json()
     
-    // Validate the input
-    const validatedData = validateRtiRequest.parse(body)
+    // Validate the input (re-use RTI schema)
+    const validatedData = validateRTIOfficers.parse(body)
     
     const supabase = createClient()
     

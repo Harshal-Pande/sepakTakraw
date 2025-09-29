@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase'
 import { createResponse, createErrorResponse } from '@/lib/api-helpers'
-import { validateMyasCompliance } from '@/lib/validations'
+import { validateMYASCompliance } from '@/lib/validations'
 
 export async function GET(request, { params }) {
   try {
@@ -30,7 +30,7 @@ export async function PUT(request, { params }) {
     const body = await request.json()
     
     // Validate the input
-    const validatedData = validateMyasCompliance.parse(body)
+    const validatedData = validateMYASCompliance.parse(body)
     
     const supabase = createClient()
     
