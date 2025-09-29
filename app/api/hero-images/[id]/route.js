@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase'
 import { createResponse, createErrorResponse } from '@/lib/api-helpers'
-import { validateHeroImage } from '@/lib/validations'
+import { validateHeroImages } from '@/lib/validations'
 
 export async function GET(request, { params }) {
   try {
@@ -30,7 +30,7 @@ export async function PUT(request, { params }) {
     const body = await request.json()
     
     // Validate the input
-    const validatedData = validateHeroImage.parse(body)
+    const validatedData = validateHeroImages.parse(body)
     
     const supabase = createClient()
     
