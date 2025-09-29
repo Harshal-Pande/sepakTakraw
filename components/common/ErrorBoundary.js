@@ -32,7 +32,7 @@ class ErrorBoundary extends Component {
             </CardHeader>
             <CardContent className="text-center space-y-4">
               <p className="text-gray-600">
-                We're sorry, but something unexpected happened. Please try refreshing the page.
+                We&#39;re sorry, but something unexpected happened. Please try refreshing the page.
               </p>
               <div className="flex flex-col sm:flex-row gap-3">
                 <Button 

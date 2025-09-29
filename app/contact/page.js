@@ -97,7 +97,7 @@ export default function ContactPage() {
             Contact Us
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Get in touch with the Sepak Takraw Association of India. We're here to help with all your queries and concerns.
+            Get in touch with the Sepak Takraw Association of India. We&#39;re here to help with all your queries and concerns.
           </p>
         </div>
 
@@ -132,7 +132,7 @@ export default function ContactPage() {
                 <MessageSquare className="h-6 w-6 text-blue-600" />
                 <span>Send us a Message</span>
               </CardTitle>
-              <p className="text-gray-600">We'll get back to you within 24 hours</p>
+              <p className="text-gray-600">We&#39;ll get back to you within 24 hours</p>
             </CardHeader>
             <CardContent>
               <form className="space-y-6">
