@@ -1,190 +1,232 @@
-'use client'
-
-import { useState, useEffect } from 'react'
-import { PageHeader } from '@/components/layout/PageHeader'
-import { AdminCard } from '@/components/admin/common/AdminCard'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { FileText, Download, Calendar, Filter } from 'lucide-react'
-import { format } from 'date-fns'
+import { CheckCircle, AlertCircle, FileText, Users, Calendar, Shield } from 'lucide-react'
 
-export default function MyasCompliancePage() {
-  const [compliance, setCompliance] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState('all')
-
-  useEffect(() => {
-    const fetchCompliance = async () => {
-      try {
-        const params = new URLSearchParams()
-        if (selectedCategory !== 'all') {
-          params.append('category', selectedCategory)
-        }
-        
-        const response = await fetch(`/api/myas-compliance?${params}`)
-        const data = await response.json()
-        
-        if (data.success) {
-          setCompliance(data.data)
-        } else {
-          setError(data.error || 'Failed to load compliance documents')
-        }
-      } catch (err) {
-        setError('An error occurred while loading compliance documents')
-      } finally {
-        setLoading(false)
-      }
+export default function MYASCompliancePage() {
+  const complianceAreas = [
+    {
+      title: "Financial Transparency",
+      description: "Complete financial reporting and audit compliance",
+      status: "Compliant",
+      lastAudit: "2024-01-15",
+      documents: ["Annual Financial Report", "Audit Certificate", "Budget Allocation"]
+    },
+    {
+      title: "Governance Structure",
+      description: "Proper organizational structure and decision-making processes",
+      status: "Compliant",
+      lastAudit: "2024-01-10",
+      documents: ["Constitution", "Bye-laws", "Meeting Minutes"]
+    },
+    {
+      title: "Anti-Doping Measures",
+      description: "Implementation of anti-doping policies and procedures",
+      status: "Compliant",
+      lastAudit: "2024-01-05",
+      documents: ["Anti-Doping Policy", "Testing Records", "Education Programs"]
+    },
+    {
+      title: "Athlete Welfare",
+      description: "Protection and support systems for athletes",
+      status: "Under Review",
+      lastAudit: "2024-01-20",
+      documents: ["Welfare Policy", "Support Programs", "Complaint Procedures"]
+    },
+    {
+      title: "Technical Standards",
+      description: "Adherence to international technical standards",
+      status: "Compliant",
+      lastAudit: "2024-01-12",
+      documents: ["Technical Rules", "Equipment Standards", "Competition Guidelines"]
+    },
+    {
+      title: "Communication & Transparency",
+      description: "Public communication and information disclosure",
+      status: "Compliant",
+      lastAudit: "2024-01-08",
+      documents: ["Annual Report", "Public Disclosures", "Media Guidelines"]
     }
-
-    fetchCompliance()
-  }, [selectedCategory])
-
-  const handleDownload = (documentUrl) => {
-    if (documentUrl) {
-      window.open(documentUrl, '_blank')
-    }
-  }
-
-  const categories = [
-    { value: 'all', label: 'All Categories' },
-    { value: 'guidelines', label: 'Guidelines' },
-    { value: 'policies', label: 'Policies' },
-    { value: 'procedures', label: 'Procedures' },
-    { value: 'forms', label: 'Forms' },
-    { value: 'other', label: 'Other' }
   ]
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'active': return 'default'
-      case 'draft': return 'secondary'
-      case 'archived': return 'outline'
-      default: return 'outline'
+  const keyMetrics = [
+    { label: "Compliance Score", value: "92%", color: "text-green-600" },
+    { label: "Audit Frequency", value: "Quarterly", color: "text-blue-600" },
+    { label: "Documentation", value: "100%", color: "text-purple-600" },
+    { label: "Training Completion", value: "95%", color: "text-orange-600" }
+  ]
+
+  const upcomingTasks = [
+    {
+      title: "Annual Compliance Review",
+      dueDate: "2024-03-15",
+      priority: "High",
+      description: "Comprehensive review of all compliance areas"
+    },
+    {
+      title: "Anti-Doping Education Program",
+      dueDate: "2024-02-28",
+      priority: "Medium",
+      description: "Quarterly education session for all stakeholders"
+    },
+    {
+      title: "Financial Audit Preparation",
+      dueDate: "2024-02-15",
+      priority: "High",
+      description: "Prepare documents for annual financial audit"
     }
-  }
-
-  if (loading) {
-    return (
-      <div className="min-h-screen">
-        <PageHeader 
-          title="MYAS Compliance" 
-          description="Ministry of Youth Affairs and Sports compliance documents"
-        />
-        <div className="container mx-auto px-4 py-8">
-          <div className="flex items-center justify-center h-64">
-            <div className="text-center">
-              <div className="w-8 h-8 border-4 border-gray-200 border-t-primary-blue rounded-full animate-spin mx-auto"></div>
-              <p className="mt-2 text-gray-600">Loading compliance documents...</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div className="min-h-screen">
-        <PageHeader 
-          title="MYAS Compliance" 
-          description="Ministry of Youth Affairs and Sports compliance documents"
-        />
-        <div className="container mx-auto px-4 py-8">
-          <div className="text-center py-12">
-            <p className="text-red-600">{error}</p>
-          </div>
-        </div>
-      </div>
-    )
-  }
+  ]
 
   return (
-    <div className="min-h-screen">
-      <PageHeader 
-        title="MYAS Compliance" 
-        description="Ministry of Youth Affairs and Sports compliance documents and guidelines"
-      />
-      
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100">
       <div className="container mx-auto px-4 py-8">
-        {/* Filter Section */}
-        <div className="mb-8">
-          <div className="flex items-center gap-4">
-            <Filter className="w-5 h-5 text-gray-500" />
-            <select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-blue"
-            >
-              {categories.map((category) => (
-                <option key={category.value} value={category.value}>
-                  {category.label}
-                </option>
-              ))}
-            </select>
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            MYAS Compliance Dashboard
+          </h1>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Comprehensive compliance monitoring and reporting for Ministry of Youth Affairs & Sports requirements
+          </p>
+        </div>
+
+        {/* Key Metrics */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+          {keyMetrics.map((metric, index) => (
+            <Card key={index} className="text-center">
+              <CardContent className="pt-6">
+                <div className={`text-3xl font-bold ${metric.color} mb-2`}>
+                  {metric.value}
+                </div>
+                <p className="text-gray-600">{metric.label}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        {/* Compliance Areas */}
+        <div className="mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Compliance Areas</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {complianceAreas.map((area, index) => (
+              <Card key={index} className="hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <div className="flex justify-between items-start">
+                    <CardTitle className="text-lg">{area.title}</CardTitle>
+                    <Badge 
+                      variant={area.status === "Compliant" ? "default" : "secondary"}
+                      className={area.status === "Compliant" ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"}
+                    >
+                      {area.status}
+                    </Badge>
+                  </div>
+                  <p className="text-gray-600 text-sm">{area.description}</p>
+                </CardHeader>
+                <CardContent>
+                  <div className="mb-4">
+                    <p className="text-sm text-gray-500 mb-2">Last Audit: {area.lastAudit}</p>
+                    <div className="space-y-1">
+                      {area.documents.map((doc, docIndex) => (
+                        <div key={docIndex} className="flex items-center space-x-2 text-sm">
+                          <FileText className="h-4 w-4 text-gray-400" />
+                          <span>{doc}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <Button variant="outline" size="sm" className="w-full">
+                    View Details
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
 
-        <div className="space-y-6">
-          {compliance.length === 0 ? (
-            <AdminCard>
-              <div className="text-center py-12">
-                <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No Documents Available</h3>
-                <p className="text-gray-600">Compliance documents will be published here when available.</p>
-              </div>
-            </AdminCard>
-          ) : (
-            compliance.map((doc) => (
-              <AdminCard key={doc.id}>
-                <div className="space-y-4">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <h3 className="text-xl font-semibold text-gray-900">
-                          {doc.title}
-                        </h3>
-                        <Badge variant={getStatusColor(doc.status)}>
-                          {doc.status}
-                        </Badge>
-                        <Badge variant="outline">
-                          {doc.category}
-                        </Badge>
-                      </div>
-                      <p className="text-gray-600 mb-4">
-                        {doc.description}
-                      </p>
-                      <div className="flex items-center gap-4 text-sm text-gray-500">
-                        <div className="flex items-center">
-                          <FileText className="w-4 h-4 mr-1" />
-                          <span>{doc.document_type}</span>
-                        </div>
-                        {doc.effective_date && (
-                          <div className="flex items-center">
-                            <Calendar className="w-4 h-4 mr-1" />
-                            <span>
-                              Effective: {format(new Date(doc.effective_date), 'MMM dd, yyyy')}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                    {doc.document_url && (
-                      <Button
-                        onClick={() => handleDownload(doc.document_url)}
-                        className="ml-4"
-                        variant="outline"
-                      >
-                        <Download className="w-4 h-4 mr-2" />
-                        Download
-                      </Button>
-                    )}
+        {/* Upcoming Tasks */}
+        <div className="mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Upcoming Compliance Tasks</h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            {upcomingTasks.map((task, index) => (
+              <Card key={index} className="hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <div className="flex justify-between items-start">
+                    <CardTitle className="text-lg">{task.title}</CardTitle>
+                    <Badge 
+                      variant={task.priority === "High" ? "destructive" : "secondary"}
+                      className={task.priority === "High" ? "bg-red-100 text-red-800" : "bg-yellow-100 text-yellow-800"}
+                    >
+                      {task.priority}
+                    </Badge>
                   </div>
-                </div>
-              </AdminCard>
-            ))
-          )}
+                  <p className="text-gray-600 text-sm">{task.description}</p>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center space-x-2 text-sm text-gray-500 mb-4">
+                    <Calendar className="h-4 w-4" />
+                    <span>Due: {task.dueDate}</span>
+                  </div>
+                  <Button variant="outline" size="sm" className="w-full">
+                    View Task
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
+
+        {/* Compliance Status Overview */}
+        <Card className="bg-gradient-to-r from-green-600 to-emerald-600 text-white mb-8">
+          <CardHeader>
+            <CardTitle className="text-2xl text-center flex items-center justify-center space-x-2">
+              <CheckCircle className="h-8 w-8" />
+              <span>Overall Compliance Status</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="text-center">
+            <div className="text-4xl font-bold mb-4">92% Compliant</div>
+            <p className="text-lg mb-6">
+              Excellent compliance record with ongoing improvements
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button variant="secondary" size="lg">
+                Download Compliance Report
+              </Button>
+              <Button variant="outline" size="lg" className="text-white border-white hover:bg-white hover:text-green-600">
+                View Audit History
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Contact Information */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-2xl text-center">Compliance Support</CardTitle>
+          </CardHeader>
+          <CardContent className="text-center">
+            <p className="text-gray-600 mb-6">
+              For compliance-related questions or support, contact our compliance team
+            </p>
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="text-center">
+                <Users className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+                <h3 className="font-semibold">Compliance Officer</h3>
+                <p className="text-sm text-gray-600">compliance@sepaktakraw.org</p>
+              </div>
+              <div className="text-center">
+                <Shield className="h-8 w-8 text-green-600 mx-auto mb-2" />
+                <h3 className="font-semibold">Legal Advisor</h3>
+                <p className="text-sm text-gray-600">legal@sepaktakraw.org</p>
+              </div>
+              <div className="text-center">
+                <FileText className="h-8 w-8 text-purple-600 mx-auto mb-2" />
+                <h3 className="font-semibold">Documentation</h3>
+                <p className="text-sm text-gray-600">docs@sepaktakraw.org</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   )

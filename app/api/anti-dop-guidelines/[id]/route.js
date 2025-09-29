@@ -3,13 +3,12 @@ import { createResponse, createErrorResponse } from '@/lib/api-helpers'
 
 export async function GET(request, { params }) {
   try {
-    const { id } = await params
     const supabase = createClient()
-    
+
     const { data, error } = await supabase
       .from('anti_dop_guidelines')
       .select('*')
-      .eq('id', id)
+      .eq('id', params.id)
       .single()
 
     if (error) {
@@ -26,7 +25,6 @@ export async function GET(request, { params }) {
 
 export async function PUT(request, { params }) {
   try {
-    const { id } = await params
     const body = await request.json()
     
     // Validate required fields
@@ -47,7 +45,7 @@ export async function PUT(request, { params }) {
         document_url: body.document_url || null,
         updated_at: new Date().toISOString()
       })
-      .eq('id', id)
+      .eq('id', params.id)
       .select()
       .single()
 
@@ -65,13 +63,12 @@ export async function PUT(request, { params }) {
 
 export async function DELETE(request, { params }) {
   try {
-    const { id } = await params
     const supabase = createClient()
 
     const { error } = await supabase
       .from('anti_dop_guidelines')
       .delete()
-      .eq('id', id)
+      .eq('id', params.id)
 
     if (error) {
       throw error
