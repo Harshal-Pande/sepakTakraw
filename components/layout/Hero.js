@@ -35,6 +35,17 @@ export default function Hero({ images = [] }) {
   const [isPlaying, setIsPlaying] = useState(true)
   const hasImages = images && images.length > 0
   const slideshowImages = hasImages ? images : DEFAULT_HERO_IMAGES
+  const safeImages = slideshowImages.map((img) => {
+    const url = img.image_url || ''
+    if (url.includes('via.placeholder.com') || url.trim() === '') {
+      return {
+        ...img,
+        image_url: 'https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=1920&auto=format&fit=crop',
+        alt_text: img.alt_text || 'Hero image'
+      }
+    }
+    return img
+  })
 
   const togglePlayPause = () => {
     setIsPlaying(!isPlaying)
@@ -44,7 +55,7 @@ export default function Hero({ images = [] }) {
     <section className="relative h-[70vh] overflow-hidden border-b border-gray-200">
       <Carousel className="w-full h-full">
         <CarouselContent className="h-full">
-          {slideshowImages.map((image, index) => (
+          {safeImages.map((image, index) => (
             <CarouselItem key={index} className="h-full">
               <div className="relative w-full h-full">
                 <Image

@@ -61,7 +61,9 @@ export function EventCard({
       {showImage && (
         <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
           <Image
-            src={(event.photos && event.photos.length > 0 ? event.photos[0] : 'https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=1200&auto=format&fit=crop')}
+            src={(event.photos && event.photos.length > 0 && !String(event.photos[0]).includes('via.placeholder.com'))
+              ? event.photos[0]
+              : 'https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=1200&auto=format&fit=crop'}
             alt={event.title}
             fill
             className="object-cover transition-transform duration-200 hover:scale-105"
