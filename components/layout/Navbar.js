@@ -29,10 +29,10 @@ export default function Navbar() {
 
 	return (
 		<nav className="fixed top-0 z-50 w-full shadow-lg" style={{ background: 'linear-gradient(135deg, #1a4d9e 0%, #0d2b5c 100%)' }}>
-			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+			<div className="w-full px-0">
 				<div className="flex items-stretch justify-between min-h-[90px]">
 					{/* Left: Logo + Spotlight */}
-					<div className="relative flex items-center gap-4 pr-12 pl-4 py-3" style={{ background: 'rgba(0,0,0,0.25)', backdropFilter: 'blur(10px)', clipPath: 'polygon(0 0, 100% 0, calc(100% - 40px) 100%, 0 100%)', borderRight: '1px solid rgba(255,255,255,0.1)' }}>
+					<div className="relative flex items-center gap-4 pr-12 pl-4 py-3" style={{ background: 'rgba(0,0,0,0.25)', backdropFilter: 'blur(10px)', clipPath: 'polygon(0 0, 100% 0, calc(100% - 40px) 100%, 0 100%)', borderRight: '1px solid rgba(255,255,255,0.1)', marginLeft: 0 }}>
 						<Link href="/" className="flex items-center gap-3">
 							<div className="w-12 h-12 rounded-md bg-white text-primary-blue font-bold text-[10px] leading-[1.1] flex items-center justify-center shadow-md">
 								ST<br/>FEDERATION
@@ -48,7 +48,7 @@ export default function Navbar() {
 					</div>
 
 					{/* Right: Two rows */}
-					<div className="flex-1 flex flex-col justify-center items-end gap-2 pl-10 pr-4 py-3" style={{ background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(8px)' }}>
+					<div className="flex-1 flex flex-col justify-center items-end gap-2 pl-10 pr-4 py-3">
 						{/* Top links */}
 						<div className="hidden lg:flex items-center gap-4 text-white text-sm">
 							<Link href="/" className="hover:opacity-80 transition">Shop</Link>
