@@ -9,13 +9,18 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { ModeToggle } from '@/components/mode-toggle'
 
 const navigationItems = [
-	{ name: 'Governance', href: '/general-body' },
-	{ name: 'National Team', href: '/results' },
-	{ name: 'Competitions', href: '/events' },
-	{ name: 'Development', href: '/myas-compliance' },
-	{ name: 'Documents', href: '/rti' },
+	{ name: 'Home', href: '/' },
 	{ name: 'News', href: '/news' },
-	{ name: 'Fan Zone', href: '/' },
+	{ name: 'Results', href: '/results' },
+	{ name: 'Events', href: '/events' },
+	{ name: 'Rules & Regulations', href: '/events/rules-regulations' },
+	{ name: 'General Body', href: '/general-body' },
+	{ name: 'MYAS Compliance', href: '/myas-compliance' },
+	{ name: 'Anti-DOP Guidelines', href: '/anti-dop-guidelines' },
+	{ name: 'RTI', href: '/rti' },
+	{ name: 'Elections', href: '/elections' },
+	{ name: 'History', href: '/history' },
+	{ name: 'Contact', href: '/contact' },
 ]
 
 export default function Navbar() {
@@ -29,36 +34,36 @@ export default function Navbar() {
 
 	return (
 		<nav className="fixed top-0 z-50 w-full shadow-lg" style={{ background: 'linear-gradient(135deg, #1a4d9e 0%, #0d2b5c 100%)' }}>
-			<div className="w-full px-0">
+			<div className="px-0 w-full">
 				<div className="flex items-stretch justify-between min-h-[90px]">
 					{/* Left: Logo + Spotlight */}
-					<div className="relative flex items-center gap-4 pr-12 pl-4 py-3" style={{ background: 'rgba(0,0,0,0.25)', backdropFilter: 'blur(10px)', clipPath: 'polygon(0 0, 100% 0, calc(100% - 40px) 100%, 0 100%)', borderRight: '1px solid rgba(255,255,255,0.1)', marginLeft: 0 }}>
-						<Link href="/" className="flex items-center gap-3">
-							<div className="w-12 h-12 rounded-md bg-white text-primary-blue font-bold text-[10px] leading-[1.1] flex items-center justify-center shadow-md">
-								ST<br/>FEDERATION
+					<div className="flex relative gap-4 items-center py-3 pr-12 pl-4" style={{ background: 'rgba(0,0,0,0.25)', backdropFilter: 'blur(10px)', clipPath: 'polygon(0 0, 100% 0, calc(100% - 40px) 100%, 0 100%)', borderRight: '1px solid rgba(255,255,255,0.1)', marginLeft: 0 }}>
+						<Link href="/" className="flex items-center space-x-2">
+							<div className="flex justify-center items-center w-10 h-10 rounded-full bg-primary-gold">
+								<span className="text-lg font-bold text-primary-blue">ST</span>
 							</div>
-							<div className="hidden sm:block text-white">
-								<div className="text-sm font-bold leading-tight">Sepaktakraw</div>
-								<div className="text-xs opacity-90">Sports Federation</div>
+							<div className="hidden sm:block">
+								<h1 className="text-lg font-bold text-white">Sepaktakraw</h1>
+								<p className="text-xs text-primary-gold">Sports Federation</p>
 							</div>
 						</Link>
-						<div className="hidden md:block text-white/95 text-xs font-medium whitespace-nowrap">
+						<div className="hidden text-xs font-medium whitespace-nowrap md:block text-white/95">
 							<strong className="font-semibold">Spotlight:</strong> National titles, one vision
 						</div>
 					</div>
 
 					{/* Right: Two rows */}
-					<div className="flex-1 flex flex-col justify-center items-end gap-2 pl-10 pr-4 py-3">
+					<div className="flex flex-col flex-1 gap-2 justify-center items-end py-3 pr-4 pl-10">
 						{/* Top links */}
-						<div className="hidden lg:flex items-center gap-4 text-white text-sm">
-							<Link href="/" className="hover:opacity-80 transition">Shop</Link>
-							<div className="flex items-center gap-2 ml-2">
-								<Link href="#" className="w-7 h-7 rounded-full bg-white/15 border border-white/20 flex items-center justify-center hover:bg-white/25 transition"><Facebook className="w-3.5 h-3.5" /></Link>
-								<Link href="#" className="w-7 h-7 rounded-full bg-white/15 border border-white/20 flex items-center justify-center hover:bg-white/25 transition"><Twitter className="w-3.5 h-3.5" /></Link>
-								<Link href="#" className="w-7 h-7 rounded-full bg-white/15 border border-white/20 flex items-center justify-center hover:bg-white/25 transition"><Instagram className="w-3.5 h-3.5" /></Link>
-								<Link href="#" className="w-7 h-7 rounded-full bg-white/15 border border-white/20 flex items-center justify-center hover:bg-white/25 transition"><Youtube className="w-3.5 h-3.5" /></Link>
+						<div className="hidden gap-4 items-center text-sm text-white lg:flex">
+							<Link href="/" className="transition hover:opacity-80">Shop</Link>
+							<div className="flex gap-2 items-center ml-2">
+								<Link href="#" className="flex justify-center items-center w-7 h-7 rounded-full border transition bg-white/15 border-white/20 hover:bg-white/25"><Facebook className="w-3.5 h-3.5" /></Link>
+								<Link href="#" className="flex justify-center items-center w-7 h-7 rounded-full border transition bg-white/15 border-white/20 hover:bg-white/25"><Twitter className="w-3.5 h-3.5" /></Link>
+								<Link href="#" className="flex justify-center items-center w-7 h-7 rounded-full border transition bg-white/15 border-white/20 hover:bg-white/25"><Instagram className="w-3.5 h-3.5" /></Link>
+								<Link href="#" className="flex justify-center items-center w-7 h-7 rounded-full border transition bg-white/15 border-white/20 hover:bg-white/25"><Youtube className="w-3.5 h-3.5" /></Link>
 							</div>
-							<div className="hidden xl:flex items-center gap-2 ml-4 text-white/95">
+							<div className="hidden gap-2 items-center ml-4 xl:flex text-white/95">
 								<Phone className="w-4 h-4" />
 								<span className="text-sm">+91 98765 43210</span>
 							</div>
@@ -79,7 +84,7 @@ export default function Navbar() {
 										</li>
 									)
 								})}
-								<li className="overflow-hidden border border-white/30 bg-white/20 hover:bg-white/30 transition" style={{ transform: 'skew(-15deg)' }}>
+								<li className="overflow-hidden border transition border-white/30 bg-white/20 hover:bg-white/30" style={{ transform: 'skew(-15deg)' }}>
 									<Link href="#" className="block px-4 py-3 text-white" style={{ transform: 'skew(15deg)' }}>
 										<Search className="w-4 h-4" />
 									</Link>
@@ -88,7 +93,7 @@ export default function Navbar() {
 						</nav>
 
 						{/* Mobile actions */}
-						<div className="flex lg:hidden items-center gap-2">
+						<div className="flex gap-2 items-center lg:hidden">
 							<ModeToggle />
 							<Sheet open={isOpen} onOpenChange={setIsOpen}>
 								<SheetTrigger asChild>
@@ -99,13 +104,13 @@ export default function Navbar() {
 								</SheetTrigger>
 								<SheetContent side="right" className="w-80 bg-primary-blue">
 									<div className="flex flex-col h-full">
-										<div className="flex items-center gap-2 pb-6 border-b border-white/20">
-											<div className="w-8 h-8 bg-primary-gold rounded flex items-center justify-center">
-												<span className="text-primary-blue font-bold text-sm">ST</span>
+										<div className="flex gap-2 items-center pb-6 border-b border-white/20">
+											<div className="flex justify-center items-center w-8 h-8 rounded bg-primary-gold">
+												<span className="text-sm font-bold text-primary-blue">ST</span>
 											</div>
 											<div>
-												<h2 className="text-white font-bold">Sepaktakraw</h2>
-												<p className="text-primary-gold text-xs">Sports Federation</p>
+												<h2 className="font-bold text-white">Sepaktakraw</h2>
+												<p className="text-xs text-primary-gold">Sports Federation</p>
 											</div>
 										</div>
 										<nav className="flex-1 py-6">
@@ -125,8 +130,8 @@ export default function Navbar() {
 												})}
 											</div>
 										</nav>
-										<div className="pt-6 border-t border-white/20 text-white">
-											<div className="flex items-center gap-2">
+										<div className="pt-6 text-white border-t border-white/20">
+											<div className="flex gap-2 items-center">
 												<Phone className="w-4 h-4" />
 												<span className="text-sm">+91 98765 43210</span>
 											</div>
