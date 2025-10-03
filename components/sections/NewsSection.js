@@ -42,13 +42,13 @@ export function NewsSection({
   if (error) {
     return (
       <section className={`py-16 ${className}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="text-center">
-            <Newspaper className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
+            <Newspaper className="mx-auto mb-4 w-12 h-12 text-gray-400" />
+            <h3 className="mb-2 text-lg font-medium text-gray-900">
               Unable to load news
             </h3>
-            <p className="text-gray-600 mb-4">{error}</p>
+            <p className="mb-4 text-gray-600">{error}</p>
             <Button 
               onClick={() => window.location.reload()}
               variant="outline"
@@ -63,11 +63,11 @@ export function NewsSection({
 
   return (
     <section className={`py-16 ${className}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="flex items-center justify-between mb-12">
+        <div className="flex justify-between items-center mb-12">
           <div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            <h2 className="mb-4 text-3xl font-bold text-gray-900">
               {title}
             </h2>
             <p className="text-lg text-gray-600">
@@ -83,7 +83,7 @@ export function NewsSection({
             >
               <Link href="/news">
                 View All News
-                <ArrowRight className="w-4 h-4 ml-2" />
+                <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
             </Button>
           )}
@@ -91,15 +91,15 @@ export function NewsSection({
 
         {/* News Grid */}
         {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {[...Array(limit)].map((_, index) => (
               <NewsCardSkeleton key={index} />
             ))}
           </div>
         ) : news.length === 0 ? (
-          <div className="text-center py-12">
-            <Newspaper className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
+          <div className="py-12 text-center">
+            <Newspaper className="mx-auto mb-4 w-12 h-12 text-gray-400" />
+            <h3 className="mb-2 text-lg font-medium text-gray-900">
               No news available
             </h3>
             <p className="text-gray-600">
@@ -107,7 +107,7 @@ export function NewsSection({
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {news.map((item, index) => (
               <NewsCard
                 key={item.id || index}
@@ -148,12 +148,12 @@ export function FeaturedNewsSection({ className = "" }) {
 
   if (isLoading) {
     return (
-      <section className={`py-16 bg-primary-blue text-white ${className}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className={`py-16 text-white bg-primary-blue ${className}`}>
+        <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="animate-pulse">
-            <div className="h-8 bg-white/20 rounded w-64 mb-4"></div>
-            <div className="h-4 bg-white/20 rounded w-96 mb-6"></div>
-            <div className="h-32 bg-white/20 rounded"></div>
+            <div className="mb-4 w-64 h-8 rounded bg-white/20"></div>
+            <div className="mb-6 w-96 h-4 rounded bg-white/20"></div>
+            <div className="h-32 rounded bg-white/20"></div>
           </div>
         </div>
       </section>
@@ -165,16 +165,16 @@ export function FeaturedNewsSection({ className = "" }) {
   }
 
   return (
-    <section className={`py-16 bg-primary-blue text-white ${className}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className={`py-16 text-white bg-primary-blue ${className}`}>
+      <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="max-w-4xl">
-          <h2 className="text-3xl font-bold mb-4">
+          <h2 className="mb-4 text-3xl font-bold">
             Featured News
           </h2>
-          <p className="text-xl text-primary-gold mb-6">
+          <p className="mb-6 text-xl text-primary-gold">
             {featuredNews.title}
           </p>
-          <p className="text-gray-200 mb-8 leading-relaxed">
+          <p className="mb-8 leading-relaxed text-gray-200">
             {featuredNews.description}
           </p>
           <Button
@@ -183,7 +183,7 @@ export function FeaturedNewsSection({ className = "" }) {
           >
             <Link href={`/news/${featuredNews.id}`}>
               Read Full Story
-              <ArrowRight className="w-4 h-4 ml-2" />
+              <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
           </Button>
         </div>

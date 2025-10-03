@@ -31,37 +31,40 @@ export default function Home() {
   }, [])
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <Hero images={heroImages} />
 
       {/* Stats Section */}
-      <StatsSection />
+      <StatsSection className="border-t border-gray-200" />
 
       {/* Featured News Section */}
-      <FeaturedNewsSection />
+      <FeaturedNewsSection className="border-t border-gray-200" />
 
       {/* News Section */}
       <NewsSection 
         title="Latest News" 
         limit={6}
         showViewAll={true}
+        className="border-t border-gray-200"
       />
 
       {/* Upcoming Events Section */}
-      <UpcomingEventsSection />
+      <UpcomingEventsSection className="border-t border-gray-200" />
 
       {/* Events Section */}
       <EventsSection 
         title="Recent Events" 
         limit={6}
         showViewAll={true}
+        className="border-t border-gray-200"
       />
 
       {/* Quick Links Section */}
       <QuickLinksSection 
         title="Quick Access"
         showAll={true}
+        className="border-t border-gray-200"
       />
     </div>
   )

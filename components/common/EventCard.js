@@ -58,10 +58,10 @@ export function EventCard({
   return (
     <Card className={`${variants[variant]} h-full flex flex-col`}>
       {/* Image */}
-      {showImage && event.photos && event.photos.length > 0 && (
+      {showImage && (
         <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
           <Image
-            src={event.photos[0]}
+            src={(event.photos && event.photos.length > 0 ? event.photos[0] : 'https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=1200&auto=format&fit=crop')}
             alt={event.title}
             fill
             className="object-cover transition-transform duration-200 hover:scale-105"
@@ -77,7 +77,7 @@ export function EventCard({
               {isUpcoming(event.event_date) ? 'Upcoming' : 'Past Event'}
             </Badge>
           </div>
-          {event.photos.length > 1 && (
+          {event.photos && event.photos.length > 1 && (
             <div className="absolute top-2 right-2">
               <Badge variant="outline" className="bg-black/50 text-white border-white">
                 +{event.photos.length - 1} more
