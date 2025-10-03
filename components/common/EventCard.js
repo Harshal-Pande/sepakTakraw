@@ -66,6 +66,7 @@ export function EventCard({
               : 'https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=1200&auto=format&fit=crop'}
             alt={event.title}
             fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover transition-transform duration-200 hover:scale-105"
           />
           <div className="absolute top-2 left-2">
