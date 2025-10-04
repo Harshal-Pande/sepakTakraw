@@ -136,6 +136,8 @@ export default function Hero({ images = [] }) {
           </Button>
         </div>
       )}
+
+      {/* Thumbnail Gallery */}
       {safeImages.length > 1 && (
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20">
           <div className="flex gap-2 bg-black/30 backdrop-blur-sm px-2 py-2 rounded-lg border border-white/20">
