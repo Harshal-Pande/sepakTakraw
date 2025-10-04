@@ -35,7 +35,7 @@ export default function Navbar() {
 	return (
 		<nav className="fixed top-0 z-50 w-full shadow-lg" style={{ background: 'linear-gradient(135deg, #1a4d9e 0%, #0d2b5c 100%)' }}>
 			<div className="px-0 w-full">
-				<div className="flex items-stretch justify-between min-h-[90px]">
+				<div className="flex items-stretch min-h-[90px]">
 					{/* Left: Logo + Spotlight */}
 					<div className="flex relative gap-4 items-center py-3 pr-12 pl-4" style={{ background: 'rgba(0,0,0,0.25)', backdropFilter: 'blur(10px)', clipPath: 'polygon(0 0, 100% 0, calc(100% - 40px) 100%, 0 100%)', borderRight: '1px solid rgba(255,255,255,0.1)', marginLeft: 0 }}>
 						<Link href="/" className="flex items-center space-x-2">
@@ -53,7 +53,7 @@ export default function Navbar() {
 					</div>
 
 					{/* Right: Two rows */}
-					<div className="flex flex-col flex-1 gap-2 justify-center items-end py-3 pr-4 pl-10">
+					<div className="flex flex-col flex-1 gap-2 justify-center items-start py-3 pr-2 pl-0">
 						{/* Top links */}
 						<div className="hidden gap-4 items-center text-sm text-white lg:flex">
 							<Link href="/" className="transition hover:opacity-80">Shop</Link>
@@ -70,22 +70,22 @@ export default function Navbar() {
 						</div>
 
 						{/* Main menu (slanted buttons) */}
-						<nav className="hidden lg:block">
-							<ul className="flex gap-[2px]">
+						<nav className="hidden w-full lg:block">
+							<ul className="flex gap-[1px] flex-wrap">
 								{navigationItems.map((item) => {
 									const isActive = pathname === item.href
 									return (
-										<li key={item.name} className={`overflow-hidden border border-white/30 backdrop-blur-md ${isActive ? 'bg-white' : 'bg-white/95 hover:bg-[rgba(240,244,255,0.95)]'} transition will-change-transform`}
+										<li key={item.name} className={`overflow-hidden border border-white/30 backdrop-blur-md ${isActive ? 'bg-white' : 'bg-white/95 hover:bg-[rgba(240,244,255,0.95)]'} transition will-change-transform flex-shrink-0`}
 											style={{ transform: 'skew(-15deg)' }}
 										>
-											<Link href={item.href} className={`block px-5 py-3 font-semibold text-sm whitespace-nowrap transition ${isActive ? 'text-primary-blue' : 'text-[#0d2b5c] hover:text-[#1a4d9e]'}`} style={{ transform: 'skew(15deg)' }}>
+											<Link href={item.href} className={`block px-3.5 py-2 font-medium text-xs whitespace-nowrap transition ${isActive ? 'text-primary-blue' : 'text-[#0d2b5c] hover:text-[#1a4d9e]'}`} style={{ transform: 'skew(15deg)' }}>
 												{item.name}
 											</Link>
 										</li>
 									)
 								})}
-								<li className="overflow-hidden border transition border-white/30 bg-white/20 hover:bg-white/30" style={{ transform: 'skew(-15deg)' }}>
-									<Link href="#" className="block px-4 py-3 text-white" style={{ transform: 'skew(15deg)' }}>
+								<li className="overflow-hidden flex-shrink-0 border transition border-white/30 bg-white/20 hover:bg-white/30" style={{ transform: 'skew(-15deg)' }}>
+									<Link href="#" className="block px-3 py-2 text-white" style={{ transform: 'skew(15deg)' }}>
 										<Search className="w-4 h-4" />
 									</Link>
 								</li>
