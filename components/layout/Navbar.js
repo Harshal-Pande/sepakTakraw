@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { Menu, Phone, Search, Facebook, Twitter, Instagram, Youtube } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -38,15 +39,21 @@ export default function Navbar() {
 				<div className="flex items-stretch min-h-[90px]">
 					{/* Left: Logo + Spotlight */}
 					<div className="flex relative gap-4 items-center py-3 pr-12 pl-4" style={{ background: 'rgba(0,0,0,0.25)', backdropFilter: 'blur(10px)', clipPath: 'polygon(0 0, 100% 0, calc(100% - 40px) 100%, 0 100%)', borderRight: '1px solid rgba(255,255,255,0.1)', marginLeft: 0 }}>
-						<Link href="/" className="flex items-center space-x-2">
-							<div className="flex justify-center items-center w-10 h-10 rounded-full bg-primary-gold">
-								<span className="text-lg font-bold text-primary-blue">ST</span>
-							</div>
-							<div className="hidden sm:block">
-								<h1 className="text-lg font-bold text-white">Sepaktakraw</h1>
-								<p className="text-xs text-primary-gold">Sports Federation</p>
-							</div>
-						</Link>
+					<Link href="/" className="flex items-center space-x-3">
+						<div className="relative w-16 h-16">
+							<Image
+								src="/logos/sepak.png"
+								alt="Sepaktakraw Sports Federation"
+								fill
+								className="object-contain"
+								priority
+							/>
+						</div>
+						<div className="hidden sm:block">
+							<h1 className="text-lg font-bold text-white">Sepaktakraw</h1>
+							<p className="text-xs text-primary-gold">Sports Federation</p>
+						</div>
+					</Link>
 						<div className="hidden text-xs font-medium whitespace-nowrap md:block text-white/95">
 							<strong className="font-semibold">Spotlight:</strong> National titles, one vision
 						</div>
@@ -78,13 +85,13 @@ export default function Navbar() {
 										<li key={item.name} className={`overflow-hidden border border-white/30 backdrop-blur-md ${isActive ? 'bg-white' : 'bg-white/95 hover:bg-[rgba(240,244,255,0.95)]'} transition will-change-transform flex-shrink-0`}
 											style={{ transform: 'skew(-23deg)' }}
 										>
-											<Link href={item.href} className={`block px-3.5 py-2 font-medium text-xs whitespace-nowrap transition ${isActive ? 'text-primary-blue' : 'text-[#0d2b5c] hover:text-[#1a4d9e]'}`} style={{ transform: 'skew(15deg)' }}>
+											<Link href={item.href} className={`block px-3.5 py-2 font-medium text-xs whitespace-nowrap transition ${isActive ? 'text-primary-blue' : 'text-[#0d2b5c] hover:text-[#1a4d9e]'}`} style={{ transform: 'skew(23deg)' }}>
 												{item.name}
 											</Link>
 										</li>
 									)
 								})}
-								<li className="overflow-hidden flex-shrink-0 border transition border-white/30 bg-white/20 hover:bg-white/30" style={{ transform: 'skew(-15deg)' }}>
+								<li className="overflow-hidden flex-shrink-0 border transition border-white/30 bg-white/20 hover:bg-white/30" style={{ transform: 'skew(-23deg)' }}>
 									<Link href="#" className="block px-3 py-2 text-white" style={{ transform: 'skew(15deg)' }}>
 										<Search className="w-4 h-4" />
 									</Link>

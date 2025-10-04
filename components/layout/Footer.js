@@ -1,6 +1,7 @@
 "use client"
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { Phone, Mail, MapPin, Clock } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 
@@ -24,6 +25,20 @@ const footerLinks = {
   ],
 }
 
+const partnerLogos = [
+  { src: '/logos/AnuragThakur.jpg', alt: 'Anurag Thakur' },
+  { src: '/logos/AsianSepaktakrawFederation.jpg', alt: 'Asian Sepaktakraw Federation' },
+  { src: '/logos/AzadikaAmrut.png', alt: 'Azadi Ka Amrut Mahotsav' },
+  { src: '/logos/EkBharatShreshtBharat.png', alt: 'Ek Bharat Shreshtha Bharat' },
+  { src: '/logos/fitindia.jpg', alt: 'Fit India' },
+  { src: '/logos/g20.png', alt: 'G20' },
+  { src: '/logos/InternationalSepaktakrawFedaration.jpg', alt: 'International Sepaktakraw Federation' },
+  { src: '/logos/KheloIndia.jpg', alt: 'Khelo India' },
+  { src: '/logos/NationalAntiDopingAgency.jpg', alt: 'National Anti Doping Agency' },
+  { src: '/logos/Sai.png', alt: 'SAI' },
+  { src: '/logos/SwachhBharat.jpg', alt: 'Swachh Bharat' },
+]
+
 export default function Footer() {
   const pathname = usePathname()
   // Hide public footer on all admin routes (e.g., /admin, /admin/login, /admin/*)
@@ -36,9 +51,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Federation Info */}
           <div className="lg:col-span-1">
-            <div className="flex items-center space-x-2 mb-4">
-              <div className="w-10 h-10 bg-primary-gold rounded-full flex items-center justify-center">
-                <span className="text-primary-blue font-bold text-lg">ST</span>
+            <div className="flex items-center space-x-3 mb-4">
+              <div className="relative w-12 h-12">
+                <Image
+                  src="/logos/sepak.png"
+                  alt="Sepaktakraw Sports Federation"
+                  fill
+                  className="object-contain"
+                />
               </div>
               <div>
                 <h3 className="text-xl font-bold">Sepaktakraw</h3>
@@ -91,6 +111,29 @@ export default function Footer() {
               </ul>
             </div>
           ))}
+        </div>
+
+        {/* Partner Logos Section */}
+        <div className="border-t border-white/20 mt-8 pt-8">
+          <h4 className="text-lg font-semibold mb-6 text-primary-gold text-center">
+            Our Partners & Affiliates
+          </h4>
+          <div className="flex flex-wrap justify-center items-center gap-6 md:gap-8">
+            {partnerLogos.map((logo, index) => (
+              <div
+                key={index}
+                className="relative w-16 h-16 md:w-20 md:h-20 opacity-70 hover:opacity-100 transition-opacity duration-300"
+              >
+                <Image
+                  src={logo.src}
+                  alt={logo.alt}
+                  fill
+                  className="object-contain"
+                  sizes="(max-width: 768px) 64px, 80px"
+                />
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Bottom Bar */}

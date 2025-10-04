@@ -36,7 +36,6 @@ export default function Hero({ images = [] }) {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [progress, setProgress] = useState(0)
   const [api, setApi] = useState()
-  const [cycleProgress, setCycleProgress] = useState(0)
   const hasImages = images && images.length > 0
   const slideshowImages = hasImages ? images : DEFAULT_HERO_IMAGES
   const safeImages = slideshowImages.map((img) => {
@@ -55,61 +54,42 @@ export default function Hero({ images = [] }) {
     setIsPlaying(!isPlaying)
   }
 
-  // Auto-rotation effect with overall cycle progress bar
+  // Simple auto-rotation with progress bar
   useEffect(() => {
     if (!isPlaying || safeImages.length <= 1 || !api) return
     
+    let currentIndex = 0
+    let progressValue = 0
     const duration = 4000 // 4 seconds per image
-    const totalDuration = duration * safeImages.length // Total time for all images
-    const interval = 50 // Update every 50ms for smooth progress
-    let startTime = Date.now()
-    let currentImageIndex = 0
+    const totalDuration = duration * safeImages.length
     
-    const progressInterval = setInterval(() => {
-      const elapsed = Date.now() - startTime
-      const currentImageProgress = (elapsed % duration) / duration * 100
-      const overallProgress = (elapsed / totalDuration) * 100
+    const interval = setInterval(() => {
+      progressValue += (100 / (duration / 50)) // Increment progress
+      setProgress(progressValue)
       
-      setProgress(currentImageProgress)
-      setCycleProgress(Math.min(overallProgress, 100))
-      
-      if (currentImageProgress >= 100) {
-        currentImageIndex = (currentImageIndex + 1) % safeImages.length
-        setCurrentSlide(currentImageIndex)
+      if (progressValue >= 100) {
+        currentIndex = (currentIndex + 1) % safeImages.length
+        setCurrentSlide(currentIndex)
         api.scrollNext()
-        
-        // Reset cycle when all images are shown
-        if (currentImageIndex === 0) {
-          setCycleProgress(0)
-          startTime = Date.now()
-        }
+        progressValue = 0
+        setProgress(0)
       }
-    }, interval)
+    }, 50)
 
-    return () => clearInterval(progressInterval)
+    return () => clearInterval(interval)
   }, [isPlaying, safeImages.length, api])
 
-  // Reset progress when slide changes
-  useEffect(() => {
-    setProgress(0)
-  }, [currentSlide])
-
-  // Sync currentSlide with carousel position and reset cycle when needed
+  // Sync currentSlide with carousel position
   useEffect(() => {
     if (!api) return
 
     const onSelect = () => {
       const selectedIndex = api.selectedScrollSnap()
       setCurrentSlide(selectedIndex)
-      
-      // Reset cycle progress when we're back to the first slide
-      if (selectedIndex === 0) {
-        setCycleProgress(0)
-      }
     }
 
     api.on('select', onSelect)
-    onSelect() // Set initial state
+    onSelect()
 
     return () => {
       api.off('select', onSelect)
@@ -118,7 +98,15 @@ export default function Hero({ images = [] }) {
 
   return (
     <section className="relative h-[70vh] overflow-hidden border-b border-gray-200">
-      <Carousel className="w-full h-full" setApi={setApi}>
+      <Carousel 
+        className="w-full h-full" 
+        setApi={setApi}
+        opts={{
+          loop: true,
+          skipSnaps: false,
+          dragFree: false
+        }}
+      >
         <CarouselContent className="h-full">
           {safeImages.map((image, index) => (
             <CarouselItem key={index} className="h-full">
@@ -219,11 +207,11 @@ export default function Hero({ images = [] }) {
               ))}
             </div>
             
-            {/* Progress Bar - Shows overall cycle progress */}
+            {/* Progress Bar - Shows current image progress */}
             <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden">
               <div 
                 className="h-full bg-primary-gold transition-all duration-75 ease-linear"
-                style={{ width: `${cycleProgress}%` }}
+                style={{ width: `${progress}%` }}
               ></div>
             </div>
           </div>
