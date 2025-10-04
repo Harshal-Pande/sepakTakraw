@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { Play, Pause } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -34,6 +34,9 @@ const DEFAULT_HERO_IMAGES = [
 export default function Hero({ images = [] }) {
   const [isPlaying, setIsPlaying] = useState(true)
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [progress, setProgress] = useState(0)
+  const [api, setApi] = useState()
+  const [cycleProgress, setCycleProgress] = useState(0)
   const hasImages = images && images.length > 0
   const slideshowImages = hasImages ? images : DEFAULT_HERO_IMAGES
   const safeImages = slideshowImages.map((img) => {
@@ -52,20 +55,70 @@ export default function Hero({ images = [] }) {
     setIsPlaying(!isPlaying)
   }
 
-  // Auto-rotation effect
+  // Auto-rotation effect with overall cycle progress bar
   useEffect(() => {
-    if (!isPlaying || safeImages.length <= 1) return
+    if (!isPlaying || safeImages.length <= 1 || !api) return
     
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % safeImages.length)
-    }, 4000) // Change every 4 seconds
+    const duration = 4000 // 4 seconds per image
+    const totalDuration = duration * safeImages.length // Total time for all images
+    const interval = 50 // Update every 50ms for smooth progress
+    let startTime = Date.now()
+    let currentImageIndex = 0
+    
+    const progressInterval = setInterval(() => {
+      const elapsed = Date.now() - startTime
+      const currentImageProgress = (elapsed % duration) / duration * 100
+      const overallProgress = (elapsed / totalDuration) * 100
+      
+      setProgress(currentImageProgress)
+      setCycleProgress(Math.min(overallProgress, 100))
+      
+      if (currentImageProgress >= 100) {
+        currentImageIndex = (currentImageIndex + 1) % safeImages.length
+        setCurrentSlide(currentImageIndex)
+        api.scrollNext()
+        
+        // Reset cycle when all images are shown
+        if (currentImageIndex === 0) {
+          setCycleProgress(0)
+          startTime = Date.now()
+        }
+      }
+    }, interval)
 
-    return () => clearInterval(interval)
-  }, [isPlaying, safeImages.length])
+    return () => clearInterval(progressInterval)
+  }, [isPlaying, safeImages.length, api])
+
+  // Reset progress when slide changes
+  useEffect(() => {
+    setProgress(0)
+  }, [currentSlide])
+
+  // Sync currentSlide with carousel position and reset cycle when needed
+  useEffect(() => {
+    if (!api) return
+
+    const onSelect = () => {
+      const selectedIndex = api.selectedScrollSnap()
+      setCurrentSlide(selectedIndex)
+      
+      // Reset cycle progress when we're back to the first slide
+      if (selectedIndex === 0) {
+        setCycleProgress(0)
+      }
+    }
+
+    api.on('select', onSelect)
+    onSelect() // Set initial state
+
+    return () => {
+      api.off('select', onSelect)
+    }
+  }, [api])
 
   return (
     <section className="relative h-[70vh] overflow-hidden border-b border-gray-200">
-      <Carousel className="w-full h-full">
+      <Carousel className="w-full h-full" setApi={setApi}>
         <CarouselContent className="h-full">
           {safeImages.map((image, index) => (
             <CarouselItem key={index} className="h-full">
@@ -137,21 +190,42 @@ export default function Hero({ images = [] }) {
         </div>
       )}
 
-      {/* Thumbnail Gallery */}
+      {/* Thumbnail Gallery with Progress Bar */}
       {safeImages.length > 1 && (
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20">
-          <div className="flex gap-2 bg-black/30 backdrop-blur-sm px-2 py-2 rounded-lg border border-white/20">
-            {safeImages.slice(0, 6).map((thumb, i) => (
-              <div key={i} className="relative w-16 h-10 rounded overflow-hidden border border-white/30">
-                <Image
-                  src={thumb.image_url}
-                  alt={thumb.alt_text || 'Thumbnail'}
-                  fill
-                  sizes="(max-width: 640px) 64px, 128px"
-                  className="object-cover"
-                />
-              </div>
-            ))}
+          <div className="flex flex-col gap-2 bg-black/30 backdrop-blur-sm px-2 py-2 rounded-lg border border-white/20">
+            {/* Thumbnails */}
+            <div className="flex gap-2">
+              {safeImages.slice(0, 6).map((thumb, i) => (
+                <div 
+                  key={i} 
+                  className={`relative w-16 h-10 rounded overflow-hidden border transition-all duration-200 ${
+                    i === currentSlide 
+                      ? 'border-primary-gold shadow-lg shadow-primary-gold/50' 
+                      : 'border-white/30'
+                  }`}
+                >
+                  <Image
+                    src={thumb.image_url}
+                    alt={thumb.alt_text || 'Thumbnail'}
+                    fill
+                    sizes="(max-width: 640px) 64px, 128px"
+                    className="object-cover"
+                  />
+                  {i === currentSlide && (
+                    <div className="absolute inset-0 bg-primary-gold/20"></div>
+                  )}
+                </div>
+              ))}
+            </div>
+            
+            {/* Progress Bar - Shows overall cycle progress */}
+            <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-primary-gold transition-all duration-75 ease-linear"
+                style={{ width: `${cycleProgress}%` }}
+              ></div>
+            </div>
           </div>
         </div>
       )}
