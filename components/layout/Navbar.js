@@ -38,9 +38,9 @@ export default function Navbar() {
 			<div className="px-0 w-full">
 				<div className="flex items-stretch min-h-[90px]">
 					{/* Left: Logo + Spotlight */}
-					<div className="flex relative gap-4 items-center py-3 pr-12 pl-4" style={{ background: 'rgba(0,0,0,0.25)', backdropFilter: 'blur(10px)', clipPath: 'polygon(0 0, 100% 0, calc(100% - 40px) 100%, 0 100%)', borderRight: '1px solid rgba(255,255,255,0.1)', marginLeft: 0 }}>
+					<div className="flex relative gap-4 items-center py-0 pr-16 pl-4" style={{ background: 'rgba(0,0,0,0.25)', backdropFilter: 'blur(10px)', clipPath: 'polygon(0 0, 100% 0, calc(100% - 40px) 100%, 0 100%)', borderRight: '1px solid rgba(255,255,255,0.1)', marginLeft: 0 }}>
 					<Link href="/" className="flex items-center space-x-3">
-						<div className="relative w-16 h-16">
+						<div className="relative w-20 h-20">
 							<Image
 								src="/logos/sepak.png"
 								alt="Sepaktakraw Sports Federation"
@@ -50,19 +50,16 @@ export default function Navbar() {
 							/>
 						</div>
 						<div className="hidden sm:block">
-							<h1 className="text-lg font-bold text-white">Sepaktakraw</h1>
-							<p className="text-xs text-primary-gold">Sports Federation</p>
+							<h1 className="text-xl font-bold text-white">Sepaktakraw</h1>
+							<p className="text-sm text-primary-gold">Sports Federation</p>
 						</div>
 					</Link>
-						<div className="hidden text-xs font-medium whitespace-nowrap md:block text-white/95">
-							<strong className="font-semibold">Spotlight:</strong> National titles, one vision
-						</div>
 					</div>
 
 					{/* Right: Two rows */}
-					<div className="flex flex-col flex-1 gap-2 justify-center items-start py-3 pr-2 pl-0">
+					<div className="flex flex-col flex-1 gap-1 justify-center items-start py-0 pr-4 pl-2">
 						{/* Top links */}
-						<div className="hidden gap-4 justify-end items-center w-full text-sm text-white lg:flex">
+						<div className="hidden gap-4 justify-end items-center pb-2 w-full text-base text-white lg:flex">
 							<Link href="/" className="transition hover:opacity-80">Shop</Link>
 							<div className="flex gap-2 items-center ml-2">
 								<Link href="#" className="flex justify-center items-center w-7 h-7 rounded-full border transition bg-white/15 border-white/20 hover:bg-white/25"><Facebook className="w-3.5 h-3.5" /></Link>
@@ -85,7 +82,7 @@ export default function Navbar() {
 										<li key={item.name} className={`overflow-hidden border border-white/30 backdrop-blur-md ${isActive ? 'bg-white' : 'bg-white/95 hover:bg-[rgba(240,244,255,0.95)]'} transition will-change-transform flex-shrink-0`}
 											style={{ transform: 'skew(-23deg)' }}
 										>
-											<Link href={item.href} className={`block px-3.5 py-2 font-medium text-xs whitespace-nowrap transition ${isActive ? 'text-primary-blue' : 'text-[#0d2b5c] hover:text-[#1a4d9e]'}`} style={{ transform: 'skew(23deg)' }}>
+											<Link href={item.href} className={`block px-3.5 py-2 font-medium text-sm whitespace-nowrap transition ${isActive ? 'text-primary-blue' : 'text-[#0d2b5c] hover:text-[#1a4d9e]'}`} style={{ transform: 'skew(23deg)' }}>
 												{item.name}
 											</Link>
 										</li>
