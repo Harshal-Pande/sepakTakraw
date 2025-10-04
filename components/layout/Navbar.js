@@ -55,7 +55,7 @@ export default function Navbar() {
 					{/* Right: Two rows */}
 					<div className="flex flex-col flex-1 gap-2 justify-center items-start py-3 pr-2 pl-0">
 						{/* Top links */}
-						<div className="hidden gap-4 items-center text-sm text-white lg:flex">
+						<div className="hidden gap-4 justify-end items-center w-full text-sm text-white lg:flex">
 							<Link href="/" className="transition hover:opacity-80">Shop</Link>
 							<div className="flex gap-2 items-center ml-2">
 								<Link href="#" className="flex justify-center items-center w-7 h-7 rounded-full border transition bg-white/15 border-white/20 hover:bg-white/25"><Facebook className="w-3.5 h-3.5" /></Link>
@@ -76,7 +76,7 @@ export default function Navbar() {
 									const isActive = pathname === item.href
 									return (
 										<li key={item.name} className={`overflow-hidden border border-white/30 backdrop-blur-md ${isActive ? 'bg-white' : 'bg-white/95 hover:bg-[rgba(240,244,255,0.95)]'} transition will-change-transform flex-shrink-0`}
-											style={{ transform: 'skew(-15deg)' }}
+											style={{ transform: 'skew(-23deg)' }}
 										>
 											<Link href={item.href} className={`block px-3.5 py-2 font-medium text-xs whitespace-nowrap transition ${isActive ? 'text-primary-blue' : 'text-[#0d2b5c] hover:text-[#1a4d9e]'}`} style={{ transform: 'skew(15deg)' }}>
 												{item.name}

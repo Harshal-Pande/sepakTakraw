@@ -33,6 +33,7 @@ const DEFAULT_HERO_IMAGES = [
 
 export default function Hero({ images = [] }) {
   const [isPlaying, setIsPlaying] = useState(true)
+  const [currentSlide, setCurrentSlide] = useState(0)
   const hasImages = images && images.length > 0
   const slideshowImages = hasImages ? images : DEFAULT_HERO_IMAGES
   const safeImages = slideshowImages.map((img) => {
@@ -51,6 +52,17 @@ export default function Hero({ images = [] }) {
     setIsPlaying(!isPlaying)
   }
 
+  // Auto-rotation effect
+  useEffect(() => {
+    if (!isPlaying || safeImages.length <= 1) return
+    
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % safeImages.length)
+    }, 4000) // Change every 4 seconds
+
+    return () => clearInterval(interval)
+  }, [isPlaying, safeImages.length])
+
   return (
     <section className="relative h-[70vh] overflow-hidden border-b border-gray-200">
       <Carousel className="w-full h-full">
@@ -68,26 +80,29 @@ export default function Hero({ images = [] }) {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-black/40"></div>
                 
+                {/* Left Glass Effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent z-5"></div>
+                
                 {/* Content Overlay */}
-                <div className="absolute inset-0 flex items-center justify-center z-10">
-                  <div className="text-center text-white max-w-4xl mx-auto px-4">
+                <div className="absolute inset-0 flex items-center z-10">
+                  <div className="text-left text-white max-w-4xl px-8">
                     <h1 className="text-4xl md:text-6xl font-bold mb-4 md:mb-6 tracking-tight">
                       Sepaktakraw Sports Federation
                     </h1>
                     <p className="text-lg md:text-2xl mb-6 md:mb-8 text-primary-gold">
                       Promoting Excellence in Sepaktakraw Sports
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
+                    <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
                       <Button 
                         size="lg" 
-                        className="bg-primary-gold text-primary-blue hover:bg-primary-gold/90 font-semibold"
+                        className="bg-primary-gold text-primary-blue hover:bg-primary-gold/90 font-semibold shadow-lg"
                       >
                         View Latest News
                       </Button>
                       <Button 
                         size="lg" 
                         variant="outline" 
-                        className="border-white/70 text-white hover:bg-white hover:text-primary-blue"
+                        className="border-white/70 text-white hover:bg-white hover:text-primary-blue shadow-lg"
                       >
                         Learn More
                       </Button>
