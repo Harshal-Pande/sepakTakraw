@@ -113,28 +113,6 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* Partner Logos Section */}
-        <div className="border-t border-white/20 mt-8 pt-8">
-          <h4 className="text-lg font-semibold mb-6 text-primary-gold text-center">
-            Our Partners & Affiliates
-          </h4>
-          <div className="flex flex-wrap justify-center items-center gap-6 md:gap-8">
-            {partnerLogos.map((logo, index) => (
-              <div
-                key={index}
-                className="relative w-16 h-16 md:w-20 md:h-20 opacity-70 hover:opacity-100 transition-opacity duration-300"
-              >
-                <Image
-                  src={logo.src}
-                  alt={logo.alt}
-                  fill
-                  className="object-contain"
-                  sizes="(max-width: 768px) 64px, 80px"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
 
         {/* Bottom Bar */}
         <div className="border-t border-white/20 mt-8 pt-8">
