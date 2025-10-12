@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 // AdminLayout is applied at the route level; avoid local wrapping
 import { AdminCard } from '@/components/admin/common/AdminCard'
