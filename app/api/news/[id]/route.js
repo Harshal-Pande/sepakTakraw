@@ -80,7 +80,7 @@ export async function PUT(request, { params }) {
     
     if (error.name === 'ZodError') {
       return Response.json(
-        createErrorResponse('Validation error: ' + error.errors.map(e => e.message).join(', '), 'VALIDATION_ERROR'),
+        createErrorResponse('Validation error: ' + (error.errors ? error.errors.map(e => e.message).join(', ') : error.message), 'VALIDATION_ERROR'),
         { status: 400 }
       )
     }
