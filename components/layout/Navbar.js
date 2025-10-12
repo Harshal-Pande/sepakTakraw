@@ -4,24 +4,19 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { Menu, Phone, Search, Facebook, Twitter, Instagram, Youtube } from 'lucide-react'
+import { Menu, Phone, Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { ModeToggle } from '@/components/mode-toggle'
 
 const navigationItems = [
-	{ name: 'Home', href: '/' },
-	{ name: 'News', href: '/news' },
-	{ name: 'Results', href: '/results' },
-	{ name: 'Events', href: '/events' },
-	{ name: 'Rules & Regulations', href: '/events/rules-regulations' },
-	{ name: 'General Body', href: '/general-body' },
-	{ name: 'MYAS Compliance', href: '/myas-compliance' },
-	{ name: 'Anti-DOP Guidelines', href: '/anti-dop-guidelines' },
-	{ name: 'RTI', href: '/rti' },
-	{ name: 'Elections', href: '/elections' },
-	{ name: 'History', href: '/history' },
-	{ name: 'Contact', href: '/contact' },
+	{ name: 'GOVERNANCE', href: '/governance' },
+	{ name: 'NATIONAL TEAM', href: '/national-team' },
+	{ name: 'COMPETITIONS', href: '/competitions' },
+	{ name: 'DEVELOPMENT', href: '/development' },
+	{ name: 'DOCUMENTS', href: '/documents' },
+	{ name: 'NEWS', href: '/news' },
+	{ name: 'FAN ZONE', href: '/fan-zone' },
 ]
 
 export default function Navbar() {
@@ -40,18 +35,8 @@ export default function Navbar() {
 					{/* Left: Logo + Spotlight */}
 					<div className="flex relative gap-4 items-center py-0 pr-16 pl-4" style={{ background: 'rgba(0,0,0,0.25)', backdropFilter: 'blur(10px)', clipPath: 'polygon(0 0, 100% 0, calc(100% - 40px) 100%, 0 100%)', borderRight: '1px solid rgba(255,255,255,0.1)', marginLeft: 0 }}>
 					<Link href="/" className="flex items-center space-x-3">
-						<div className="relative w-20 h-20">
-							<Image
-								src="/logos/sepak.png"
-								alt="Sepaktakraw Sports Federation"
-								fill
-								className="object-contain"
-								priority
-							/>
-						</div>
 						<div className="hidden sm:block">
-							<h1 className="text-xl font-bold text-white">Sepaktakraw</h1>
-							<p className="text-sm text-primary-gold">Sports Federation</p>
+							<h1 className="text-xl font-bold text-white">INDIA ALL INDIA FOOTBALL FEDERATION</h1>
 						</div>
 					</Link>
 					</div>
@@ -60,11 +45,8 @@ export default function Navbar() {
 					<div className="flex flex-col flex-1 gap-1 justify-center items-start py-0 pr-4 pl-2">
 						{/* Top links */}
 						<div className="hidden gap-4 justify-end items-center pb-2 w-full text-base text-white lg:flex">
-							<div className="flex gap-2 items-center">
-								<Link href="#" className="flex justify-center items-center w-7 h-7 rounded-full border transition bg-white/15 border-white/20 hover:bg-white/25"><Facebook className="w-3.5 h-3.5" /></Link>
-								<Link href="#" className="flex justify-center items-center w-7 h-7 rounded-full border transition bg-white/15 border-white/20 hover:bg-white/25"><Twitter className="w-3.5 h-3.5" /></Link>
-								<Link href="#" className="flex justify-center items-center w-7 h-7 rounded-full border transition bg-white/15 border-white/20 hover:bg-white/25"><Instagram className="w-3.5 h-3.5" /></Link>
-								<Link href="#" className="flex justify-center items-center w-7 h-7 rounded-full border transition bg-white/15 border-white/20 hover:bg-white/25"><Youtube className="w-3.5 h-3.5" /></Link>
+							<div className="text-sm text-white/95">
+								<span className="font-semibold">Spotlight:</span> India U23 men to play two friendlies against Indonesia in Jakarta
 							</div>
 							<div className="hidden gap-2 items-center ml-4 xl:flex text-white/95">
 								<Phone className="w-4 h-4" />
@@ -72,23 +54,21 @@ export default function Navbar() {
 							</div>
 						</div>
 
-						{/* Main menu (slanted buttons) */}
+						{/* Main menu (rectangular buttons) */}
 						<nav className="hidden w-full lg:block">
-							<ul className="flex gap-[1px] flex-wrap">
+							<ul className="flex gap-1 flex-wrap">
 								{navigationItems.map((item) => {
 									const isActive = pathname === item.href
 									return (
-										<li key={item.name} className={`overflow-hidden border border-white/30 backdrop-blur-md ${isActive ? 'bg-white' : 'bg-white/95 hover:bg-[rgba(240,244,255,0.95)]'} transition will-change-transform flex-shrink-0`}
-											style={{ transform: 'skew(-23deg)' }}
-										>
-											<Link href={item.href} className={`block px-3.5 py-2 font-medium text-sm whitespace-nowrap transition ${isActive ? 'text-primary-blue' : 'text-[#0d2b5c] hover:text-[#1a4d9e]'}`} style={{ transform: 'skew(23deg)' }}>
+										<li key={item.name} className={`border border-white/30 backdrop-blur-md ${isActive ? 'bg-white' : 'bg-white/95 hover:bg-[rgba(240,244,255,0.95)]'} transition flex-shrink-0 rounded-sm`}>
+											<Link href={item.href} className={`block px-4 py-2 font-medium text-sm whitespace-nowrap transition ${isActive ? 'text-primary-blue' : 'text-[#0d2b5c] hover:text-[#1a4d9e]'}`}>
 												{item.name}
 											</Link>
 										</li>
 									)
 								})}
-								<li className="overflow-hidden flex-shrink-0 border transition border-white/30 bg-white/20 hover:bg-white/30" style={{ transform: 'skew(-23deg)' }}>
-									<Link href="#" className="block px-3 py-2 text-white" style={{ transform: 'skew(15deg)' }}>
+								<li className="flex-shrink-0 border border-white/30 bg-white/20 hover:bg-white/30 transition rounded-sm">
+									<Link href="#" className="block px-3 py-2 text-white">
 										<Search className="w-4 h-4" />
 									</Link>
 								</li>

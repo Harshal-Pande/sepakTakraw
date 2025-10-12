@@ -133,21 +133,6 @@ export default function Hero({ images = [] }) {
                     <p className="text-lg md:text-2xl mb-6 md:mb-8 text-primary-gold">
                       Promoting Excellence in Sepaktakraw Sports
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
-                      <Button 
-                        size="lg" 
-                        className="bg-primary-gold text-primary-blue hover:bg-primary-gold/90 font-semibold shadow-lg"
-                      >
-                        View Latest News
-                      </Button>
-                      <Button 
-                        size="lg" 
-                        variant="outline" 
-                        className="border-white/70 text-white hover:bg-white hover:text-primary-blue shadow-lg"
-                      >
-                        Learn More
-                      </Button>
-                    </div>
                   </div>
                 </div>
               </div>
