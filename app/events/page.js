@@ -101,7 +101,7 @@ export default function EventsPage() {
 
   useEffect(() => {
     fetchEvents(1, '', filter)
-  }, [])
+  }, [filter])
 
   if (error) {
     return (

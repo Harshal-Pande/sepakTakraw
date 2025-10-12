@@ -26,9 +26,9 @@ export default function EditNewsPage({ params }) {
 
   useEffect(() => {
     fetchNewsItem()
-  }, [params.id])
+  }, [fetchNewsItem])
 
-  const fetchNewsItem = async () => {
+  const fetchNewsItem = useCallback(async () => {
     try {
       const response = await fetch(`/api/news/${params.id}`)
       const data = await response.json()
@@ -48,7 +48,7 @@ export default function EditNewsPage({ params }) {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [params.id])
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
