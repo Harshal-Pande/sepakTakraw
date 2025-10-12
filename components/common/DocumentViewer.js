@@ -68,11 +68,11 @@ export function DocumentViewer({
   const getFileTypeBadge = () => {
     switch (fileType) {
       case 'pdf':
-        return <Badge variant="destructive" className="bg-red-100 text-red-800">PDF</Badge>
+        return <Badge variant="destructive" className="text-red-800 bg-red-100">PDF</Badge>
       case 'image':
-        return <Badge variant="secondary" className="bg-green-100 text-green-800">Image</Badge>
+        return <Badge variant="secondary" className="text-green-800 bg-green-100">Image</Badge>
       case 'document':
-        return <Badge variant="secondary" className="bg-blue-100 text-blue-800">Document</Badge>
+        return <Badge variant="secondary" className="text-blue-800 bg-blue-100">Document</Badge>
       default:
         return <Badge variant="outline">File</Badge>
     }
@@ -81,12 +81,12 @@ export function DocumentViewer({
   const renderDocumentContent = () => {
     if (error) {
       return (
-        <div className="flex flex-col items-center justify-center h-96 text-center">
-          <File className="w-16 h-16 text-gray-400 mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">Unable to load document</h3>
-          <p className="text-gray-600 mb-4">The document could not be displayed.</p>
+        <div className="flex flex-col justify-center items-center h-96 text-center">
+          <File className="mb-4 w-16 h-16 text-gray-400" />
+          <h3 className="mb-2 text-lg font-medium text-gray-900">Unable to load document</h3>
+          <p className="mb-4 text-gray-600">The document could not be displayed.</p>
           <Button onClick={handleDownload} variant="outline">
-            <Download className="w-4 h-4 mr-2" />
+            <Download className="mr-2 w-4 h-4" />
             Download Instead
           </Button>
         </div>
@@ -95,8 +95,8 @@ export function DocumentViewer({
 
     if (isLoading) {
       return (
-        <div className="flex flex-col items-center justify-center h-96">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-blue mb-4"></div>
+        <div className="flex flex-col justify-center items-center h-96">
+          <div className="mb-4 w-12 h-12 rounded-full border-b-2 animate-spin border-primary-blue"></div>
           <p className="text-gray-600">Loading document...</p>
         </div>
       )
@@ -108,7 +108,7 @@ export function DocumentViewer({
           <div className="w-full h-full">
             <iframe
               src={documentUrl}
-              className="w-full h-full border-0 rounded-lg"
+              className="w-full h-full rounded-lg border-0"
               onLoad={() => setIsLoading(false)}
               onError={() => {
                 setError(true)
@@ -121,11 +121,13 @@ export function DocumentViewer({
       
       case 'image':
         return (
-          <div className="w-full h-full flex items-center justify-center">
-            <img
+          <div className="flex justify-center items-center w-full h-full">
+            <Image
               src={documentUrl}
               alt={documentName || 'Image'}
-              className="max-w-full max-h-full object-contain rounded-lg shadow-lg"
+              width={800}
+              height={600}
+              className="object-contain max-w-full max-h-full rounded-lg shadow-lg"
               onLoad={() => setIsLoading(false)}
               onError={() => {
                 setError(true)
@@ -137,12 +139,12 @@ export function DocumentViewer({
       
       case 'document':
         return (
-          <div className="flex flex-col items-center justify-center h-96 text-center">
-            <FileText className="w-16 h-16 text-blue-500 mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">Document Preview</h3>
-            <p className="text-gray-600 mb-4">This document type cannot be previewed inline.</p>
+          <div className="flex flex-col justify-center items-center h-96 text-center">
+            <FileText className="mb-4 w-16 h-16 text-blue-500" />
+            <h3 className="mb-2 text-lg font-medium text-gray-900">Document Preview</h3>
+            <p className="mb-4 text-gray-600">This document type cannot be previewed inline.</p>
             <Button onClick={handleDownload} className="bg-primary-blue hover:bg-primary-blue/90">
-              <Download className="w-4 h-4 mr-2" />
+              <Download className="mr-2 w-4 h-4" />
               Download Document
             </Button>
           </div>
@@ -150,12 +152,12 @@ export function DocumentViewer({
       
       default:
         return (
-          <div className="flex flex-col items-center justify-center h-96 text-center">
-            <File className="w-16 h-16 text-gray-400 mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">File Preview</h3>
-            <p className="text-gray-600 mb-4">This file type cannot be previewed inline.</p>
+          <div className="flex flex-col justify-center items-center h-96 text-center">
+            <File className="mb-4 w-16 h-16 text-gray-400" />
+            <h3 className="mb-2 text-lg font-medium text-gray-900">File Preview</h3>
+            <p className="mb-4 text-gray-600">This file type cannot be previewed inline.</p>
             <Button onClick={handleDownload} className="bg-primary-blue hover:bg-primary-blue/90">
-              <Download className="w-4 h-4 mr-2" />
+              <Download className="mr-2 w-4 h-4" />
               Download File
             </Button>
           </div>
@@ -166,27 +168,27 @@ export function DocumentViewer({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-6xl max-h-[90vh] w-full h-full p-0 overflow-hidden">
-        <DialogHeader className="px-6 py-4 border-b bg-gray-50">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
+        <DialogHeader className="px-6 py-4 bg-gray-50 border-b">
+          <div className="flex justify-between items-center">
+            <div className="flex gap-3 items-center">
               {getFileIcon()}
               <div>
                 <DialogTitle className="text-lg font-semibold text-gray-900">
                   {documentName || 'Document Viewer'}
                 </DialogTitle>
-                <div className="flex items-center gap-2 mt-1">
+                <div className="flex gap-2 items-center mt-1">
                   {getFileTypeBadge()}
                 </div>
               </div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex gap-2 items-center">
               <Button
                 onClick={handleDownload}
                 variant="outline"
                 size="sm"
                 className="text-primary-blue border-primary-blue hover:bg-primary-blue hover:text-white"
               >
-                <Download className="w-4 h-4 mr-2" />
+                <Download className="mr-2 w-4 h-4" />
                 Download
               </Button>
               <Button
@@ -201,8 +203,8 @@ export function DocumentViewer({
           </div>
         </DialogHeader>
         
-        <div className="flex-1 overflow-hidden bg-white">
-          <div className="h-full p-6 overflow-auto">
+        <div className="overflow-hidden flex-1 bg-white">
+          <div className="overflow-auto p-6 h-full">
             {renderDocumentContent()}
           </div>
         </div>
