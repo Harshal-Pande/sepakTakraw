@@ -227,13 +227,14 @@ export async function POST(request) {
 
 		if (error.name === "ZodError") {
 			console.log("Zod validation errors:", error.errors);
-			return Response.json(
-				createErrorResponse(
-					"Validation error: " + error.errors.map((e) => e.message).join(", "),
-					"VALIDATION_ERROR"
-				),
-				{ status: 400 }
-			);
+				const errorMessages = error.errors ? error.errors.map((e) => e.message).join(", ") : error.message;
+				return Response.json(
+					createErrorResponse(
+						"Validation error: " + errorMessages,
+						"VALIDATION_ERROR"
+					),
+					{ status: 400 }
+				);
 		}
 
 		return Response.json(createErrorResponse(error, "NEWS_CREATE_ERROR"), {

@@ -91,7 +91,7 @@ export default function CreateEventPage() {
       // Convert date to ISO string for proper datetime format
       const submitData = {
         ...formData,
-        event_date: formData.event_date ? new Date(formData.event_date).toISOString() : formData.event_date
+        event_date: formData.event_date ? new Date(formData.event_date + 'T00:00:00').toISOString() : formData.event_date
       }
       
       console.log('Submitting data with converted date:', submitData)

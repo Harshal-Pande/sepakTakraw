@@ -111,13 +111,14 @@ export async function POST(request) {
 		console.error("Error adding general body member:", error);
 
 		if (error.name === "ZodError") {
-			return Response.json(
-				createErrorResponse(
-					"Validation error: " + error.errors.map((e) => e.message).join(", "),
-					"VALIDATION_ERROR"
-				),
-				{ status: 400 }
-			);
+				const errorMessages = error.errors ? error.errors.map((e) => e.message).join(", ") : error.message;
+				return Response.json(
+					createErrorResponse(
+						"Validation error: " + errorMessages,
+						"VALIDATION_ERROR"
+					),
+					{ status: 400 }
+				);
 		}
 
 		return Response.json(

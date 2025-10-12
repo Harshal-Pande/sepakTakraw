@@ -162,9 +162,10 @@ export async function POST(request) {
 
 		if (error.name === "ZodError") {
 			console.log("Zod validation errors:", error.errors);
+			const errorMessages = error.errors ? error.errors.map((e) => e.message).join(", ") : error.message;
 			return Response.json(
 				createErrorResponse(
-					"Validation error: " + error.errors.map((e) => e.message).join(", "),
+					"Validation error: " + errorMessages,
 					"VALIDATION_ERROR"
 				),
 				{ status: 400 }

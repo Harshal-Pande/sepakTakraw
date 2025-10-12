@@ -30,7 +30,7 @@ export default function CreateElectionPage() {
       // Convert date to ISO string for proper datetime format
       const submitData = {
         ...values,
-        election_date: values.election_date ? new Date(values.election_date).toISOString() : values.election_date
+        election_date: values.election_date ? new Date(values.election_date + 'T00:00:00').toISOString() : values.election_date
       }
       
       console.log('Submitting data with converted date:', submitData)
