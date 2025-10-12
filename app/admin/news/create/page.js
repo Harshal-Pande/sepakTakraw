@@ -71,6 +71,7 @@ export default function CreateNewsPage() {
             form.setValue(key, parsedData[key])
           }
         })
+        setDataRestored(true)
       } catch (error) {
         console.error('Error parsing saved form data:', error)
       }
@@ -92,6 +93,7 @@ export default function CreateNewsPage() {
     localStorage.removeItem('news_create_form')
     form.reset()
     setError('')
+    setDataRestored(false)
   }
 
   const onSubmit = async (values) => {
@@ -116,6 +118,7 @@ export default function CreateNewsPage() {
       if (data.success) {
         // Clear saved form data on successful submission
         localStorage.removeItem('news_create_form')
+        setDataRestored(false)
         router.push('/admin/news')
       } else {
         console.error("API Error:", data.error);
@@ -149,6 +152,14 @@ export default function CreateNewsPage() {
         <AdminCard>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            {dataRestored && (
+              <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <p className="text-blue-600 text-sm">
+                  📝 Your previous form data has been restored. You can continue where you left off.
+                </p>
+              </div>
+            )}
+
             {error && (
               <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
                 <p className="text-red-600 text-sm">{error}</p>
