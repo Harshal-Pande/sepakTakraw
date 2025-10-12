@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Download, X, FileText, FileImage, File, Maximize2, Minimize2 } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
@@ -16,6 +16,7 @@ export function DocumentViewer({
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
   const [fileType, setFileType] = useState('')
+  const [isFullscreen, setIsFullscreen] = useState(false)
 
   useEffect(() => {
     if (documentUrl && isOpen) {
@@ -193,6 +194,9 @@ export function DocumentViewer({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-[96vw] w-full h-[96vh] p-0 gap-0 border-2 border-gray-200 shadow-2xl">
+        <DialogTitle className="sr-only">
+          {documentName || 'Document Viewer'}
+        </DialogTitle>
         {/* Ultra-thin Header */}
         <div className="flex justify-between items-center px-3 py-1 bg-gray-50 border-b border-gray-200">
           <div className="flex flex-1 gap-2 items-center min-w-0">
