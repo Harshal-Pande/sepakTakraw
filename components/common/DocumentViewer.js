@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
+import { Dialog, DialogContent } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
-import { Download, X, FileText, FileImage, File, Maximize2, Minimize2 } from 'lucide-react'
+import { Download, X, FileText, FileImage, File, Maximize2 } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 
 export function DocumentViewer({ 
@@ -16,7 +16,6 @@ export function DocumentViewer({
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
   const [fileType, setFileType] = useState('')
-  const [isFullscreen, setIsFullscreen] = useState(false)
 
   useEffect(() => {
     if (documentUrl && isOpen) {
@@ -40,11 +39,13 @@ export function DocumentViewer({
         }
 
         const timeoutId = setTimeout(() => {
+          console.log('Document loading timeout')
           setIsLoading(false)
         }, 10000)
 
         return () => clearTimeout(timeoutId)
       } catch (err) {
+        console.error('Error parsing document URL:', err)
         setError(true)
         setIsLoading(false)
       }
@@ -64,50 +65,41 @@ export function DocumentViewer({
   }
 
   const getFileIcon = () => {
-    const iconClass = "w-5 h-5"
     switch (fileType) {
       case 'pdf':
-        return <FileText className={`text-red-600 ${iconClass}`} />
+        return <FileText className="w-4 h-4 text-red-500" />
       case 'image':
-        return <FileImage className={`text-blue-600 ${iconClass}`} />
+        return <FileImage className="w-4 h-4 text-green-500" />
       case 'document':
-        return <FileText className={`text-indigo-600 ${iconClass}`} />
+        return <FileText className="w-4 h-4 text-blue-500" />
       default:
-        return <File className={`text-gray-600 ${iconClass}`} />
+        return <File className="w-4 h-4 text-gray-500" />
     }
   }
 
   const getFileTypeBadge = () => {
-    const badgeClass = "text-xs font-semibold px-2 py-1 rounded-md"
     switch (fileType) {
       case 'pdf':
-        return <Badge className={`text-red-700 bg-red-100 ${badgeClass} hover:bg-red-200`}>PDF</Badge>
+        return <Badge variant="destructive" className="px-1.5 py-0 h-5 text-xs text-red-700 bg-red-50 border border-red-200">PDF</Badge>
       case 'image':
-        return <Badge className={`text-blue-700 bg-blue-100 ${badgeClass} hover:bg-blue-200`}>IMAGE</Badge>
+        return <Badge variant="secondary" className="px-1.5 py-0 h-5 text-xs text-green-700 bg-green-50 border border-green-200">IMG</Badge>
       case 'document':
-        return <Badge className={`text-indigo-700 bg-indigo-100 ${badgeClass} hover:bg-indigo-200`}>DOC</Badge>
+        return <Badge variant="secondary" className="px-1.5 py-0 h-5 text-xs text-blue-700 bg-blue-50 border border-blue-200">DOC</Badge>
       default:
-        return <Badge className={`text-gray-700 bg-gray-100 ${badgeClass} hover:bg-gray-200`}>FILE</Badge>
+        return <Badge variant="outline" className="px-1.5 py-0 h-5 text-xs">FILE</Badge>
     }
   }
 
   const renderDocumentContent = () => {
     if (error) {
       return (
-        <div className="flex flex-col justify-center items-center p-8 h-full text-center">
-          <div className="p-4 mb-4 bg-red-50 rounded-full">
-            <File className="w-12 h-12 text-red-400" />
-          </div>
-          <h3 className="mb-2 text-xl font-bold text-gray-900">Unable to Load Document</h3>
-          <p className="mb-6 max-w-md text-sm text-gray-500">
-            The document could not be displayed. Please try downloading it instead.
-          </p>
-          <Button 
-            onClick={handleDownload} 
-            className="text-white bg-gradient-to-r from-blue-600 to-blue-700 shadow-lg hover:from-blue-700 hover:to-blue-800"
-          >
+        <div className="flex flex-col justify-center items-center p-6 h-full text-center">
+          <File className="mb-4 w-16 h-16 text-gray-400" />
+          <h3 className="mb-2 text-lg font-semibold text-gray-900">Unable to load document</h3>
+          <p className="mb-4 text-sm text-gray-600">The document could not be displayed.</p>
+          <Button onClick={handleDownload} variant="outline" size="sm" className="border-gray-300 hover:bg-gray-50">
             <Download className="mr-2 w-4 h-4" />
-            Download Document
+            Download Instead
           </Button>
         </div>
       )
@@ -116,11 +108,8 @@ export function DocumentViewer({
     if (isLoading) {
       return (
         <div className="flex flex-col justify-center items-center h-full">
-          <div className="relative">
-            <div className="w-16 h-16 rounded-full border-4 border-gray-200"></div>
-            <div className="absolute top-0 left-0 w-16 h-16 rounded-full border-4 animate-spin border-t-blue-600 border-r-blue-600 border-b-transparent border-l-transparent"></div>
-          </div>
-          <p className="mt-4 text-sm font-medium text-gray-600">Loading document...</p>
+          <div className="mb-3 w-10 h-10 rounded-full border-2 border-blue-600 animate-spin border-t-transparent"></div>
+          <p className="text-sm text-gray-600">Loading document...</p>
         </div>
       )
     }
@@ -128,57 +117,58 @@ export function DocumentViewer({
     switch (fileType) {
       case 'pdf':
         return (
-          <div className="relative w-full h-full bg-gray-50">
+          <div className="relative w-full h-full">
+            {isLoading && (
+              <div className="flex absolute inset-0 z-10 justify-center items-center bg-white">
+                <div className="text-center">
+                  <div className="mx-auto mb-3 w-10 h-10 rounded-full border-2 border-blue-600 animate-spin border-t-transparent"></div>
+                  <p className="text-sm text-gray-600">Loading PDF...</p>
+                </div>
+              </div>
+            )}
             <iframe
-              src={`${documentUrl}#toolbar=0&navpanes=0&scrollbar=1&view=FitH&zoom=100`}
-              className="w-full h-full border-0 rounded-b-lg"
-              onLoad={() => setIsLoading(false)}
+              src={documentUrl}
+              className="w-full h-full border-0"
+              onLoad={() => {
+                console.log('PDF loaded successfully')
+                setIsLoading(false)
+              }}
               onError={() => {
+                console.error('PDF failed to load')
                 setError(true)
                 setIsLoading(false)
               }}
               title={documentName || 'PDF Document'}
-              style={{ 
-                backgroundColor: '#f8f9fa'
-              }}
+              style={{ display: isLoading ? 'none' : 'block' }}
             />
           </div>
         )
       
       case 'image':
         return (
-          <div className="flex justify-center items-center p-6 w-full h-full bg-gradient-to-br from-gray-50 to-gray-100">
-            <div className="relative max-w-full max-h-full">
-              <Image
-                src={documentUrl}
-                alt={documentName || 'Image'}
-                width={1600}
-                height={1200}
-                className="object-contain max-w-full max-h-full rounded-xl shadow-2xl"
-                onLoad={() => setIsLoading(false)}
-                onError={() => {
-                  setError(true)
-                  setIsLoading(false)
-                }}
-              />
-            </div>
+          <div className="flex justify-center items-center p-4 w-full h-full bg-gray-50">
+            <Image
+              src={documentUrl}
+              alt={documentName || 'Image'}
+              width={1200}
+              height={800}
+              className="object-contain max-w-full max-h-full rounded-lg shadow-lg"
+              onLoad={() => setIsLoading(false)}
+              onError={() => {
+                setError(true)
+                setIsLoading(false)
+              }}
+            />
           </div>
         )
       
       case 'document':
         return (
-          <div className="flex flex-col justify-center items-center p-8 h-full text-center">
-            <div className="p-5 mb-4 bg-indigo-50 rounded-full">
-              <FileText className="w-14 h-14 text-indigo-600" />
-            </div>
-            <h3 className="mb-2 text-xl font-bold text-gray-900">Document Preview Unavailable</h3>
-            <p className="mb-6 max-w-md text-sm text-gray-500">
-              This document format cannot be previewed in the browser. Download to view it.
-            </p>
-            <Button 
-              onClick={handleDownload} 
-              className="text-white bg-gradient-to-r from-indigo-600 to-indigo-700 shadow-lg hover:from-indigo-700 hover:to-indigo-800"
-            >
+          <div className="flex flex-col justify-center items-center p-6 h-full text-center">
+            <FileText className="mb-4 w-16 h-16 text-blue-500" />
+            <h3 className="mb-2 text-lg font-semibold text-gray-900">Document Preview</h3>
+            <p className="mb-4 text-sm text-gray-600">This document type cannot be previewed inline.</p>
+            <Button onClick={handleDownload} size="sm" className="bg-blue-600 hover:bg-blue-700">
               <Download className="mr-2 w-4 h-4" />
               Download Document
             </Button>
@@ -187,18 +177,11 @@ export function DocumentViewer({
       
       default:
         return (
-          <div className="flex flex-col justify-center items-center p-8 h-full text-center">
-            <div className="p-5 mb-4 bg-gray-100 rounded-full">
-              <File className="w-14 h-14 text-gray-400" />
-            </div>
-            <h3 className="mb-2 text-xl font-bold text-gray-900">Preview Not Available</h3>
-            <p className="mb-6 max-w-md text-sm text-gray-500">
-              This file type cannot be previewed. Download the file to view it.
-            </p>
-            <Button 
-              onClick={handleDownload} 
-              className="text-white bg-gradient-to-r from-gray-700 to-gray-800 shadow-lg hover:from-gray-800 hover:to-gray-900"
-            >
+          <div className="flex flex-col justify-center items-center p-6 h-full text-center">
+            <File className="mb-4 w-16 h-16 text-gray-400" />
+            <h3 className="mb-2 text-lg font-semibold text-gray-900">File Preview</h3>
+            <p className="mb-4 text-sm text-gray-600">This file type cannot be previewed inline.</p>
+            <Button onClick={handleDownload} size="sm" className="bg-blue-600 hover:bg-blue-700">
               <Download className="mr-2 w-4 h-4" />
               Download File
             </Button>
@@ -209,89 +192,58 @@ export function DocumentViewer({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className={`p-0 gap-0 overflow-hidden transition-all duration-300 ${
-        isFullscreen 
-          ? 'm-0 w-screen max-w-full h-screen rounded-none' 
-          : 'w-full rounded-2xl max-w-[98vw] h-[95vh]'
-      } border-0 shadow-2xl`}>
-        
-        {/* Hidden DialogTitle for accessibility */}
-        <DialogTitle className="sr-only">
-          Document Viewer - {documentName || 'Untitled Document'}
-        </DialogTitle>
-        
-        {/* Modern Glassmorphic Header */}
-        <div className="relative border-b shadow-sm backdrop-blur-xl bg-white/80 border-gray-200/50">
-          <div className="flex justify-between items-center px-5 py-3">
-            {/* Left Section - File Info */}
-            <div className="flex flex-1 gap-3 items-center min-w-0">
-              <div className="flex-shrink-0">
-                {getFileIcon()}
-              </div>
-              <div className="flex-1 min-w-0">
-                <h2 className="text-base font-bold leading-tight text-gray-900 truncate">
-                  {documentName || 'Untitled Document'}
-                </h2>
-                <p className="mt-0.5 text-xs text-gray-500 truncate">
-                  {fileType.toUpperCase()} Document
-                </p>
-              </div>
-              <div className="hidden flex-shrink-0 sm:block">
-                {getFileTypeBadge()}
-              </div>
+      <DialogContent className="max-w-[96vw] w-full h-[96vh] p-0 gap-0 border-2 border-gray-200 shadow-2xl">
+        {/* Compact Header */}
+        <div className="flex justify-between items-center px-4 py-2.5 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+          <div className="flex flex-1 gap-2.5 items-center min-w-0">
+            {getFileIcon()}
+            <div className="flex-1 min-w-0">
+              <h2 className="text-sm font-semibold text-gray-900 truncate">
+                {documentName || 'Document Viewer'}
+              </h2>
             </div>
-            
-            {/* Right Section - Actions */}
-            <div className="flex gap-2 items-center ml-4">
-              <Button
-                onClick={handleDownload}
-                variant="ghost"
-                size="sm"
-                className="px-3 h-9 text-sm font-medium text-blue-700 rounded-lg transition-all hover:bg-blue-50 hover:text-blue-800"
-                title="Download"
-              >
-                <Download className="w-4 h-4 sm:mr-2" />
-                <span className="hidden sm:inline">Download</span>
-              </Button>
-              
-              <Button
-                onClick={() => setIsFullscreen(!isFullscreen)}
-                variant="ghost"
-                size="sm"
-                className="px-3 h-9 text-sm font-medium text-gray-700 rounded-lg transition-all hover:bg-gray-100 hover:text-gray-900"
-                title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
-              >
-                {isFullscreen ? (
-                  <Minimize2 className="w-4 h-4" />
-                ) : (
-                  <Maximize2 className="w-4 h-4" />
-                )}
-              </Button>
-              
-              <div className="mx-1 w-px h-6 bg-gray-300"></div>
-              
-              <Button
-                onClick={onClose}
-                variant="ghost"
-                size="sm"
-                className="p-0 w-9 h-9 text-gray-600 rounded-lg transition-all hover:bg-red-50 hover:text-red-600"
-                title="Close"
-              >
-                <X className="w-4 h-4" />
-              </Button>
-            </div>
+            {getFileTypeBadge()}
           </div>
           
-          {/* Loading Progress Bar */}
-          {isLoading && (
-            <div className="overflow-hidden absolute right-0 bottom-0 left-0 h-1 bg-gray-200">
-              <div className="h-full bg-gradient-to-r from-blue-500 via-blue-600 to-blue-500 animate-pulse"></div>
-            </div>
-          )}
+          <div className="flex gap-1.5 items-center ml-4">
+            <Button
+              onClick={handleDownload}
+              variant="ghost"
+              size="sm"
+              className="px-3 h-8 text-xs font-medium text-blue-700 border border-transparent hover:bg-blue-50 hover:text-blue-800 hover:border-blue-200"
+              title="Download"
+            >
+              <Download className="mr-1.5 w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Download</span>
+            </Button>
+            
+            {isLoading && (
+              <Button
+                onClick={() => setIsLoading(false)}
+                variant="ghost"
+                size="sm"
+                className="px-3 h-8 text-xs font-medium text-orange-700 border border-transparent hover:bg-orange-50 hover:text-orange-800 hover:border-orange-200"
+                title="Stop Loading"
+              >
+                <span className="hidden sm:inline">Stop</span>
+                <span className="sm:hidden">⏹</span>
+              </Button>
+            )}
+            
+            <Button
+              onClick={onClose}
+              variant="ghost"
+              size="sm"
+              className="p-0 w-8 h-8 text-gray-600 hover:bg-gray-200 hover:text-gray-900"
+              title="Close"
+            >
+              <X className="w-4 h-4" />
+            </Button>
+          </div>
         </div>
         
-        {/* Document Content Area */}
-        <div className="overflow-hidden flex-1 bg-white" style={{ height: 'calc(100% - 65px)' }}>
+        {/* Document Content Area - Takes remaining space */}
+        <div className="overflow-hidden flex-1 bg-white" style={{ height: 'calc(100% - 45px)' }}>
           {renderDocumentContent()}
         </div>
       </DialogContent>
