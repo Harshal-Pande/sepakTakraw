@@ -16,6 +16,7 @@ const navigationItems = [
 	{ name: 'DEVELOPMENT', href: '/development' },
 	{ name: 'DOCUMENTS', href: '/documents' },
 	{ name: 'NEWS', href: '/news' },
+	{ name: 'PLAYER REGISTRATION', href: '/player-registration/step1' },
 	{ name: 'FAN ZONE', href: '/fan-zone' },
 ]
 

@@ -49,45 +49,6 @@ export default function ContactPage() {
     }
   ]
 
-  const departments = [
-    {
-      name: "General Body",
-      description: "Executive committee and governance matters",
-      contact: "governance@sepaktakraw.org",
-      phone: "+91-11-2345-6789"
-    },
-    {
-      name: "Competitions",
-      description: "Tournament organization and management",
-      contact: "competitions@sepaktakraw.org",
-      phone: "+91-11-2345-6790"
-    },
-    {
-      name: "Technical",
-      description: "Rules, regulations, and technical matters",
-      contact: "technical@sepaktakraw.org",
-      phone: "+91-11-2345-6791"
-    },
-    {
-      name: "Development",
-      description: "Youth development and grassroots programs",
-      contact: "development@sepaktakraw.org",
-      phone: "+91-11-2345-6793"
-    },
-    {
-      name: "Media & Communications",
-      description: "Press releases and media relations",
-      contact: "media@sepaktakraw.org",
-      phone: "+91-11-2345-6794"
-    },
-    {
-      name: "Anti-Doping",
-      description: "Anti-doping education and compliance",
-      contact: "antidoping@sepaktakraw.org",
-      phone: "+91-11-2345-6795"
-    }
-  ]
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="container mx-auto px-4 py-8">
@@ -124,7 +85,7 @@ export default function ContactPage() {
           ))}
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
+        <div className="grid lg:grid-cols-1 gap-12">
           {/* Contact Form */}
           <Card className="hover:shadow-lg transition-shadow">
             <CardHeader>
@@ -163,22 +124,6 @@ export default function ContactPage() {
                 </div>
                 
                 <div>
-                  <Label htmlFor="department">Department</Label>
-                  <select 
-                    id="department" 
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  >
-                    <option value="">Select a department</option>
-                    <option value="general">General Enquiry</option>
-                    <option value="competitions">Competitions</option>
-                    <option value="technical">Technical</option>
-                    <option value="development">Development</option>
-                    <option value="media">Media & Communications</option>
-                    <option value="antidoping">Anti-Doping</option>
-                  </select>
-                </div>
-                
-                <div>
                   <Label htmlFor="message">Message</Label>
                   <Textarea 
                     id="message" 
@@ -194,38 +139,6 @@ export default function ContactPage() {
               </form>
             </CardContent>
           </Card>
-
-          {/* Department Contacts */}
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Department Contacts</h2>
-            <div className="space-y-4">
-              {departments.map((dept, index) => (
-                <Card key={index} className="hover:shadow-lg transition-shadow">
-                  <CardContent className="p-4">
-                    <div className="flex justify-between items-start">
-                      <div className="flex-1">
-                        <h3 className="font-semibold text-lg text-gray-900">{dept.name}</h3>
-                        <p className="text-gray-600 text-sm mb-2">{dept.description}</p>
-                        <div className="space-y-1">
-                          <p className="text-sm text-gray-500">
-                            <Mail className="h-4 w-4 inline mr-2" />
-                            {dept.contact}
-                          </p>
-                          <p className="text-sm text-gray-500">
-                            <Phone className="h-4 w-4 inline mr-2" />
-                            {dept.phone}
-                          </p>
-                        </div>
-                      </div>
-                      <Button variant="outline" size="sm">
-                        Contact
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
         </div>
 
         {/* Additional Information */}
