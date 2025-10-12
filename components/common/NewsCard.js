@@ -50,9 +50,7 @@ export function NewsCard({
       {showImage && (
         <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
           <Image
-            src={(news.featured_image && !news.featured_image.includes('via.placeholder.com'))
-              ? news.featured_image
-              : 'https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=1200&auto=format&fit=crop'}
+            src={news.featured_image || 'https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=1200&auto=format&fit=crop'}
             alt={news.title}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
