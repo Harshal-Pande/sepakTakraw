@@ -56,9 +56,11 @@ export default function AdminHeroImagesPage() {
       label: 'Image',
       render: (item) => (
         <div className="flex items-center max-w-xs">
-          <img 
+          <NextImage 
             src={item.image_url} 
             alt={item.title || 'Hero image'}
+            width={64}
+            height={40}
             className="w-16 h-10 object-cover rounded"
           />
         </div>
