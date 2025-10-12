@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import NextImage from 'next/image'
 import { AdminPage } from '@/components/admin/common/AdminPage'
 import { Badge } from '@/components/ui/badge'
 import { Image, Eye, Edit, Trash2, Plus } from 'lucide-react'

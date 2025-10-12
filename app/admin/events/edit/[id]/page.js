@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { AdminCard } from '@/components/admin/common/AdminCard'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -147,7 +148,7 @@ export default function EditEventPage({ params }) {
               <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
                 {formData.photos.map((photo, index) => (
                   <div key={index} className="relative">
-                    <img src={photo} alt={`Event photo ${index + 1}`} className="w-full h-24 object-cover rounded-lg" />
+                    <Image src={photo} alt={`Event photo ${index + 1}`} width={96} height={96} className="w-full h-24 object-cover rounded-lg" />
                     <button type="button" onClick={() => removePhoto(index)} className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm hover:bg-red-600">×</button>
                   </div>
                 ))}

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Calendar, Trophy, Users, Target } from 'lucide-react'
@@ -201,18 +202,18 @@ export default function HistoryPage() {
                 Join us in promoting Sepaktakraw and creating new chapters in our history
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a
+                <Link
                   href="/events"
                   className="px-6 py-3 bg-primary-gold text-primary-blue rounded-lg font-semibold hover:bg-primary-gold/90 transition-colors"
                 >
                   View Upcoming Events
-                </a>
-                <a
+                </Link>
+                <Link
                   href="/contact"
                   className="px-6 py-3 border border-white text-white rounded-lg font-semibold hover:bg-white hover:text-primary-blue transition-colors"
                 >
                   Get in Touch
-                </a>
+                </Link>
               </div>
             </CardContent>
           </Card>

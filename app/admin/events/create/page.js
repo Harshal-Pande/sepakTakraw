@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 // AdminLayout is applied via app/admin/layout.js; do not wrap again here
 import { AdminCard } from '@/components/admin/common/AdminCard'
 import { Button } from '@/components/ui/button'
@@ -220,9 +221,11 @@ export default function CreateEventPage() {
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {formData.photos.map((photo, index) => (
                       <div key={index} className="relative">
-                        <img
+                        <Image
                           src={photo}
                           alt={`Event photo ${index + 1}`}
+                          width={96}
+                          height={96}
                           className="w-full h-24 object-cover rounded-lg"
                         />
                         <button
