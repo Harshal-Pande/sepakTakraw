@@ -43,13 +43,13 @@ export default function EventDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 py-8">
-        <div className="container mx-auto px-4">
+      <div className="py-8 min-h-screen bg-gray-50">
+        <div className="container px-4 mx-auto">
           <div className="animate-pulse">
-            <div className="h-8 bg-gray-200 rounded w-1/4 mb-4"></div>
-            <div className="h-64 bg-gray-200 rounded mb-4"></div>
-            <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-            <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+            <div className="mb-4 w-1/4 h-8 bg-gray-200 rounded"></div>
+            <div className="mb-4 h-64 bg-gray-200 rounded"></div>
+            <div className="mb-2 w-3/4 h-4 bg-gray-200 rounded"></div>
+            <div className="w-1/2 h-4 bg-gray-200 rounded"></div>
           </div>
         </div>
       </div>
@@ -58,14 +58,14 @@ export default function EventDetailPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 py-8">
-        <div className="container mx-auto px-4">
+      <div className="py-8 min-h-screen bg-gray-50">
+        <div className="container px-4 mx-auto">
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">Event Not Found</h1>
-            <p className="text-gray-600 mb-6">{error}</p>
+            <h1 className="mb-4 text-2xl font-bold text-gray-900">Event Not Found</h1>
+            <p className="mb-6 text-gray-600">{error}</p>
             <Link href="/events">
               <Button>
-                <ArrowLeft className="w-4 h-4 mr-2" />
+                <ArrowLeft className="mr-2 w-4 h-4" />
                 Back to Events
               </Button>
             </Link>
@@ -77,13 +77,13 @@ export default function EventDetailPage() {
 
   if (!event) {
     return (
-      <div className="min-h-screen bg-gray-50 py-8">
-        <div className="container mx-auto px-4">
+      <div className="py-8 min-h-screen bg-gray-50">
+        <div className="container px-4 mx-auto">
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">Event Not Found</h1>
+            <h1 className="mb-4 text-2xl font-bold text-gray-900">Event Not Found</h1>
             <Link href="/events">
               <Button>
-                <ArrowLeft className="w-4 h-4 mr-2" />
+                <ArrowLeft className="mr-2 w-4 h-4" />
                 Back to Events
               </Button>
             </Link>
@@ -106,13 +106,13 @@ export default function EventDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="container mx-auto px-4">
+    <div className="py-8 min-h-screen bg-gray-50">
+      <div className="container px-4 mx-auto">
         {/* Back Button */}
         <div className="mb-6">
           <Link href="/events">
             <Button variant="outline">
-              <ArrowLeft className="w-4 h-4 mr-2" />
+              <ArrowLeft className="mr-2 w-4 h-4" />
               Back to Events
             </Button>
           </Link>
@@ -120,7 +120,7 @@ export default function EventDetailPage() {
 
         {/* Event Header */}
         <div className="mb-8">
-          <div className="flex items-center gap-2 mb-4">
+          <div className="flex gap-2 items-center mb-4">
             <Badge 
               variant={isUpcoming(event.event_date) ? "default" : "secondary"}
               className={isUpcoming(event.event_date) 
@@ -132,16 +132,16 @@ export default function EventDetailPage() {
             </Badge>
           </div>
           
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          <h1 className="mb-4 text-4xl font-bold text-gray-900">
             {event.title}
           </h1>
           
-          <div className="flex flex-wrap gap-4 text-gray-600 mb-6">
-            <div className="flex items-center gap-2">
+          <div className="flex flex-wrap gap-4 mb-6 text-gray-600">
+            <div className="flex gap-2 items-center">
               <Calendar className="w-5 h-5" />
               <span>{formatDate(event.event_date)}</span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex gap-2 items-center">
               <MapPin className="w-5 h-5" />
               <span>{event.location}</span>
             </div>
@@ -149,13 +149,13 @@ export default function EventDetailPage() {
         </div>
 
         {/* Event Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           {/* Main Content */}
           <div className="lg:col-span-2">
             {/* Event Image */}
             {event.photos && event.photos.length > 0 && (
               <div className="mb-8">
-                <div className="relative h-96 w-full overflow-hidden rounded-lg">
+                <div className="overflow-hidden relative w-full h-96 rounded-lg">
                   <Image
                     src={event.photos[0]}
                     alt={event.title}
@@ -173,11 +173,11 @@ export default function EventDetailPage() {
             {/* Event Description */}
             <Card className="mb-8">
               <CardHeader>
-                <CardTitle>Event Details</CardTitle>
+                <CardTitle >Event Details</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="prose max-w-none">
-                  <p className="text-gray-700 leading-relaxed">
+                <div className="max-w-none prose">
+                  <p className="leading-relaxed text-gray-700">
                     {event.description}
                   </p>
                 </div>
@@ -191,9 +191,9 @@ export default function EventDetailPage() {
                   <CardTitle>Event Gallery</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
                     {event.photos.slice(1).map((photo, index) => (
-                      <div key={index} className="relative h-32 w-full overflow-hidden rounded-lg">
+                      <div key={index} className="overflow-hidden relative w-full h-32 rounded-lg">
                         <Image
                           src={photo}
                           alt={`${event.title} - Photo ${index + 2}`}
@@ -213,32 +213,32 @@ export default function EventDetailPage() {
           </div>
 
           {/* Sidebar */}
-          <div className="lg:col-span-1">
+          <div className="text-black lg:col-span-1">
             <Card>
               <CardHeader>
-                <CardTitle>Event Information</CardTitle>
+                <CardTitle className="text-primary-blue">Event Information</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="flex items-center gap-3">
+                <div className="flex gap-3 items-center">
                   <Calendar className="w-5 h-5 text-primary-blue" />
                   <div>
-                    <p className="font-medium">Date</p>
+                    <p className="font-medium text-primary-blue">Date</p>
                     <p className="text-gray-600">{formatDate(event.event_date)}</p>
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-3">
+                <div className="flex gap-3 items-center">
                   <MapPin className="w-5 h-5 text-primary-blue" />
                   <div>
-                    <p className="font-medium">Location</p>
+                    <p className="font-medium text-primary-blue">Location</p>
                     <p className="text-gray-600">{event.location}</p>
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-3">
+                <div className="flex gap-3 items-center">
                   <Clock className="w-5 h-5 text-primary-blue" />
                   <div>
-                    <p className="font-medium">Status</p>
+                    <p className="font-medium text-primary-blue">Status</p>
                     <p className="text-gray-600">
                       {isUpcoming(event.event_date) ? "Upcoming" : "Past Event"}
                     </p>
