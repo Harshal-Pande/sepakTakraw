@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
-import { Download, X, FileText, FileImage, File, Maximize2 } from 'lucide-react'
+import { Download, X, FileText, FileImage, File, Maximize2, Minimize2 } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 
 export function DocumentViewer({ 
@@ -67,26 +67,26 @@ export function DocumentViewer({
   const getFileIcon = () => {
     switch (fileType) {
       case 'pdf':
-        return <FileText className="w-4 h-4 text-red-500" />
+        return <FileText className="w-3 h-3 text-red-500" />
       case 'image':
-        return <FileImage className="w-4 h-4 text-green-500" />
+        return <FileImage className="w-3 h-3 text-green-500" />
       case 'document':
-        return <FileText className="w-4 h-4 text-blue-500" />
+        return <FileText className="w-3 h-3 text-blue-500" />
       default:
-        return <File className="w-4 h-4 text-gray-500" />
+        return <File className="w-3 h-3 text-gray-500" />
     }
   }
 
   const getFileTypeBadge = () => {
     switch (fileType) {
       case 'pdf':
-        return <Badge variant="destructive" className="px-1.5 py-0 h-5 text-xs text-red-700 bg-red-50 border border-red-200">PDF</Badge>
+        return <Badge variant="destructive" className="px-1 py-0 h-4 text-xs text-red-700 bg-red-50 border border-red-200">PDF</Badge>
       case 'image':
-        return <Badge variant="secondary" className="px-1.5 py-0 h-5 text-xs text-green-700 bg-green-50 border border-green-200">IMG</Badge>
+        return <Badge variant="secondary" className="px-1 py-0 h-4 text-xs text-green-700 bg-green-50 border border-green-200">IMG</Badge>
       case 'document':
-        return <Badge variant="secondary" className="px-1.5 py-0 h-5 text-xs text-blue-700 bg-blue-50 border border-blue-200">DOC</Badge>
+        return <Badge variant="secondary" className="px-1 py-0 h-4 text-xs text-blue-700 bg-blue-50 border border-blue-200">DOC</Badge>
       default:
-        return <Badge variant="outline" className="px-1.5 py-0 h-5 text-xs">FILE</Badge>
+        return <Badge variant="outline" className="px-1 py-0 h-4 text-xs">FILE</Badge>
     }
   }
 
@@ -193,57 +193,58 @@ export function DocumentViewer({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-[96vw] w-full h-[96vh] p-0 gap-0 border-2 border-gray-200 shadow-2xl">
-        {/* Compact Header */}
-        <div className="flex justify-between items-center px-4 py-2.5 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
-          <div className="flex flex-1 gap-2.5 items-center min-w-0">
+        {/* Ultra-thin Header */}
+        <div className="flex justify-between items-center px-3 py-1 bg-gray-50 border-b border-gray-200">
+          <div className="flex flex-1 gap-2 items-center min-w-0">
             {getFileIcon()}
             <div className="flex-1 min-w-0">
-              <h2 className="text-sm font-semibold text-gray-900 truncate">
+              <h2 className="text-xs font-medium text-gray-900 truncate">
                 {documentName || 'Document Viewer'}
               </h2>
             </div>
             {getFileTypeBadge()}
           </div>
           
-          <div className="flex gap-1.5 items-center ml-4">
+          <div className="flex gap-1 items-center ml-3">
             <Button
               onClick={handleDownload}
               variant="ghost"
               size="sm"
-              className="px-3 h-8 text-xs font-medium text-blue-700 border border-transparent hover:bg-blue-50 hover:text-blue-800 hover:border-blue-200"
+              className="px-2 h-6 text-xs font-medium text-blue-700 hover:bg-blue-50"
               title="Download"
             >
-              <Download className="mr-1.5 w-3.5 h-3.5" />
+              <Download className="w-3 h-3 mr-1" />
               <span className="hidden sm:inline">Download</span>
             </Button>
             
-            {isLoading && (
-              <Button
-                onClick={() => setIsLoading(false)}
-                variant="ghost"
-                size="sm"
-                className="px-3 h-8 text-xs font-medium text-orange-700 border border-transparent hover:bg-orange-50 hover:text-orange-800 hover:border-orange-200"
-                title="Stop Loading"
-              >
-                <span className="hidden sm:inline">Stop</span>
-                <span className="sm:hidden">⏹</span>
-              </Button>
-            )}
+            <Button
+              onClick={() => setIsFullscreen(!isFullscreen)}
+              variant="ghost"
+              size="sm"
+              className="px-2 h-6 text-xs font-medium text-gray-700 hover:bg-gray-100"
+              title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
+            >
+              {isFullscreen ? (
+                <Minimize2 className="w-3 h-3" />
+              ) : (
+                <Maximize2 className="w-3 h-3" />
+              )}
+            </Button>
             
             <Button
               onClick={onClose}
               variant="ghost"
               size="sm"
-              className="p-0 w-8 h-8 text-gray-600 hover:bg-gray-200 hover:text-gray-900"
+              className="px-2 h-6 text-xs font-medium text-gray-700 hover:bg-red-50 hover:text-red-600"
               title="Close"
             >
-              <X className="w-4 h-4" />
+              <X className="w-3 h-3" />
             </Button>
           </div>
         </div>
         
         {/* Document Content Area - Takes remaining space */}
-        <div className="overflow-hidden flex-1 bg-white" style={{ height: 'calc(100% - 45px)' }}>
+        <div className="overflow-hidden flex-1 bg-white" style={{ height: 'calc(100% - 32px)' }}>
           {renderDocumentContent()}
         </div>
       </DialogContent>
