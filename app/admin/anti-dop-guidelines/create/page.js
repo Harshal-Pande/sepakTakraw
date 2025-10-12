@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -31,6 +31,8 @@ const formSchema = z.object({
 export default function CreateAntiDopGuidelinesPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [dataRestored, setDataRestored] = useState(false)
   const router = useRouter()
 
   const form = useForm({
@@ -42,11 +44,63 @@ export default function CreateAntiDopGuidelinesPage() {
     },
   })
 
-  const handleFileUpload = (field, url) => {
+  // Save form data to localStorage whenever form values change
+  useEffect(() => {
+    if (isLoaded) {
+      const subscription = form.watch((value) => {
+        localStorage.setItem('anti_dop_guidelines_create_form', JSON.stringify(value))
+      })
+      return () => subscription.unsubscribe()
+    }
+  }, [form, isLoaded])
+
+  // Restore form data from localStorage on component mount
+  useEffect(() => {
+    const savedData = localStorage.getItem('anti_dop_guidelines_create_form')
+    if (savedData) {
+      try {
+        const parsedData = JSON.parse(savedData)
+        console.log('Restoring saved anti-dop guidelines form data:', parsedData)
+        
+        Object.keys(parsedData).forEach(key => {
+          if (parsedData[key] !== undefined && parsedData[key] !== null) {
+            console.log(`Restoring ${key}:`, parsedData[key])
+            form.setValue(key, parsedData[key])
+          }
+        })
+        setDataRestored(true)
+      } catch (error) {
+        console.error('Error parsing saved anti-dop guidelines form data:', error)
+      }
+    }
+    setIsLoaded(true)
+  }, [form])
+
+  const handleFileUpload = (field, fileData) => {
+    console.log(`File uploaded for ${field}:`, fileData)
+    
+    // Extract URL from file data
+    const url = fileData?.url || fileData
+    console.log(`Setting ${field} to URL:`, url)
+    
     form.setValue(field, url)
+    
+    // Immediately save to localStorage when file is uploaded
+    const currentValues = form.getValues()
+    localStorage.setItem('anti_dop_guidelines_create_form', JSON.stringify({
+      ...currentValues,
+      [field]: url
+    }))
   }
 
   const onSubmit = async (values) => {
+    console.log("=== ANTI-DOP GUIDELINES FORM SUBMISSION ===");
+    console.log("Form values:", JSON.stringify(values, null, 2));
+    
+    // Check if form has file URLs
+    const currentFormValues = form.getValues()
+    console.log("Current form values:", JSON.stringify(currentFormValues, null, 2));
+    
     setIsSubmitting(true)
     setError('')
 
@@ -60,17 +114,29 @@ export default function CreateAntiDopGuidelinesPage() {
       })
 
       const data = await response.json()
+      console.log("API Response:", JSON.stringify(data, null, 2));
 
       if (data.success) {
+        // Clear saved form data on successful submission
+        localStorage.removeItem('anti_dop_guidelines_create_form')
+        setDataRestored(false)
         router.push('/admin/anti-dop-guidelines')
       } else {
         setError(data.error || 'Failed to create anti-dop guidelines')
       }
     } catch (err) {
+      console.error("API Error:", err);
       setError('An error occurred while creating anti-dop guidelines')
     } finally {
       setIsSubmitting(false)
     }
+  }
+
+  const clearSavedData = () => {
+    localStorage.removeItem('anti_dop_guidelines_create_form')
+    form.reset()
+    setError('')
+    setDataRestored(false)
   }
 
   return (
@@ -93,6 +159,14 @@ export default function CreateAntiDopGuidelinesPage() {
         <AdminCard>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            {dataRestored && (
+              <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <p className="text-blue-600 text-sm">
+                  📝 Your previous form data has been restored. You can continue where you left off.
+                </p>
+              </div>
+            )}
+
             {error && (
               <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
                 <p className="text-red-600 text-sm">{error}</p>
@@ -174,6 +248,15 @@ export default function CreateAntiDopGuidelinesPage() {
                 onClick={() => router.back()}
               >
                 Cancel
+              </Button>
+
+              <Button
+                type="button"
+                variant="outline"
+                onClick={clearSavedData}
+                className="text-gray-600 hover:text-gray-800"
+              >
+                Clear Saved Data
               </Button>
             </div>
             </form>

@@ -18,6 +18,9 @@ export default function CreateHistoryPage() {
   const router = useRouter()
 
   const onSubmit = async (values) => {
+    console.log("=== HISTORY FORM SUBMISSION ===");
+    console.log("Form values:", JSON.stringify(values, null, 2));
+    
     setIsSubmitting(true)
     setError('')
 
@@ -31,6 +34,7 @@ export default function CreateHistoryPage() {
       })
 
       const data = await response.json()
+      console.log("API Response:", JSON.stringify(data, null, 2));
 
       if (data.success) {
         router.push('/admin/history')
@@ -38,6 +42,7 @@ export default function CreateHistoryPage() {
         setError(data.error || 'Failed to create history entry')
       }
     } catch (err) {
+      console.error("API Error:", err);
       setError('An error occurred while creating history entry')
     } finally {
       setIsSubmitting(false)
@@ -77,6 +82,7 @@ export default function CreateHistoryPage() {
       submitLabel="Add History Entry"
       isSubmitting={isSubmitting}
       error={error}
+      storageKey="history_create_form"
     />
   )
 }
