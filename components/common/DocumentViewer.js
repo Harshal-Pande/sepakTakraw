@@ -213,7 +213,7 @@ export function DocumentViewer({
               className="px-2 h-6 text-xs font-medium text-blue-700 hover:bg-blue-50"
               title="Download"
             >
-              <Download className="w-3 h-3 mr-1" />
+              <Download className="mr-1 w-3 h-3" />
               <span className="hidden sm:inline">Download</span>
             </Button>
             
