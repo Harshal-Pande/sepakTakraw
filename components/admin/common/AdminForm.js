@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -32,21 +32,89 @@ export function AdminForm({
   fields = [],
   submitLabel = 'Save',
   isSubmitting = false,
-  error = ''
+  error = '',
+  storageKey = null // Key for localStorage persistence
 }) {
   const router = useRouter()
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [dataRestored, setDataRestored] = useState(false)
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues,
   })
 
-  const handleFileUpload = (field, url) => {
+  // Save form data to localStorage whenever form values change
+  useEffect(() => {
+    if (isLoaded && storageKey) {
+      const subscription = form.watch((value) => {
+        localStorage.setItem(storageKey, JSON.stringify(value))
+      })
+      return () => subscription.unsubscribe()
+    }
+  }, [form, isLoaded, storageKey])
+
+  // Restore form data from localStorage on component mount
+  useEffect(() => {
+    if (storageKey) {
+      const savedData = localStorage.getItem(storageKey)
+      if (savedData) {
+        try {
+          const parsedData = JSON.parse(savedData)
+          console.log(`Restoring saved form data for ${storageKey}:`, parsedData)
+          
+          // Restore form values
+          Object.keys(parsedData).forEach(key => {
+            if (parsedData[key] !== undefined && parsedData[key] !== null) {
+              console.log(`Restoring ${key}:`, parsedData[key])
+              form.setValue(key, parsedData[key])
+            }
+          })
+          setDataRestored(true)
+        } catch (error) {
+          console.error(`Error parsing saved form data for ${storageKey}:`, error)
+        }
+      }
+    }
+    setIsLoaded(true)
+  }, [form, storageKey])
+
+  const handleFileUpload = (field, fileData) => {
+    console.log(`File uploaded for ${field}:`, fileData)
+    
+    // Extract URL from file data
+    const url = fileData?.url || fileData
+    console.log(`Setting ${field} to URL:`, url)
+    
     form.setValue(field, url)
+    
+    // Immediately save to localStorage when file is uploaded
+    if (storageKey) {
+      const currentValues = form.getValues()
+      localStorage.setItem(storageKey, JSON.stringify({
+        ...currentValues,
+        [field]: url
+      }))
+    }
   }
 
   const handleSubmit = async (values) => {
+    console.log("=== FORM SUBMISSION ===");
+    console.log("Form values:", JSON.stringify(values, null, 2));
+    
+    // Check if form has file URLs
+    const currentFormValues = form.getValues()
+    console.log("Current form values:", JSON.stringify(currentFormValues, null, 2));
+    
     await onSubmit(values)
+  }
+
+  const clearSavedData = () => {
+    if (storageKey) {
+      localStorage.removeItem(storageKey)
+      form.reset()
+      setDataRestored(false)
+    }
   }
 
   const renderField = (field) => {
@@ -168,6 +236,14 @@ export function AdminForm({
       <AdminCard>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+            {dataRestored && (
+              <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <p className="text-blue-600 text-sm">
+                  📝 Your previous form data has been restored. You can continue where you left off.
+                </p>
+              </div>
+            )}
+
             {error && (
               <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
                 <p className="text-red-600 text-sm">{error}</p>
@@ -202,6 +278,17 @@ export function AdminForm({
               >
                 Cancel
               </Button>
+
+              {storageKey && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={clearSavedData}
+                  className="text-gray-600 hover:text-gray-800"
+                >
+                  Clear Saved Data
+                </Button>
+              )}
             </div>
           </form>
         </Form>

@@ -21,6 +21,9 @@ export default function CreateGeneralBodyMemberPage() {
   const router = useRouter()
 
   const onSubmit = async (values) => {
+    console.log("=== GENERAL BODY FORM SUBMISSION ===");
+    console.log("Form values:", JSON.stringify(values, null, 2));
+    
     setIsSubmitting(true)
     setError('')
 
@@ -34,6 +37,7 @@ export default function CreateGeneralBodyMemberPage() {
       })
 
       const data = await response.json()
+      console.log("API Response:", JSON.stringify(data, null, 2));
 
       if (data.success) {
         router.push('/admin/general-body')
@@ -41,6 +45,7 @@ export default function CreateGeneralBodyMemberPage() {
         setError(data.error || 'Failed to create member')
       }
     } catch (err) {
+      console.error("API Error:", err);
       setError('An error occurred while creating member')
     } finally {
       setIsSubmitting(false)
@@ -103,6 +108,7 @@ export default function CreateGeneralBodyMemberPage() {
       submitLabel="Add Member"
       isSubmitting={isSubmitting}
       error={error}
+      storageKey="general_body_create_form"
     />
   )
 }

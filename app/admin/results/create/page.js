@@ -19,6 +19,9 @@ export default function CreateResultPage() {
   const router = useRouter()
 
   const onSubmit = async (values) => {
+    console.log("=== RESULTS FORM SUBMISSION ===");
+    console.log("Form values:", JSON.stringify(values, null, 2));
+    
     setIsSubmitting(true)
     setError('')
 
@@ -32,6 +35,7 @@ export default function CreateResultPage() {
       })
 
       const data = await response.json()
+      console.log("API Response:", JSON.stringify(data, null, 2));
 
       if (data.success) {
         router.push('/admin/results')
@@ -39,6 +43,7 @@ export default function CreateResultPage() {
         setError(data.error || 'Failed to create result')
       }
     } catch (err) {
+      console.error("API Error:", err);
       setError('An error occurred while creating result')
     } finally {
       setIsSubmitting(false)
@@ -88,6 +93,7 @@ export default function CreateResultPage() {
       submitLabel="Add Result"
       isSubmitting={isSubmitting}
       error={error}
+      storageKey="results_create_form"
     />
   )
 }

@@ -20,6 +20,9 @@ export default function CreateElectionPage() {
   const router = useRouter()
 
   const onSubmit = async (values) => {
+    console.log("=== ELECTIONS FORM SUBMISSION ===");
+    console.log("Form values:", JSON.stringify(values, null, 2));
+    
     setIsSubmitting(true)
     setError('')
 
@@ -33,6 +36,7 @@ export default function CreateElectionPage() {
       })
 
       const data = await response.json()
+      console.log("API Response:", JSON.stringify(data, null, 2));
 
       if (data.success) {
         router.push('/admin/elections')
@@ -40,6 +44,7 @@ export default function CreateElectionPage() {
         setError(data.error || 'Failed to create election')
       }
     } catch (err) {
+      console.error("API Error:", err);
       setError('An error occurred while creating election')
     } finally {
       setIsSubmitting(false)
@@ -95,6 +100,7 @@ export default function CreateElectionPage() {
       submitLabel="Create Election"
       isSubmitting={isSubmitting}
       error={error}
+      storageKey="elections_create_form"
     />
   )
 }

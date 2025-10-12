@@ -22,6 +22,9 @@ export default function CreateHeroImagePage() {
   const router = useRouter()
 
   const onSubmit = async (values) => {
+    console.log("=== HERO IMAGES FORM SUBMISSION ===");
+    console.log("Form values:", JSON.stringify(values, null, 2));
+    
     setIsSubmitting(true)
     setError('')
 
@@ -35,6 +38,7 @@ export default function CreateHeroImagePage() {
       })
 
       const data = await response.json()
+      console.log("API Response:", JSON.stringify(data, null, 2));
 
       if (data.success) {
         router.push('/admin/hero-images')
@@ -42,6 +46,7 @@ export default function CreateHeroImagePage() {
         setError(data.error || 'Failed to create hero image')
       }
     } catch (err) {
+      console.error("API Error:", err);
       setError('An error occurred while creating hero image')
     } finally {
       setIsSubmitting(false)
@@ -111,6 +116,7 @@ export default function CreateHeroImagePage() {
       submitLabel="Create Hero Image"
       isSubmitting={isSubmitting}
       error={error}
+      storageKey="hero_images_create_form"
     />
   )
 }

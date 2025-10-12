@@ -26,6 +26,9 @@ export default function CreateRtiPage() {
   const router = useRouter()
 
   const onSubmit = async (values) => {
+    console.log("=== RTI FORM SUBMISSION ===");
+    console.log("Form values:", JSON.stringify(values, null, 2));
+    
     setIsSubmitting(true)
     setError('')
 
@@ -39,6 +42,7 @@ export default function CreateRtiPage() {
       })
 
       const data = await response.json()
+      console.log("API Response:", JSON.stringify(data, null, 2));
 
       if (data.success) {
         router.push('/admin/rti')
@@ -46,6 +50,7 @@ export default function CreateRtiPage() {
         setError(data.error || 'Failed to create RTI request')
       }
     } catch (err) {
+      console.error("API Error:", err);
       setError('An error occurred while creating RTI request')
     } finally {
       setIsSubmitting(false)
@@ -150,6 +155,7 @@ export default function CreateRtiPage() {
       submitLabel="Create Request"
       isSubmitting={isSubmitting}
       error={error}
+      storageKey="rti_create_form"
     />
   )
 }
