@@ -6,14 +6,17 @@ import Image from 'next/image'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Calendar, ArrowLeft, ExternalLink } from 'lucide-react'
+import { Calendar, ArrowLeft, ExternalLink, FileText, Download } from 'lucide-react'
 import Link from 'next/link'
 import { format } from 'date-fns'
+import { DocumentViewer } from '@/components/common/DocumentViewer'
 
 export default function NewsDetailPage() {
   const [news, setNews] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [documentViewerOpen, setDocumentViewerOpen] = useState(false)
+  const [selectedDocument, setSelectedDocument] = useState(null)
   const params = useParams()
 
   useEffect(() => {
@@ -101,6 +104,16 @@ export default function NewsDetailPage() {
     }
   }
 
+  const handleDocumentClick = (documentUrl, documentName) => {
+    setSelectedDocument({ url: documentUrl, name: documentName })
+    setDocumentViewerOpen(true)
+  }
+
+  const handleDocumentViewerClose = () => {
+    setDocumentViewerOpen(false)
+    setSelectedDocument(null)
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="container mx-auto px-4">
@@ -177,16 +190,33 @@ export default function NewsDetailPage() {
                   <CardTitle>Related Documents</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="flex items-center gap-3">
-                    <ExternalLink className="w-5 h-5 text-primary-blue" />
-                    <a 
-                      href={news.document_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary-blue hover:text-primary-gold transition-colors"
+                  <div 
+                    className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+                    onClick={() => handleDocumentClick(news.document_url, 'Related Document')}
+                  >
+                    <div className="flex items-center gap-3">
+                      <FileText className="w-5 h-5 text-primary-blue" />
+                      <div>
+                        <p className="font-medium text-gray-900">Related Document</p>
+                        <p className="text-sm text-gray-600">Click to view document</p>
+                      </div>
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        const link = document.createElement('a')
+                        link.href = news.document_url
+                        link.download = 'related-document'
+                        link.target = '_blank'
+                        document.body.appendChild(link)
+                        link.click()
+                        document.body.removeChild(link)
+                      }}
                     >
-                      Download Document
-                    </a>
+                      <Download className="w-4 h-4" />
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
@@ -220,6 +250,16 @@ export default function NewsDetailPage() {
           </div>
         </div>
       </div>
+
+      {/* Document Viewer Modal */}
+      {selectedDocument && (
+        <DocumentViewer
+          documentUrl={selectedDocument.url}
+          documentName={selectedDocument.name}
+          isOpen={documentViewerOpen}
+          onClose={handleDocumentViewerClose}
+        />
+      )}
     </div>
   )
 }

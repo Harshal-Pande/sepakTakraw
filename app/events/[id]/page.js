@@ -6,14 +6,17 @@ import Image from 'next/image'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Calendar, MapPin, Clock, ArrowLeft } from 'lucide-react'
+import { Calendar, MapPin, Clock, ArrowLeft, FileText, Download } from 'lucide-react'
 import Link from 'next/link'
 import { format } from 'date-fns'
+import { DocumentViewer } from '@/components/common/DocumentViewer'
 
 export default function EventDetailPage() {
   const [event, setEvent] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [documentViewerOpen, setDocumentViewerOpen] = useState(false)
+  const [selectedDocument, setSelectedDocument] = useState(null)
   const params = useParams()
 
   useEffect(() => {
@@ -105,6 +108,16 @@ export default function EventDetailPage() {
     }
   }
 
+  const handleDocumentClick = (documentUrl, documentName) => {
+    setSelectedDocument({ url: documentUrl, name: documentName })
+    setDocumentViewerOpen(true)
+  }
+
+  const handleDocumentViewerClose = () => {
+    setDocumentViewerOpen(false)
+    setSelectedDocument(null)
+  }
+
   return (
     <div className="py-8 min-h-screen bg-gray-50">
       <div className="container px-4 mx-auto">
@@ -184,32 +197,80 @@ export default function EventDetailPage() {
               </CardContent>
             </Card>
 
-            {/* Additional Photos */}
-            {event.photos && event.photos.length > 1 && (
-              <Card>
-                <CardHeader>
-                  <CardTitle>Event Gallery</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-                    {event.photos.slice(1).map((photo, index) => (
-                      <div key={index} className="overflow-hidden relative w-full h-32 rounded-lg">
-                        <Image
-                          src={photo}
-                          alt={`${event.title} - Photo ${index + 2}`}
-                          fill
-                          sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-                          className="object-cover"
-                          onError={(e) => {
-                            console.error('Image load error:', e.target.src);
-                          }}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            )}
+             {/* Additional Photos */}
+             {event.photos && event.photos.length > 1 && (
+               <Card className="mb-8">
+                 <CardHeader>
+                   <CardTitle>Event Gallery</CardTitle>
+                 </CardHeader>
+                 <CardContent>
+                   <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+                     {event.photos.slice(1).map((photo, index) => (
+                       <div key={index} className="overflow-hidden relative w-full h-32 rounded-lg">
+                         <Image
+                           src={photo}
+                           alt={`${event.title} - Photo ${index + 2}`}
+                           fill
+                           sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                           className="object-cover"
+                           onError={(e) => {
+                             console.error('Image load error:', e.target.src);
+                           }}
+                         />
+                       </div>
+                     ))}
+                   </div>
+                 </CardContent>
+               </Card>
+             )}
+
+             {/* Event Documents */}
+             {event.documents && event.documents.length > 0 && (
+               <Card>
+                 <CardHeader>
+                   <CardTitle>Event Documents</CardTitle>
+                 </CardHeader>
+                 <CardContent>
+                   <div className="space-y-3">
+                     {event.documents.map((doc, index) => (
+                       <div 
+                         key={index}
+                         className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+                         onClick={() => handleDocumentClick(doc.url, doc.name || `Document ${index + 1}`)}
+                       >
+                         <div className="flex items-center gap-3">
+                           <FileText className="w-5 h-5 text-primary-blue" />
+                           <div>
+                             <p className="font-medium text-gray-900">
+                               {doc.name || `Document ${index + 1}`}
+                             </p>
+                             <p className="text-sm text-gray-600">
+                               Click to view document
+                             </p>
+                           </div>
+                         </div>
+                         <Button
+                           variant="outline"
+                           size="sm"
+                           onClick={(e) => {
+                             e.stopPropagation()
+                             const link = document.createElement('a')
+                             link.href = doc.url
+                             link.download = doc.name || `document-${index + 1}`
+                             link.target = '_blank'
+                             document.body.appendChild(link)
+                             link.click()
+                             document.body.removeChild(link)
+                           }}
+                         >
+                           <Download className="w-4 h-4" />
+                         </Button>
+                       </div>
+                     ))}
+                   </div>
+                 </CardContent>
+               </Card>
+             )}
           </div>
 
           {/* Sidebar */}
@@ -249,6 +310,16 @@ export default function EventDetailPage() {
           </div>
         </div>
       </div>
+
+      {/* Document Viewer Modal */}
+      {selectedDocument && (
+        <DocumentViewer
+          documentUrl={selectedDocument.url}
+          documentName={selectedDocument.name}
+          isOpen={documentViewerOpen}
+          onClose={handleDocumentViewerClose}
+        />
+      )}
     </div>
   )
 }

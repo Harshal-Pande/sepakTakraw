@@ -1,36 +1,50 @@
 'use client'
 
-import { useState } from 'react'
-import { Download, ExternalLink, FileText, AlertCircle, Loader2 } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import Image from 'next/image'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Download, X, FileText, FileImage, File } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 
 export function DocumentViewer({ 
   documentUrl, 
-  title, 
-  description,
-  showDownload = true,
-  showExternalLink = true,
-  className = ''
+  documentName, 
+  isOpen, 
+  onClose 
 }) {
   const [isLoading, setIsLoading] = useState(true)
-  const [hasError, setHasError] = useState(false)
+  const [error, setError] = useState(null)
+  const [fileType, setFileType] = useState('')
 
-  const handleLoad = () => {
-    setIsLoading(false)
-  }
+  useEffect(() => {
+    if (documentUrl && isOpen) {
+      setIsLoading(true)
+      setError(null)
+      
+      // Determine file type from URL
+      const url = new URL(documentUrl)
+      const pathname = url.pathname.toLowerCase()
+      
+      if (pathname.includes('.pdf')) {
+        setFileType('pdf')
+      } else if (pathname.includes('.jpg') || pathname.includes('.jpeg') || 
+                 pathname.includes('.png') || pathname.includes('.gif') || 
+                 pathname.includes('.webp')) {
+        setFileType('image')
+      } else if (pathname.includes('.doc') || pathname.includes('.docx')) {
+        setFileType('document')
+      } else {
+        setFileType('unknown')
+      }
+    }
+  }, [documentUrl, isOpen])
 
-  const handleError = () => {
-    setIsLoading(false)
-    setHasError(true)
-  }
-
-  const downloadDocument = () => {
+  const handleDownload = () => {
     if (documentUrl) {
       const link = document.createElement('a')
       link.href = documentUrl
-      link.download = title || 'document'
+      link.download = documentName || 'document'
       link.target = '_blank'
       document.body.appendChild(link)
       link.click()
@@ -38,151 +52,161 @@ export function DocumentViewer({
     }
   }
 
-  const openInNewTab = () => {
-    if (documentUrl) {
-      window.open(documentUrl, '_blank', 'noopener,noreferrer')
-    }
-  }
-
-  const getFileType = (url) => {
-    if (!url) return 'unknown'
-    const extension = url.split('.').pop()?.toLowerCase()
-    switch (extension) {
+  const getFileIcon = () => {
+    switch (fileType) {
       case 'pdf':
-        return 'pdf'
-      case 'doc':
-      case 'docx':
-        return 'word'
-      case 'xls':
-      case 'xlsx':
-        return 'excel'
-      case 'ppt':
-      case 'pptx':
-        return 'powerpoint'
+        return <FileText className="w-6 h-6 text-red-500" />
+      case 'image':
+        return <FileImage className="w-6 h-6 text-green-500" />
+      case 'document':
+        return <FileText className="w-6 h-6 text-blue-500" />
       default:
-        return 'document'
+        return <File className="w-6 h-6 text-gray-500" />
     }
   }
 
-  const fileType = getFileType(documentUrl)
+  const getFileTypeBadge = () => {
+    switch (fileType) {
+      case 'pdf':
+        return <Badge variant="destructive" className="bg-red-100 text-red-800">PDF</Badge>
+      case 'image':
+        return <Badge variant="secondary" className="bg-green-100 text-green-800">Image</Badge>
+      case 'document':
+        return <Badge variant="secondary" className="bg-blue-100 text-blue-800">Document</Badge>
+      default:
+        return <Badge variant="outline">File</Badge>
+    }
+  }
 
-  if (!documentUrl) {
-    return (
-      <Card className={`${className}`}>
-        <CardContent className="flex items-center justify-center h-64">
-          <div className="text-center text-gray-500">
-            <FileText className="w-12 h-12 mx-auto mb-4" />
-            <p>No document available</p>
+  const renderDocumentContent = () => {
+    if (error) {
+      return (
+        <div className="flex flex-col items-center justify-center h-96 text-center">
+          <File className="w-16 h-16 text-gray-400 mb-4" />
+          <h3 className="text-lg font-medium text-gray-900 mb-2">Unable to load document</h3>
+          <p className="text-gray-600 mb-4">The document could not be displayed.</p>
+          <Button onClick={handleDownload} variant="outline">
+            <Download className="w-4 h-4 mr-2" />
+            Download Instead
+          </Button>
+        </div>
+      )
+    }
+
+    if (isLoading) {
+      return (
+        <div className="flex flex-col items-center justify-center h-96">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-blue mb-4"></div>
+          <p className="text-gray-600">Loading document...</p>
+        </div>
+      )
+    }
+
+    switch (fileType) {
+      case 'pdf':
+        return (
+          <div className="w-full h-full">
+            <iframe
+              src={documentUrl}
+              className="w-full h-full border-0 rounded-lg"
+              onLoad={() => setIsLoading(false)}
+              onError={() => {
+                setError(true)
+                setIsLoading(false)
+              }}
+              title={documentName || 'PDF Document'}
+            />
           </div>
-        </CardContent>
-      </Card>
-    )
+        )
+      
+      case 'image':
+        return (
+          <div className="w-full h-full flex items-center justify-center">
+            <img
+              src={documentUrl}
+              alt={documentName || 'Image'}
+              className="max-w-full max-h-full object-contain rounded-lg shadow-lg"
+              onLoad={() => setIsLoading(false)}
+              onError={() => {
+                setError(true)
+                setIsLoading(false)
+              }}
+            />
+          </div>
+        )
+      
+      case 'document':
+        return (
+          <div className="flex flex-col items-center justify-center h-96 text-center">
+            <FileText className="w-16 h-16 text-blue-500 mb-4" />
+            <h3 className="text-lg font-medium text-gray-900 mb-2">Document Preview</h3>
+            <p className="text-gray-600 mb-4">This document type cannot be previewed inline.</p>
+            <Button onClick={handleDownload} className="bg-primary-blue hover:bg-primary-blue/90">
+              <Download className="w-4 h-4 mr-2" />
+              Download Document
+            </Button>
+          </div>
+        )
+      
+      default:
+        return (
+          <div className="flex flex-col items-center justify-center h-96 text-center">
+            <File className="w-16 h-16 text-gray-400 mb-4" />
+            <h3 className="text-lg font-medium text-gray-900 mb-2">File Preview</h3>
+            <p className="text-gray-600 mb-4">This file type cannot be previewed inline.</p>
+            <Button onClick={handleDownload} className="bg-primary-blue hover:bg-primary-blue/90">
+              <Download className="w-4 h-4 mr-2" />
+              Download File
+            </Button>
+          </div>
+        )
+    }
   }
 
   return (
-    <Card className={`${className}`}>
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <FileText className="w-5 h-5 text-primary-blue" />
-            <CardTitle className="text-lg">{title || 'Document'}</CardTitle>
-          </div>
-          <Badge variant="outline" className="text-xs">
-            {fileType.toUpperCase()}
-          </Badge>
-        </div>
-        {description && (
-          <p className="text-sm text-gray-600 mt-2">{description}</p>
-        )}
-      </CardHeader>
-
-      <CardContent>
-        {hasError ? (
-          <div className="flex items-center justify-center h-64 bg-gray-50 rounded-lg">
-            <div className="text-center text-gray-500">
-              <AlertCircle className="w-12 h-12 mx-auto mb-4 text-red-500" />
-              <p className="mb-2">Failed to load document</p>
-              <p className="text-sm">The document may be corrupted or unavailable</p>
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="max-w-6xl max-h-[90vh] w-full h-full p-0 overflow-hidden">
+        <DialogHeader className="px-6 py-4 border-b bg-gray-50">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              {getFileIcon()}
+              <div>
+                <DialogTitle className="text-lg font-semibold text-gray-900">
+                  {documentName || 'Document Viewer'}
+                </DialogTitle>
+                <div className="flex items-center gap-2 mt-1">
+                  {getFileTypeBadge()}
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button
+                onClick={handleDownload}
+                variant="outline"
+                size="sm"
+                className="text-primary-blue border-primary-blue hover:bg-primary-blue hover:text-white"
+              >
+                <Download className="w-4 h-4 mr-2" />
+                Download
+              </Button>
+              <Button
+                onClick={onClose}
+                variant="outline"
+                size="sm"
+                className="text-gray-600 hover:bg-gray-100"
+              >
+                <X className="w-4 h-4" />
+              </Button>
             </div>
           </div>
-        ) : (
-          <div className="relative">
-            {isLoading && (
-              <div className="absolute inset-0 flex items-center justify-center bg-gray-50 rounded-lg z-10">
-                <div className="text-center">
-                  <Loader2 className="w-8 h-8 animate-spin mx-auto mb-2 text-primary-blue" />
-                  <p className="text-sm text-gray-600">Loading document...</p>
-                </div>
-              </div>
-            )}
-
-            {fileType === 'pdf' ? (
-              <iframe
-                src={documentUrl}
-                className="w-full h-96 border-0 rounded-lg"
-                onLoad={handleLoad}
-                onError={handleError}
-                title={title || 'PDF Document'}
-              />
-            ) : (
-              <div className="h-64 bg-gray-50 rounded-lg flex items-center justify-center">
-                <div className="text-center text-gray-500">
-                  <FileText className="w-12 h-12 mx-auto mb-4" />
-                  <p className="mb-2">Preview not available</p>
-                  <p className="text-sm">This file type cannot be previewed inline</p>
-                </div>
-              </div>
-            )}
+        </DialogHeader>
+        
+        <div className="flex-1 overflow-hidden bg-white">
+          <div className="h-full p-6 overflow-auto">
+            {renderDocumentContent()}
           </div>
-        )}
-
-        {/* Action Buttons */}
-        <div className="flex gap-2 mt-4">
-          {showDownload && (
-            <Button
-              onClick={downloadDocument}
-              disabled={hasError}
-              className="flex-1 bg-primary-gold text-primary-blue hover:bg-primary-gold/90"
-            >
-              <Download className="w-4 h-4 mr-2" />
-              Download
-            </Button>
-          )}
-          
-          {showExternalLink && (
-            <Button
-              onClick={openInNewTab}
-              disabled={hasError}
-              variant="outline"
-              className="flex-1 text-primary-blue border-primary-blue hover:bg-primary-blue hover:text-white"
-            >
-              <ExternalLink className="w-4 h-4 mr-2" />
-              Open in New Tab
-            </Button>
-          )}
         </div>
-      </CardContent>
-    </Card>
-  )
-}
-
-export function DocumentViewerSkeleton() {
-  return (
-    <Card>
-      <CardHeader>
-        <div className="flex items-center gap-2">
-          <div className="w-5 h-5 bg-gray-200 rounded"></div>
-          <div className="h-6 bg-gray-200 rounded w-1/3"></div>
-        </div>
-        <div className="h-4 bg-gray-200 rounded w-2/3"></div>
-      </CardHeader>
-      <CardContent>
-        <div className="h-96 bg-gray-200 rounded-lg animate-pulse"></div>
-        <div className="flex gap-2 mt-4">
-          <div className="h-10 bg-gray-200 rounded flex-1"></div>
-          <div className="h-10 bg-gray-200 rounded flex-1"></div>
-        </div>
-      </CardContent>
-    </Card>
+      </DialogContent>
+    </Dialog>
   )
 }
