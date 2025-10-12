@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 // AdminLayout is applied via app/admin/layout.js; do not wrap again here
 import { AdminCard } from '@/components/admin/common/AdminCard'
@@ -22,7 +22,33 @@ export default function CreateEventPage() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [dataRestored, setDataRestored] = useState(false)
   const router = useRouter()
+
+  // Save form data to localStorage whenever form data changes
+  useEffect(() => {
+    if (isLoaded) {
+      localStorage.setItem('events_create_form', JSON.stringify(formData))
+    }
+  }, [formData, isLoaded])
+
+  // Restore form data from localStorage on component mount
+  useEffect(() => {
+    const savedData = localStorage.getItem('events_create_form')
+    if (savedData) {
+      try {
+        const parsedData = JSON.parse(savedData)
+        console.log('Restoring saved events form data:', parsedData)
+        
+        setFormData(parsedData)
+        setDataRestored(true)
+      } catch (error) {
+        console.error('Error parsing saved events form data:', error)
+      }
+    }
+    setIsLoaded(true)
+  }, [])
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -32,7 +58,16 @@ export default function CreateEventPage() {
     }))
   }
 
-  const handleFileUpload = (urls) => {
+  const handleFileUpload = (fileData) => {
+    console.log('File uploaded:', fileData)
+    
+    // Extract URLs from file data
+    const urls = Array.isArray(fileData) 
+      ? fileData.map(file => file?.url || file)
+      : [fileData?.url || fileData]
+    
+    console.log('Extracted URLs:', urls)
+    
     setFormData(prev => ({
       ...prev,
       photos: [...prev.photos, ...urls]
@@ -48,6 +83,7 @@ export default function CreateEventPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    console.log('Form submission:', formData)
     setIsSubmitting(true)
     setError('')
 
@@ -63,6 +99,9 @@ export default function CreateEventPage() {
       const data = await response.json()
 
       if (data.success) {
+        // Clear saved form data on successful submission
+        localStorage.removeItem('events_create_form')
+        setDataRestored(false)
         router.push('/admin/events')
       } else {
         setError(data.error || 'Failed to create event')
@@ -93,6 +132,14 @@ export default function CreateEventPage() {
         {/* Form */}
         <AdminCard>
           <form onSubmit={handleSubmit} className="space-y-6">
+            {dataRestored && (
+              <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <p className="text-blue-600 text-sm">
+                  📝 Your previous form data has been restored. You can continue where you left off.
+                </p>
+              </div>
+            )}
+
             {error && (
               <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
                 <p className="text-red-600 text-sm">{error}</p>
@@ -215,6 +262,26 @@ export default function CreateEventPage() {
                 onClick={() => router.back()}
               >
                 Cancel
+              </Button>
+
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => {
+                  localStorage.removeItem('events_create_form')
+                  setFormData({
+                    title: '',
+                    description: '',
+                    event_date: '',
+                    location: '',
+                    photos: []
+                  })
+                  setError('')
+                  setDataRestored(false)
+                }}
+                className="text-gray-600 hover:text-gray-800"
+              >
+                Clear Saved Data
               </Button>
             </div>
           </form>

@@ -130,10 +130,14 @@ export async function GET(request) {
 
 export async function POST(request) {
 	try {
+		console.log("=== EVENTS CREATE API CALLED ===");
 		const body = await request.json();
+		console.log("Request body:", JSON.stringify(body, null, 2));
 
 		// Validate the input
+		console.log("Validating data...");
 		const validatedData = validateEvents.parse(body);
+		console.log("Validation passed. Validated data:", JSON.stringify(validatedData, null, 2));
 
 		const supabase = createClient();
 
@@ -150,8 +154,14 @@ export async function POST(request) {
 		);
 	} catch (error) {
 		console.error("Error creating event:", error);
+		console.error("Error details:", {
+			name: error.name,
+			message: error.message,
+			errors: error.errors || 'No errors array'
+		});
 
 		if (error.name === "ZodError") {
+			console.log("Zod validation errors:", error.errors);
 			return Response.json(
 				createErrorResponse(
 					"Validation error: " + error.errors.map((e) => e.message).join(", "),

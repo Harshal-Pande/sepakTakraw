@@ -68,6 +68,7 @@ export default function CreateNewsPage() {
         // Restore form values
         Object.keys(parsedData).forEach(key => {
           if (parsedData[key] !== undefined && parsedData[key] !== null) {
+            console.log(`Restoring ${key}:`, parsedData[key])
             form.setValue(key, parsedData[key])
           }
         })
@@ -79,8 +80,15 @@ export default function CreateNewsPage() {
     setIsLoaded(true)
   }, [form])
 
-  const handleFileUpload = (field, url) => {
+  const handleFileUpload = (field, fileData) => {
+    console.log(`File uploaded for ${field}:`, fileData)
+    
+    // Extract URL from file data
+    const url = fileData?.url || fileData
+    console.log(`Setting ${field} to URL:`, url)
+    
     form.setValue(field, url)
+    
     // Immediately save to localStorage when file is uploaded
     const currentValues = form.getValues()
     localStorage.setItem('news_create_form', JSON.stringify({
@@ -100,16 +108,30 @@ export default function CreateNewsPage() {
     console.log("=== FORM SUBMISSION ===");
     console.log("Form values:", JSON.stringify(values, null, 2));
     
+    // Check if form has file URLs
+    const currentFormValues = form.getValues()
+    console.log("Current form values:", JSON.stringify(currentFormValues, null, 2));
+    
     setIsSubmitting(true)
     setError('')
 
     try {
+      // Use current form values which include file URLs
+      const submitData = {
+        title: values.title,
+        description: values.description,
+        document_url: currentFormValues.document_url || '',
+        featured_image: currentFormValues.featured_image || ''
+      }
+      
+      console.log("Submitting data:", JSON.stringify(submitData, null, 2));
+      
       const response = await fetch('/api/news', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(values)
+        body: JSON.stringify(submitData)
       })
 
       const data = await response.json()
