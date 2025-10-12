@@ -88,20 +88,14 @@ export default function CreateEventPage() {
     setError('')
 
     try {
-      // Convert date to ISO string for proper datetime format
-      const submitData = {
-        ...formData,
-        event_date: formData.event_date ? new Date(formData.event_date + 'T00:00:00').toISOString() : formData.event_date
-      }
-      
-      console.log('Submitting data with converted date:', submitData)
+      console.log('Submitting data:', formData)
 
       const response = await fetch('/api/events', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(submitData)
+        body: JSON.stringify(formData)
       })
 
       const data = await response.json()

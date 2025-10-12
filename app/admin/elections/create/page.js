@@ -27,20 +27,14 @@ export default function CreateElectionPage() {
     setError('')
 
     try {
-      // Convert date to ISO string for proper datetime format
-      const submitData = {
-        ...values,
-        election_date: values.election_date ? new Date(values.election_date + 'T00:00:00').toISOString() : values.election_date
-      }
-      
-      console.log('Submitting data with converted date:', submitData)
+      console.log('Submitting data:', values)
 
       const response = await fetch('/api/elections', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(submitData)
+        body: JSON.stringify(values)
       })
 
       const data = await response.json()
