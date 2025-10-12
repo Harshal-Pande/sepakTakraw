@@ -60,8 +60,7 @@ export default function Navbar() {
 					<div className="flex flex-col flex-1 gap-1 justify-center items-start py-0 pr-4 pl-2">
 						{/* Top links */}
 						<div className="hidden gap-4 justify-end items-center pb-2 w-full text-base text-white lg:flex">
-							<Link href="/" className="transition hover:opacity-80">Shop</Link>
-							<div className="flex gap-2 items-center ml-2">
+							<div className="flex gap-2 items-center">
 								<Link href="#" className="flex justify-center items-center w-7 h-7 rounded-full border transition bg-white/15 border-white/20 hover:bg-white/25"><Facebook className="w-3.5 h-3.5" /></Link>
 								<Link href="#" className="flex justify-center items-center w-7 h-7 rounded-full border transition bg-white/15 border-white/20 hover:bg-white/25"><Twitter className="w-3.5 h-3.5" /></Link>
 								<Link href="#" className="flex justify-center items-center w-7 h-7 rounded-full border transition bg-white/15 border-white/20 hover:bg-white/25"><Instagram className="w-3.5 h-3.5" /></Link>
