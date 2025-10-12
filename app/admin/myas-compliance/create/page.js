@@ -23,6 +23,9 @@ export default function CreateMyasCompliancePage() {
   const router = useRouter()
 
   const onSubmit = async (values) => {
+    console.log("=== MYAS COMPLIANCE FORM SUBMISSION ===");
+    console.log("Form values:", JSON.stringify(values, null, 2));
+    
     setIsSubmitting(true)
     setError('')
 
@@ -36,6 +39,7 @@ export default function CreateMyasCompliancePage() {
       })
 
       const data = await response.json()
+      console.log("API Response:", JSON.stringify(data, null, 2));
 
       if (data.success) {
         router.push('/admin/myas-compliance')
@@ -43,6 +47,7 @@ export default function CreateMyasCompliancePage() {
         setError(data.error || 'Failed to create compliance document')
       }
     } catch (err) {
+      console.error("API Error:", err);
       setError('An error occurred while creating compliance document')
     } finally {
       setIsSubmitting(false)
@@ -137,6 +142,7 @@ export default function CreateMyasCompliancePage() {
       submitLabel="Create Document"
       isSubmitting={isSubmitting}
       error={error}
+      storageKey="myas_compliance_create_form"
     />
   )
 }
