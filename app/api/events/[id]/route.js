@@ -5,6 +5,8 @@ import { validateEvents } from '@/lib/validations'
 export async function GET(request, { params }) {
   try {
     const { id } = await params
+    console.log('Fetching event with ID:', id)
+    
     const supabase = createClient()
     
     const { data, error } = await supabase
@@ -13,8 +15,22 @@ export async function GET(request, { params }) {
       .eq('id', id)
       .single()
     
-    if (error) throw error
+    console.log('Event query result:', { data, error })
     
+    if (error) {
+      console.error('Supabase error:', error)
+      throw error
+    }
+    
+    if (!data) {
+      console.log('No event found with ID:', id)
+      return Response.json(
+        createErrorResponse('Event not found', 'EVENT_NOT_FOUND'),
+        { status: 404 }
+      )
+    }
+    
+    console.log('Event found:', data)
     return Response.json(createResponse(data, 'Event fetched successfully'))
   } catch (error) {
     console.error('Error fetching event:', error)
