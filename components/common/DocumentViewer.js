@@ -1,11 +1,11 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Dialog, DialogContent } from '@/components/ui/dialog'
+import Image from 'next/image'
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Download, X, FileText, FileImage, File, Maximize2, Minimize2 } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
-import DocViewer, { DocViewerRenderers } from 'react-doc-viewer'
 
 export function DocumentViewer({ 
   documentUrl, 
@@ -125,41 +125,86 @@ export function DocumentViewer({
       )
     }
 
-    // Use react-doc-viewer for all document types
-    const docs = [{ uri: documentUrl }]
-    
-    return (
-      <div className="w-full h-full">
-        <DocViewer
-          pluginRenderers={DocViewerRenderers}
-          documents={docs}
-          style={{ 
-            height: '100%', 
-            width: '100%',
-            borderRadius: '0 0 12px 12px'
-          }}
-          config={{
-            header: {
-              disableHeader: true,
-              disableFileName: true,
-              retainURLParams: false
-            },
-            pdfZoom: {
-              defaultZoom: 1.2,
-              zoomJump: 0.2
-            },
-            pdfVerticalScrollByDefault: true,
-            loadingRenderer: {
-              overrideComponent: () => (
-                <div className="flex justify-center items-center h-full">
-                  <div className="w-8 h-8 rounded-full border-b-2 border-blue-600 animate-spin"></div>
-                </div>
-              )
-            }
-          }}
-        />
-      </div>
-    )
+    switch (fileType) {
+      case 'pdf':
+        return (
+          <div className="relative w-full h-full bg-gray-50">
+            <iframe
+              src={`${documentUrl}#toolbar=0&navpanes=0&scrollbar=1&view=FitH&zoom=100`}
+              className="w-full h-full border-0 rounded-b-lg"
+              onLoad={() => setIsLoading(false)}
+              onError={() => {
+                setError(true)
+                setIsLoading(false)
+              }}
+              title={documentName || 'PDF Document'}
+              style={{ 
+                backgroundColor: '#f8f9fa'
+              }}
+            />
+          </div>
+        )
+      
+      case 'image':
+        return (
+          <div className="flex justify-center items-center p-6 w-full h-full bg-gradient-to-br from-gray-50 to-gray-100">
+            <div className="relative max-w-full max-h-full">
+              <Image
+                src={documentUrl}
+                alt={documentName || 'Image'}
+                width={1600}
+                height={1200}
+                className="object-contain max-w-full max-h-full rounded-xl shadow-2xl"
+                onLoad={() => setIsLoading(false)}
+                onError={() => {
+                  setError(true)
+                  setIsLoading(false)
+                }}
+              />
+            </div>
+          </div>
+        )
+      
+      case 'document':
+        return (
+          <div className="flex flex-col justify-center items-center p-8 h-full text-center">
+            <div className="p-5 mb-4 bg-indigo-50 rounded-full">
+              <FileText className="w-14 h-14 text-indigo-600" />
+            </div>
+            <h3 className="mb-2 text-xl font-bold text-gray-900">Document Preview Unavailable</h3>
+            <p className="mb-6 max-w-md text-sm text-gray-500">
+              This document format cannot be previewed in the browser. Download to view it.
+            </p>
+            <Button 
+              onClick={handleDownload} 
+              className="text-white bg-gradient-to-r from-indigo-600 to-indigo-700 shadow-lg hover:from-indigo-700 hover:to-indigo-800"
+            >
+              <Download className="mr-2 w-4 h-4" />
+              Download Document
+            </Button>
+          </div>
+        )
+      
+      default:
+        return (
+          <div className="flex flex-col justify-center items-center p-8 h-full text-center">
+            <div className="p-5 mb-4 bg-gray-100 rounded-full">
+              <File className="w-14 h-14 text-gray-400" />
+            </div>
+            <h3 className="mb-2 text-xl font-bold text-gray-900">Preview Not Available</h3>
+            <p className="mb-6 max-w-md text-sm text-gray-500">
+              This file type cannot be previewed. Download the file to view it.
+            </p>
+            <Button 
+              onClick={handleDownload} 
+              className="text-white bg-gradient-to-r from-gray-700 to-gray-800 shadow-lg hover:from-gray-800 hover:to-gray-900"
+            >
+              <Download className="mr-2 w-4 h-4" />
+              Download File
+            </Button>
+          </div>
+        )
+    }
   }
 
   return (
@@ -169,6 +214,11 @@ export function DocumentViewer({
           ? 'm-0 w-screen max-w-full h-screen rounded-none' 
           : 'w-full rounded-2xl max-w-[98vw] h-[95vh]'
       } border-0 shadow-2xl`}>
+        
+        {/* Hidden DialogTitle for accessibility */}
+        <DialogTitle className="sr-only">
+          Document Viewer - {documentName || 'Untitled Document'}
+        </DialogTitle>
         
         {/* Modern Glassmorphic Header */}
         <div className="relative border-b shadow-sm backdrop-blur-xl bg-white/80 border-gray-200/50">
