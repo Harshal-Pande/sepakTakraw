@@ -169,7 +169,7 @@ export function FeaturedNewsSection({ className = "" }) {
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="max-w-4xl">
           <h2 className="mb-4 text-3xl font-bold">
-            Featured News
+            Latest Updates
           </h2>
           <p className="mb-6 text-xl text-primary-gold">
             {featuredNews.title}

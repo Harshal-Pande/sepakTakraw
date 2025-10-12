@@ -38,16 +38,8 @@ export default function Home() {
       {/* Stats Section */}
       <StatsSection className="border-t border-gray-200" />
 
-      {/* Featured News Section */}
+      {/* Latest Updates Section (formerly Featured News) */}
       <FeaturedNewsSection className="border-t border-gray-200" />
-
-      {/* News Section */}
-      <NewsSection 
-        title="Latest News" 
-        limit={6}
-        showViewAll={true}
-        className="border-t border-gray-200"
-      />
 
       {/* Upcoming Events Section */}
       <UpcomingEventsSection className="border-t border-gray-200" />
@@ -57,13 +49,6 @@ export default function Home() {
         title="Recent Events" 
         limit={6}
         showViewAll={true}
-        className="border-t border-gray-200"
-      />
-
-      {/* Quick Links Section */}
-      <QuickLinksSection 
-        title="Quick Access"
-        showAll={true}
         className="border-t border-gray-200"
       />
     </div>
