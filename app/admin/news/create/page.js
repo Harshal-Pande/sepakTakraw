@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -26,13 +26,15 @@ import Link from 'next/link'
 const formSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   description: z.string().min(1, 'Description is required'),
-  document_url: z.string().optional(),
-  featured_image: z.string().optional(),
+  document_url: z.string().url('Invalid document URL').optional().or(z.literal('')),
+  featured_image: z.string().url('Invalid image URL').optional().or(z.literal('')),
 })
 
 export default function CreateNewsPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [dataRestored, setDataRestored] = useState(false)
   const router = useRouter()
 
   const form = useForm({
@@ -45,11 +47,57 @@ export default function CreateNewsPage() {
     },
   })
 
+  // Save form data to localStorage whenever form values change
+  useEffect(() => {
+    if (isLoaded) {
+      const subscription = form.watch((value) => {
+        localStorage.setItem('news_create_form', JSON.stringify(value))
+      })
+      return () => subscription.unsubscribe()
+    }
+  }, [form, isLoaded])
+
+  // Restore form data from localStorage on component mount
+  useEffect(() => {
+    const savedData = localStorage.getItem('news_create_form')
+    if (savedData) {
+      try {
+        const parsedData = JSON.parse(savedData)
+        console.log('Restoring saved form data:', parsedData)
+        
+        // Restore form values
+        Object.keys(parsedData).forEach(key => {
+          if (parsedData[key] !== undefined && parsedData[key] !== null) {
+            form.setValue(key, parsedData[key])
+          }
+        })
+      } catch (error) {
+        console.error('Error parsing saved form data:', error)
+      }
+    }
+    setIsLoaded(true)
+  }, [form])
+
   const handleFileUpload = (field, url) => {
     form.setValue(field, url)
+    // Immediately save to localStorage when file is uploaded
+    const currentValues = form.getValues()
+    localStorage.setItem('news_create_form', JSON.stringify({
+      ...currentValues,
+      [field]: url
+    }))
+  }
+
+  const clearSavedData = () => {
+    localStorage.removeItem('news_create_form')
+    form.reset()
+    setError('')
   }
 
   const onSubmit = async (values) => {
+    console.log("=== FORM SUBMISSION ===");
+    console.log("Form values:", JSON.stringify(values, null, 2));
+    
     setIsSubmitting(true)
     setError('')
 
@@ -63,13 +111,18 @@ export default function CreateNewsPage() {
       })
 
       const data = await response.json()
+      console.log("API Response:", JSON.stringify(data, null, 2));
 
       if (data.success) {
+        // Clear saved form data on successful submission
+        localStorage.removeItem('news_create_form')
         router.push('/admin/news')
       } else {
+        console.error("API Error:", data.error);
         setError(data.error || 'Failed to create news article')
       }
     } catch (error) {
+      console.error("Form submission error:", error);
       setError('An unexpected error occurred')
     } finally {
       setIsSubmitting(false)
@@ -195,6 +248,15 @@ export default function CreateNewsPage() {
                 onClick={() => router.back()}
               >
                 Cancel
+              </Button>
+
+              <Button
+                type="button"
+                variant="outline"
+                onClick={clearSavedData}
+                className="text-gray-600 hover:text-gray-800"
+              >
+                Clear Saved Data
               </Button>
             </div>
           </form>

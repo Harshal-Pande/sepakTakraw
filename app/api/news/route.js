@@ -107,7 +107,9 @@ export async function GET(request) {
 
 export async function POST(request) {
 	try {
+		console.log("=== NEWS CREATE API CALLED ===");
 		const contentType = request.headers.get("content-type");
+		console.log("Content-Type:", contentType);
 
 		if (contentType?.includes("multipart/form-data")) {
 			// Handle file upload with form data
@@ -194,9 +196,12 @@ export async function POST(request) {
 		} else {
 			// Handle JSON data (existing functionality)
 			const body = await request.json();
+			console.log("Request body:", JSON.stringify(body, null, 2));
 
 			// Validate the input
+			console.log("Validating data...");
 			const validatedData = validateNews.parse(body);
+			console.log("Validation passed. Validated data:", JSON.stringify(validatedData, null, 2));
 
 			const supabase = createClient();
 
@@ -214,8 +219,14 @@ export async function POST(request) {
 		}
 	} catch (error) {
 		console.error("Error creating news:", error);
+		console.error("Error details:", {
+			name: error.name,
+			message: error.message,
+			errors: error.errors || 'No errors array'
+		});
 
 		if (error.name === "ZodError") {
+			console.log("Zod validation errors:", error.errors);
 			return Response.json(
 				createErrorResponse(
 					"Validation error: " + error.errors.map((e) => e.message).join(", "),
