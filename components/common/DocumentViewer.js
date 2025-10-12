@@ -23,19 +23,33 @@ export function DocumentViewer({
       setError(null)
       
       // Determine file type from URL
-      const url = new URL(documentUrl)
-      const pathname = url.pathname.toLowerCase()
-      
-      if (pathname.includes('.pdf')) {
-        setFileType('pdf')
-      } else if (pathname.includes('.jpg') || pathname.includes('.jpeg') || 
-                 pathname.includes('.png') || pathname.includes('.gif') || 
-                 pathname.includes('.webp')) {
-        setFileType('image')
-      } else if (pathname.includes('.doc') || pathname.includes('.docx')) {
-        setFileType('document')
-      } else {
-        setFileType('unknown')
+      try {
+        const url = new URL(documentUrl)
+        const pathname = url.pathname.toLowerCase()
+        
+        if (pathname.includes('.pdf')) {
+          setFileType('pdf')
+        } else if (pathname.includes('.jpg') || pathname.includes('.jpeg') || 
+                   pathname.includes('.png') || pathname.includes('.gif') || 
+                   pathname.includes('.webp')) {
+          setFileType('image')
+        } else if (pathname.includes('.doc') || pathname.includes('.docx')) {
+          setFileType('document')
+        } else {
+          setFileType('unknown')
+        }
+
+        // Set a timeout to stop loading after 10 seconds
+        const timeoutId = setTimeout(() => {
+          console.log('Document loading timeout')
+          setIsLoading(false)
+        }, 10000)
+
+        return () => clearTimeout(timeoutId)
+      } catch (err) {
+        console.error('Error parsing document URL:', err)
+        setError(true)
+        setIsLoading(false)
       }
     }
   }, [documentUrl, isOpen])
@@ -85,6 +99,11 @@ export function DocumentViewer({
           <File className="mb-4 w-16 h-16 text-gray-400" />
           <h3 className="mb-2 text-lg font-medium text-gray-900">Unable to load document</h3>
           <p className="mb-4 text-gray-600">The document could not be displayed.</p>
+          <div className="p-3 mb-4 text-sm text-gray-700 bg-gray-100 rounded">
+            <strong>Debug Info:</strong><br/>
+            URL: {documentUrl}<br/>
+            File Type: {fileType}
+          </div>
           <Button onClick={handleDownload} variant="outline">
             <Download className="mr-2 w-4 h-4" />
             Download Instead
@@ -105,16 +124,29 @@ export function DocumentViewer({
     switch (fileType) {
       case 'pdf':
         return (
-          <div className="w-full h-full">
+          <div className="relative w-full h-full">
+            {isLoading && (
+              <div className="flex absolute inset-0 z-10 justify-center items-center bg-gray-50">
+                <div className="text-center">
+                  <div className="mx-auto mb-4 w-12 h-12 rounded-full border-b-2 animate-spin border-primary-blue"></div>
+                  <p className="text-gray-600">Loading PDF...</p>
+                </div>
+              </div>
+            )}
             <iframe
               src={documentUrl}
-              className="w-full h-full rounded-lg border-0"
-              onLoad={() => setIsLoading(false)}
+              className="w-full h-full border-0"
+              onLoad={() => {
+                console.log('PDF loaded successfully')
+                setIsLoading(false)
+              }}
               onError={() => {
+                console.error('PDF failed to load')
                 setError(true)
                 setIsLoading(false)
               }}
               title={documentName || 'PDF Document'}
+              style={{ display: isLoading ? 'none' : 'block' }}
             />
           </div>
         )
@@ -167,7 +199,7 @@ export function DocumentViewer({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-6xl max-h-[90vh] w-full h-full p-0 overflow-hidden">
+      <DialogContent className="max-w-7xl w-[95vw] h-[90vh] p-0 overflow-hidden">
         <DialogHeader className="px-6 py-4 bg-gray-50 border-b">
           <div className="flex justify-between items-center">
             <div className="flex gap-3 items-center">
@@ -178,6 +210,9 @@ export function DocumentViewer({
                 </DialogTitle>
                 <div className="flex gap-2 items-center mt-1">
                   {getFileTypeBadge()}
+                  <span className="text-xs text-gray-500">
+                    {fileType} | {documentUrl ? 'URL loaded' : 'No URL'}
+                  </span>
                 </div>
               </div>
             </div>
@@ -191,6 +226,16 @@ export function DocumentViewer({
                 <Download className="mr-2 w-4 h-4" />
                 Download
               </Button>
+              {isLoading && (
+                <Button
+                  onClick={() => setIsLoading(false)}
+                  variant="outline"
+                  size="sm"
+                  className="text-orange-600 border-orange-600 hover:bg-orange-600 hover:text-white"
+                >
+                  Stop Loading
+                </Button>
+              )}
               <Button
                 onClick={onClose}
                 variant="outline"
@@ -204,7 +249,7 @@ export function DocumentViewer({
         </DialogHeader>
         
         <div className="overflow-hidden flex-1 bg-white">
-          <div className="overflow-auto p-6 h-full">
+          <div className="w-full h-full">
             {renderDocumentContent()}
           </div>
         </div>

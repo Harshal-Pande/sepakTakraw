@@ -3,10 +3,11 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Calendar, FileText, ExternalLink, ChevronDown, ChevronUp } from 'lucide-react'
+import { Calendar, FileText, ExternalLink, ChevronDown, ChevronUp, Download } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { DocumentViewer } from '@/components/common/DocumentViewer'
 
 export function NewsCard({ 
   news, 
@@ -16,6 +17,7 @@ export function NewsCard({
   maxDescriptionLength = 150 
 }) {
   const [isExpanded, setIsExpanded] = useState(false)
+  const [documentViewerOpen, setDocumentViewerOpen] = useState(false)
   
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-IN', {
@@ -42,6 +44,14 @@ export function NewsCard({
     default: 'hover:shadow-lg transition-all duration-200',
     featured: 'border-2 border-primary-gold shadow-xl',
     compact: 'h-full',
+  }
+
+  const handleDocumentClick = () => {
+    setDocumentViewerOpen(true)
+  }
+
+  const handleDocumentViewerClose = () => {
+    setDocumentViewerOpen(false)
   }
 
   return (
@@ -93,13 +103,11 @@ export function NewsCard({
               <Button
                 variant="outline"
                 size="sm"
-                asChild
+                onClick={handleDocumentClick}
                 className="text-primary-blue border-primary-blue hover:bg-primary-blue hover:text-white"
               >
-                <Link href={news.document_url} target="_blank" rel="noopener noreferrer">
-                  <FileText className="w-4 h-4 mr-2" />
-                  View Document
-                </Link>
+                <FileText className="w-4 h-4 mr-2" />
+                View Document
               </Button>
             )}
           </div>
@@ -140,6 +148,16 @@ export function NewsCard({
           </Button>
         </div>
       </CardContent>
+
+      {/* Document Viewer Modal */}
+      {news.document_url && (
+        <DocumentViewer
+          documentUrl={news.document_url}
+          documentName={news.title || 'News Document'}
+          isOpen={documentViewerOpen}
+          onClose={handleDocumentViewerClose}
+        />
+      )}
     </Card>
   )
 }
