@@ -25,20 +25,6 @@ const footerLinks = {
   ],
 }
 
-const partnerLogos = [
-  { src: '/logos/AnuragThakur.jpg', alt: 'Anurag Thakur' },
-  { src: '/logos/AsianSepaktakrawFederation.jpg', alt: 'Asian Sepaktakraw Federation' },
-  { src: '/logos/AzadikaAmrut.png', alt: 'Azadi Ka Amrut Mahotsav' },
-  { src: '/logos/EkBharatShreshtBharat.png', alt: 'Ek Bharat Shreshtha Bharat' },
-  { src: '/logos/fitindia.jpg', alt: 'Fit India' },
-  { src: '/logos/g20.png', alt: 'G20' },
-  { src: '/logos/InternationalSepaktakrawFedaration.jpg', alt: 'International Sepaktakraw Federation' },
-  { src: '/logos/KheloIndia.jpg', alt: 'Khelo India' },
-  { src: '/logos/NationalAntiDopingAgency.jpg', alt: 'National Anti Doping Agency' },
-  { src: '/logos/Sai.png', alt: 'SAI' },
-  { src: '/logos/SwachhBharat.jpg', alt: 'Swachh Bharat' },
-]
-
 export default function Footer() {
   const pathname = usePathname()
   // Hide public footer on all admin routes (e.g., /admin, /admin/login, /admin/*)
@@ -113,6 +99,190 @@ export default function Footer() {
           ))}
         </div>
 
+        {/* Pre-Footer Section */}
+        <div className="border-t border-white/20 mt-8 pt-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* OUR PARTNERS */}
+            <div>
+              <h4 className="text-lg font-semibold mb-4 text-primary-gold">
+                OUR PARTNERS
+              </h4>
+              <div className="space-y-3">
+                <div className="relative w-32 h-16 opacity-70 hover:opacity-100 transition-opacity duration-300">
+                  <Image
+                    src="/logos/FootballSportsDevelopment.jpg"
+                    alt="Football Sports Development Limited"
+                    fill
+                    className="object-contain"
+                    sizes="128px"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* OUR SPONSORS */}
+            <div>
+              <h4 className="text-lg font-semibold mb-4 text-primary-gold">
+                OUR SPONSORS
+              </h4>
+              <div className="space-y-3">
+                <div className="relative w-32 h-16 opacity-70 hover:opacity-100 transition-opacity duration-300">
+                  <Image
+                    src="/logos/PerformatxActivewear.jpg"
+                    alt="PERFORMAX ACTIVEWEAR"
+                    fill
+                    className="object-contain"
+                    sizes="128px"
+                  />
+                </div>
+                <div className="relative w-32 h-16 opacity-70 hover:opacity-100 transition-opacity duration-300">
+                  <Image
+                    src="/logos/Nivia.jpg"
+                    alt="NIVIA"
+                    fill
+                    className="object-contain"
+                    sizes="128px"
+                  />
+                </div>
+                <div className="relative w-32 h-16 opacity-70 hover:opacity-100 transition-opacity duration-300">
+                  <Image
+                    src="/logos/IndiGo.jpg"
+                    alt="IndiGo"
+                    fill
+                    className="object-contain"
+                    sizes="128px"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* OUR SUPPORTERS */}
+            <div>
+              <h4 className="text-lg font-semibold mb-4 text-primary-gold">
+                OUR SUPPORTERS
+              </h4>
+              <p className="text-gray-300 text-sm">
+                Supporting our mission to promote Sepaktakraw sports
+              </p>
+            </div>
+
+            {/* QUICK LINKS */}
+            <div>
+              <h4 className="text-lg font-semibold mb-4 text-primary-gold">
+                QUICK LINKS
+              </h4>
+              <div className="space-y-3">
+                <div className="relative w-32 h-16 opacity-70 hover:opacity-100 transition-opacity duration-300">
+                  <Image
+                    src="/logos/FIFA.jpg"
+                    alt="FIFA"
+                    fill
+                    className="object-contain"
+                    sizes="128px"
+                  />
+                </div>
+                <div className="relative w-32 h-16 opacity-70 hover:opacity-100 transition-opacity duration-300">
+                  <Image
+                    src="/logos/AFC.jpg"
+                    alt="AFC"
+                    fill
+                    className="object-contain"
+                    sizes="128px"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Main Footer Logos Section */}
+        <div className="border-t border-white/20 mt-8 pt-8">
+          <h4 className="text-lg font-semibold mb-6 text-primary-gold text-center">
+            Our Partners & Affiliates
+          </h4>
+          <div className="flex flex-wrap justify-center items-center gap-6 md:gap-8">
+            {/* Dr. Nirmal M. Mungra */}
+            <div className="relative w-16 h-16 md:w-20 md:h-20 opacity-70 hover:opacity-100 transition-opacity duration-300">
+              <Image
+                src="/logos/DrNirmalMMungra.jpg"
+                alt="Dr. Nirmal M. Mungra"
+                fill
+                className="object-contain rounded-full"
+                sizes="(max-width: 768px) 64px, 80px"
+              />
+            </div>
+            {/* Dr. Raksha H.M. Mungra */}
+            <div className="relative w-16 h-16 md:w-20 md:h-20 opacity-70 hover:opacity-100 transition-opacity duration-300">
+              <Image
+                src="/logos/DrRakshaHMMungra.jpg"
+                alt="Dr. Raksha H.M. Mungra"
+                fill
+                className="object-contain rounded-full"
+                sizes="(max-width: 768px) 64px, 80px"
+              />
+            </div>
+            {/* 75 Azadi Ka Amrit Mahotsav */}
+            <div className="relative w-16 h-16 md:w-20 md:h-20 opacity-70 hover:opacity-100 transition-opacity duration-300">
+              <Image
+                src="/logos/AzadikaAmrut.png"
+                alt="75 Azadi Ka Amrit Mahotsav"
+                fill
+                className="object-contain"
+                sizes="(max-width: 768px) 64px, 80px"
+              />
+            </div>
+            {/* FIT INDIA */}
+            <div className="relative w-16 h-16 md:w-20 md:h-20 opacity-70 hover:opacity-100 transition-opacity duration-300">
+              <Image
+                src="/logos/fitindia.jpg"
+                alt="FIT INDIA"
+                fill
+                className="object-contain"
+                sizes="(max-width: 768px) 64px, 80px"
+              />
+            </div>
+            {/* GUJJU */}
+            <div className="relative w-16 h-16 md:w-20 md:h-20 opacity-70 hover:opacity-100 transition-opacity duration-300">
+              <Image
+                src="/logos/Gujju.jpg"
+                alt="GUJJU"
+                fill
+                className="object-contain rounded-full"
+                sizes="(max-width: 768px) 64px, 80px"
+              />
+            </div>
+            {/* ISTAR */}
+            <div className="relative w-16 h-16 md:w-20 md:h-20 opacity-70 hover:opacity-100 transition-opacity duration-300">
+              <Image
+                src="/logos/Istar.jpg"
+                alt="ISTAR"
+                fill
+                className="object-contain rounded-full"
+                sizes="(max-width: 768px) 64px, 80px"
+              />
+            </div>
+            {/* KHELO INDIA */}
+            <div className="relative w-16 h-16 md:w-20 md:h-20 opacity-70 hover:opacity-100 transition-opacity duration-300">
+              <Image
+                src="/logos/KheloIndia.jpg"
+                alt="KHELO INDIA"
+                fill
+                className="object-contain"
+                sizes="(max-width: 768px) 64px, 80px"
+              />
+            </div>
+            {/* SAI */}
+            <div className="relative w-16 h-16 md:w-20 md:h-20 opacity-70 hover:opacity-100 transition-opacity duration-300">
+              <Image
+                src="/logos/Sai.png"
+                alt="SAI"
+                fill
+                className="object-contain"
+                sizes="(max-width: 768px) 64px, 80px"
+              />
+            </div>
+          </div>
+        </div>
 
         {/* Bottom Bar */}
         <div className="border-t border-white/20 mt-8 pt-8">
