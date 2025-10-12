@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { Play, Pause } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 import {
   Carousel,
   CarouselContent,

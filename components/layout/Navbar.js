@@ -56,7 +56,7 @@ export default function Navbar() {
 
 						{/* Main menu (rectangular buttons) */}
 						<nav className="hidden w-full lg:block">
-							<ul className="flex gap-1 flex-wrap">
+							<ul className="flex flex-wrap gap-1">
 								{navigationItems.map((item) => {
 									const isActive = pathname === item.href
 									return (
@@ -67,7 +67,7 @@ export default function Navbar() {
 										</li>
 									)
 								})}
-								<li className="flex-shrink-0 border border-white/30 bg-white/20 hover:bg-white/30 transition rounded-sm">
+								<li className="flex-shrink-0 rounded-sm border transition border-white/30 bg-white/20 hover:bg-white/30">
 									<Link href="#" className="block px-3 py-2 text-white">
 										<Search className="w-4 h-4" />
 									</Link>
