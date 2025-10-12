@@ -95,9 +95,9 @@ export default function EditNewsPage({ params }) {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-64">
+      <div className="flex justify-center items-center h-64">
         <div className="text-center">
-          <div className="w-8 h-8 border-4 border-gray-200 border-t-primary-blue rounded-full animate-spin mx-auto"></div>
+          <div className="mx-auto w-8 h-8 rounded-full border-4 border-gray-200 animate-spin border-t-primary-blue"></div>
           <p className="mt-2 text-gray-600">Loading news article...</p>
         </div>
       </div>
@@ -107,10 +107,10 @@ export default function EditNewsPage({ params }) {
   return (
       <div className="space-y-6">
         {/* Header */}
-        <div className="flex items-center gap-4">
+        <div className="flex gap-4 items-center">
           <Button asChild variant="ghost" size="sm">
             <Link href="/admin/news">
-              <ArrowLeft className="w-4 h-4 mr-2" />
+              <ArrowLeft className="mr-2 w-4 h-4" />
               Back to News
             </Link>
           </Button>
@@ -124,8 +124,8 @@ export default function EditNewsPage({ params }) {
         <AdminCard>
           <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
-              <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-                <p className="text-red-600 text-sm">{error}</p>
+              <div className="p-4 bg-red-50 rounded-lg border border-red-200">
+                <p className="text-sm text-red-600">{error}</p>
               </div>
             )}
 
@@ -182,16 +182,16 @@ export default function EditNewsPage({ params }) {
               <Button
                 type="submit"
                 disabled={isSubmitting || !formData.title || !formData.description}
-                className="bg-primary-blue hover:bg-primary-blue/90 text-white"
+                className="text-white bg-primary-blue hover:bg-primary-blue/90"
               >
                 {isSubmitting ? (
                   <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    <Loader2 className="mr-2 w-4 h-4 animate-spin" />
                     Updating...
                   </>
                 ) : (
                   <>
-                    <Save className="w-4 h-4 mr-2" />
+                    <Save className="mr-2 w-4 h-4" />
                     Update News Article
                   </>
                 )}

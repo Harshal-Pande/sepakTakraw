@@ -82,25 +82,6 @@ const nextConfig = {
     ]
   },
 
-  // Webpack optimization
-  webpack: (config, { dev, isServer }) => {
-    // Optimize bundle size
-    if (!dev && !isServer) {
-      config.optimization.splitChunks.cacheGroups = {
-        ...config.optimization.splitChunks.cacheGroups,
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all',
-        },
-      }
-    }
-    return config
-  },
-
-  // Enable SWC minification
-  swcMinify: true,
-  
   // Output configuration
   output: 'standalone',
   

@@ -32,7 +32,7 @@ export function AdminPage({
 
   useEffect(() => {
     fetchData()
-  }, [currentPage, searchTerm])
+  }, [currentPage, searchTerm, fetchData])
 
   const handleEdit = (item) => {
     router.push(`${createHref}/edit/${item.id}`)

@@ -157,7 +157,7 @@ export default function GeneralBodyPage() {
   useEffect(() => {
     fetchMembers(1, '', selectedDistrict, selectedPosition)
     fetchFilters()
-  }, [])
+  }, [selectedDistrict, selectedPosition])
 
   if (error) {
     return (
