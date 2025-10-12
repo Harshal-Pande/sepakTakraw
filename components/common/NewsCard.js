@@ -55,6 +55,9 @@ export function NewsCard({
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover transition-transform duration-200 hover:scale-105"
+            onError={(e) => {
+              console.error('Image load error:', e.target.src);
+            }}
           />
           <div className="absolute top-2 left-2">
             <Badge variant="secondary" className="bg-primary-gold text-primary-blue">

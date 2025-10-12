@@ -9,7 +9,8 @@ import { validateNews } from "@/lib/validations";
 
 export async function GET(request) {
 	try {
-		const useMock = process.env.USE_MOCK_DATA === "true" || !process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+		const useMock = process.env.USE_MOCK_DATA === "true";
+		console.log("News API - Using mock data:", useMock);
 		
 		if (useMock) {
 			const mockNews = [

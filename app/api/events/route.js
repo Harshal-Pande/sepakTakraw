@@ -9,7 +9,11 @@ import { validateEvents } from "@/lib/validations";
 
 export async function GET(request) {
 	try {
-		const useMock = process.env.USE_MOCK_DATA === "true" || !process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+		const useMock = process.env.USE_MOCK_DATA === "true";
+		console.log("USE_MOCK_DATA:", process.env.USE_MOCK_DATA);
+		console.log("NEXT_PUBLIC_SUPABASE_URL:", process.env.NEXT_PUBLIC_SUPABASE_URL);
+		console.log("NEXT_PUBLIC_SUPABASE_ANON_KEY:", process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+		console.log("Using mock data:", useMock);
 		
 		if (useMock) {
 			const mockEvents = [
@@ -97,6 +101,8 @@ export async function GET(request) {
 			.from("events")
 			.select("*", { count: "exact" })
 			.order("event_date", { ascending: false });
+		
+		console.log("Querying events from database...");
 
 		// Add search functionality
 		if (search) {
@@ -112,6 +118,12 @@ export async function GET(request) {
 		}
 
 		const result = await queryWithPagination(query, page, limit);
+		
+		console.log("Database query result:", {
+			data: result.data,
+			pagination: result.pagination,
+			count: result.data?.length
+		});
 
 		return Response.json(
 			createResponse(
