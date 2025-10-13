@@ -128,11 +128,11 @@ export default function PlayerRegistrationStep2() {
 
   if (isValidating) {
     return (
-      <div className="min-h-screen bg-gray-50 py-12">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="py-12 min-h-screen bg-gray-50">
+        <div className="px-4 mx-auto max-w-4xl sm:px-6 lg:px-8">
           <Card className="shadow-lg">
             <CardContent className="py-12 text-center">
-              <Loader2 className="mx-auto h-8 w-8 animate-spin text-blue-600" />
+              <Loader2 className="mx-auto w-8 h-8 text-blue-600 animate-spin" />
               <p className="mt-4 text-gray-600">Validating reference number...</p>
             </CardContent>
           </Card>
@@ -143,24 +143,24 @@ export default function PlayerRegistrationStep2() {
 
   if (success) {
     return (
-      <div className="min-h-screen bg-gray-50 py-12">
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="py-12 min-h-screen bg-gray-50">
+        <div className="px-4 mx-auto max-w-2xl sm:px-6 lg:px-8">
           <Card className="shadow-lg">
             <CardHeader className="text-center">
-              <div className="mx-auto mb-4 w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+              <div className="flex justify-center items-center mx-auto mb-4 w-16 h-16 bg-green-100 rounded-full">
                 <CheckCircle className="w-8 h-8 text-green-600" />
               </div>
               <CardTitle className="text-2xl font-bold text-gray-900">
                 Registration Submitted Successfully!
               </CardTitle>
-              <p className="text-gray-600 mt-2">
+              <p className="mt-2 text-gray-600">
                 Your registration has been submitted and is under review.
               </p>
             </CardHeader>
             
             <CardContent className="space-y-6">
-              <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-6">
-                <h3 className="font-semibold text-blue-900 mb-2">Reference Number</h3>
+              <div className="p-6 bg-blue-50 rounded-lg border-2 border-blue-200">
+                <h3 className="mb-2 font-semibold text-blue-900">Reference Number</h3>
                 <code className="text-lg font-bold text-blue-900">
                   {formData.reference_number}
                 </code>
@@ -169,24 +169,24 @@ export default function PlayerRegistrationStep2() {
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold text-gray-900">What happens next?</h3>
                 <div className="space-y-3">
-                  <div className="flex items-start gap-3">
-                    <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 mt-0.5">
+                  <div className="flex gap-3 items-start">
+                    <div className="flex flex-shrink-0 justify-center items-center mt-0.5 w-6 h-6 text-sm font-bold text-white bg-blue-600 rounded-full">
                       1
                     </div>
                     <p className="text-gray-700">
                       Our team will review your registration within 2-3 business days
                     </p>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 mt-0.5">
+                  <div className="flex gap-3 items-start">
+                    <div className="flex flex-shrink-0 justify-center items-center mt-0.5 w-6 h-6 text-sm font-bold text-white bg-blue-600 rounded-full">
                       2
                     </div>
                     <p className="text-gray-700">
                       You'll receive an email notification about the status of your registration
                     </p>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 mt-0.5">
+                  <div className="flex gap-3 items-start">
+                    <div className="flex flex-shrink-0 justify-center items-center mt-0.5 w-6 h-6 text-sm font-bold text-white bg-blue-600 rounded-full">
                       3
                     </div>
                     <p className="text-gray-700">
@@ -198,7 +198,7 @@ export default function PlayerRegistrationStep2() {
 
               <Button
                 onClick={() => router.push('/')}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                className="w-full text-white bg-blue-600 hover:bg-blue-700"
                 size="lg"
               >
                 Return to Homepage
@@ -212,8 +212,8 @@ export default function PlayerRegistrationStep2() {
 
   if (error && !refData) {
     return (
-      <div className="min-h-screen bg-gray-50 py-12">
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="py-12 min-h-screen bg-gray-50">
+        <div className="px-4 mx-auto max-w-2xl sm:px-6 lg:px-8">
           <Card className="shadow-lg">
             <CardContent className="py-12 text-center">
               <Alert variant="destructive">
@@ -224,7 +224,7 @@ export default function PlayerRegistrationStep2() {
                 className="mt-4"
                 variant="outline"
               >
-                <ArrowLeft className="mr-2 h-4 w-4" />
+                <ArrowLeft className="mr-2 w-4 h-4" />
                 Back to Step 1
               </Button>
             </CardContent>
@@ -235,35 +235,35 @@ export default function PlayerRegistrationStep2() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="py-12 min-h-screen bg-gray-50">
+      <div className="px-4 mx-auto max-w-4xl sm:px-6 lg:px-8">
         <Card className="shadow-lg">
           <CardHeader>
-            <div className="flex items-center gap-4">
+            <div className="flex gap-4 items-center">
               <Button
                 onClick={() => router.push('/player-registration/step1')}
                 variant="outline"
                 size="sm"
               >
-                <ArrowLeft className="mr-2 h-4 w-4" />
+                <ArrowLeft className="mr-2 w-4 h-4" />
                 Back to Step 1
               </Button>
               <div>
                 <CardTitle className="text-2xl font-bold text-gray-900">
                   Step 2: Complete Your Registration
                 </CardTitle>
-                <p className="text-gray-600 mt-1">
+                <p className="mt-1 text-gray-600">
                   Fill out all the required information to complete your player registration.
                 </p>
               </div>
             </div>
             
             {/* Reference Number Display */}
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-4">
-              <div className="flex items-center justify-between">
+            <div className="p-4 mt-4 bg-blue-50 rounded-lg border border-blue-200">
+              <div className="flex justify-between items-center">
                 <div>
                   <Label className="text-sm font-medium text-blue-700">Reference Number</Label>
-                  <code className="text-lg font-bold text-blue-900 block">
+                  <code className="block text-lg font-bold text-blue-900">
                     {formData.reference_number}
                   </code>
                 </div>
@@ -285,9 +285,9 @@ export default function PlayerRegistrationStep2() {
 
               {/* Personal Information */}
               <div className="space-y-6">
-                <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">Personal Information</h3>
+                <h3 className="pb-2 text-lg font-semibold text-gray-900 border-b">Personal Information</h3>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   <div>
                     <Label htmlFor="phone" className="text-sm font-medium text-gray-700">
                       Phone Number *
@@ -356,7 +356,7 @@ export default function PlayerRegistrationStep2() {
 
               {/* Address Information */}
               <div className="space-y-6">
-                <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">Address Information</h3>
+                <h3 className="pb-2 text-lg font-semibold text-gray-900 border-b">Address Information</h3>
                 
                 <div className="space-y-4">
                   <div>
@@ -387,7 +387,7 @@ export default function PlayerRegistrationStep2() {
                     />
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                     <div>
                       <Label htmlFor="city" className="text-sm font-medium text-gray-700">
                         City
@@ -435,9 +435,9 @@ export default function PlayerRegistrationStep2() {
 
               {/* Sports Information */}
               <div className="space-y-6">
-                <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">Sports Information</h3>
+                <h3 className="pb-2 text-lg font-semibold text-gray-900 border-b">Sports Information</h3>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   <div>
                     <Label htmlFor="experience_years" className="text-sm font-medium text-gray-700">
                       Years of Experience
@@ -488,9 +488,9 @@ export default function PlayerRegistrationStep2() {
 
               {/* Emergency Contact */}
               <div className="space-y-6">
-                <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">Emergency Contact</h3>
+                <h3 className="pb-2 text-lg font-semibold text-gray-900 border-b">Emergency Contact</h3>
                 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                   <div>
                     <Label htmlFor="emergency_contact_name" className="text-sm font-medium text-gray-700">
                       Contact Name
@@ -538,7 +538,7 @@ export default function PlayerRegistrationStep2() {
 
               {/* Additional Information */}
               <div className="space-y-6">
-                <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">Additional Information</h3>
+                <h3 className="pb-2 text-lg font-semibold text-gray-900 border-b">Additional Information</h3>
                 
                 <div>
                   <Label htmlFor="additional_notes" className="text-sm font-medium text-gray-700">
@@ -558,10 +558,10 @@ export default function PlayerRegistrationStep2() {
 
               {/* Terms and Conditions */}
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">Terms and Conditions</h3>
+                <h3 className="pb-2 text-lg font-semibold text-gray-900 border-b">Terms and Conditions</h3>
                 
                 <div className="space-y-3">
-                  <div className="flex items-start gap-3">
+                  <div className="flex gap-3 items-start">
                     <Checkbox
                       id="terms_accepted"
                       name="terms_accepted"
@@ -574,7 +574,7 @@ export default function PlayerRegistrationStep2() {
                     </Label>
                   </div>
 
-                  <div className="flex items-start gap-3">
+                  <div className="flex gap-3 items-start">
                     <Checkbox
                       id="privacy_policy_accepted"
                       name="privacy_policy_accepted"
@@ -592,12 +592,12 @@ export default function PlayerRegistrationStep2() {
               <Button
                 type="submit"
                 disabled={isLoading || !formData.terms_accepted || !formData.privacy_policy_accepted}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                className="w-full text-white bg-blue-600 hover:bg-blue-700"
                 size="lg"
               >
                 {isLoading ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader2 className="mr-2 w-4 h-4 animate-spin" />
                     Submitting Registration...
                   </>
                 ) : (
@@ -608,6 +608,7 @@ export default function PlayerRegistrationStep2() {
           </CardContent>
         </Card>
       </div>
+  
     )
   }
 }

@@ -130,7 +130,7 @@ export default function PlayerRegistrationStep1() {
                       1
                     </div>
                     <p className="text-gray-700">
-                      <strong>Copy the reference number carefully</strong> - you'll need it for Step 2
+                      <strong>Copy the reference number carefully</strong> - you&apos;ll need it for Step 2
                     </p>
                   </div>
                   <div className="flex items-start gap-3">
