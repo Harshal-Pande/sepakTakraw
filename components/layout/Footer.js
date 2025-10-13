@@ -40,10 +40,11 @@ export default function Footer() {
             <div className="flex items-center space-x-3 mb-4">
               <div className="relative w-12 h-12">
                 <Image
-                  src="/logos/sepak.png"
+                  src="/Logos/sepak.png"
                   alt="Sepaktakraw Sports Federation"
                   fill
                   className="object-contain"
+                  sizes="48px"
                 />
               </div>
               <div>
@@ -110,7 +111,7 @@ export default function Footer() {
               <div className="space-y-3">
                 <div className="relative w-32 h-16 opacity-70 hover:opacity-100 transition-opacity duration-300">
                   <Image
-                    src="/logos/FootballSportsDevelopment.jpg"
+                    src="/Logos/FootballSportsDevelopment.jpg"
                     alt="Football Sports Development Limited"
                     fill
                     className="object-contain"
@@ -128,7 +129,7 @@ export default function Footer() {
               <div className="space-y-3">
                 <div className="relative w-32 h-16 opacity-70 hover:opacity-100 transition-opacity duration-300">
                   <Image
-                    src="/logos/PerformatxActivewear.jpg"
+                    src="/Logos/PerformatxActivewear.jpg"
                     alt="PERFORMAX ACTIVEWEAR"
                     fill
                     className="object-contain"
@@ -137,7 +138,7 @@ export default function Footer() {
                 </div>
                 <div className="relative w-32 h-16 opacity-70 hover:opacity-100 transition-opacity duration-300">
                   <Image
-                    src="/logos/Nivia.jpg"
+                    src="/Logos/Nivia.jpg"
                     alt="NIVIA"
                     fill
                     className="object-contain"
@@ -146,7 +147,7 @@ export default function Footer() {
                 </div>
                 <div className="relative w-32 h-16 opacity-70 hover:opacity-100 transition-opacity duration-300">
                   <Image
-                    src="/logos/IndiGo.jpg"
+                    src="/Logos/IndiGo.jpg"
                     alt="IndiGo"
                     fill
                     className="object-contain"
@@ -173,8 +174,8 @@ export default function Footer() {
               </h4>
               <div className="space-y-3">
                 <div className="relative w-32 h-16 opacity-70 hover:opacity-100 transition-opacity duration-300">
-                  <Image
-                    src="/logos/FIFA.jpg"
+              <Image
+                src="/Logos/FIFA.jpg"
                     alt="FIFA"
                     fill
                     className="object-contain"
@@ -182,8 +183,8 @@ export default function Footer() {
                   />
                 </div>
                 <div className="relative w-32 h-16 opacity-70 hover:opacity-100 transition-opacity duration-300">
-                  <Image
-                    src="/logos/AFC.jpg"
+              <Image
+                src="/Logos/AFC.jpg"
                     alt="AFC"
                     fill
                     className="object-contain"
@@ -204,7 +205,7 @@ export default function Footer() {
             {/* Dr. Nirmal M. Mungra */}
             <div className="relative w-16 h-16 md:w-20 md:h-20 opacity-70 hover:opacity-100 transition-opacity duration-300">
               <Image
-                src="/logos/DrNirmalMMungra.jpg"
+                src="/Logos/DrNirmalMMungra.jpg"
                 alt="Dr. Nirmal M. Mungra"
                 fill
                 className="object-contain rounded-full"
@@ -214,7 +215,7 @@ export default function Footer() {
             {/* Dr. Raksha H.M. Mungra */}
             <div className="relative w-16 h-16 md:w-20 md:h-20 opacity-70 hover:opacity-100 transition-opacity duration-300">
               <Image
-                src="/logos/DrRakshaHMMungra.jpg"
+                src="/Logos/DrRakshaHMMungra.jpg"
                 alt="Dr. Raksha H.M. Mungra"
                 fill
                 className="object-contain rounded-full"
@@ -224,7 +225,7 @@ export default function Footer() {
             {/* 75 Azadi Ka Amrit Mahotsav */}
             <div className="relative w-16 h-16 md:w-20 md:h-20 opacity-70 hover:opacity-100 transition-opacity duration-300">
               <Image
-                src="/logos/AzadikaAmrut.png"
+                src="/Logos/AzadikaAmrut.png"
                 alt="75 Azadi Ka Amrit Mahotsav"
                 fill
                 className="object-contain"
@@ -234,7 +235,7 @@ export default function Footer() {
             {/* FIT INDIA */}
             <div className="relative w-16 h-16 md:w-20 md:h-20 opacity-70 hover:opacity-100 transition-opacity duration-300">
               <Image
-                src="/logos/fitindia.jpg"
+                src="/Logos/fitindia.jpg"
                 alt="FIT INDIA"
                 fill
                 className="object-contain"
@@ -244,7 +245,7 @@ export default function Footer() {
             {/* GUJJU */}
             <div className="relative w-16 h-16 md:w-20 md:h-20 opacity-70 hover:opacity-100 transition-opacity duration-300">
               <Image
-                src="/logos/Gujju.jpg"
+                src="/Logos/Gujju.jpg"
                 alt="GUJJU"
                 fill
                 className="object-contain rounded-full"
@@ -254,7 +255,7 @@ export default function Footer() {
             {/* ISTAR */}
             <div className="relative w-16 h-16 md:w-20 md:h-20 opacity-70 hover:opacity-100 transition-opacity duration-300">
               <Image
-                src="/logos/Istar.jpg"
+                src="/Logos/Istar.jpg"
                 alt="ISTAR"
                 fill
                 className="object-contain rounded-full"
@@ -264,7 +265,7 @@ export default function Footer() {
             {/* KHELO INDIA */}
             <div className="relative w-16 h-16 md:w-20 md:h-20 opacity-70 hover:opacity-100 transition-opacity duration-300">
               <Image
-                src="/logos/KheloIndia.jpg"
+                src="/Logos/KheloIndia.jpg"
                 alt="KHELO INDIA"
                 fill
                 className="object-contain"
@@ -274,7 +275,7 @@ export default function Footer() {
             {/* SAI */}
             <div className="relative w-16 h-16 md:w-20 md:h-20 opacity-70 hover:opacity-100 transition-opacity duration-300">
               <Image
-                src="/logos/Sai.png"
+                src="/Logos/Sai.png"
                 alt="SAI"
                 fill
                 className="object-contain"

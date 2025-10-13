@@ -10,7 +10,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { ModeToggle } from '@/components/mode-toggle'
 
 const navigationItems = [
-	{ name: 'GOVERNANCE', href: '/governance' },
+	{ name: 'ADMIN', href: '/admin/login' },
 	{ name: 'NATIONAL TEAM', href: '/national-team' },
 	{ name: 'COMPETITIONS', href: '/competitions' },
 	{ name: 'DEVELOPMENT', href: '/development' },
