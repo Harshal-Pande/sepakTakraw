@@ -90,6 +90,22 @@ export default function PlayerRegistrationStep2() {
     if (error) setError('')
   }
 
+  // Simple client-side validation before submit
+  const validateBeforeSubmit = () => {
+    const required = ['phone', 'date_of_birth', 'gender']
+    for (const field of required) {
+      if (!formData[field] || (typeof formData[field] === 'string' && formData[field].trim() === '')) {
+        setError(`${field.replace('_',' ')} is required`)
+        return false
+      }
+    }
+    if (!formData.terms_accepted || !formData.privacy_policy_accepted) {
+      setError('You must accept the terms and privacy policy')
+      return false
+    }
+    return true
+  }
+
   const handleSelectChange = (name, value) => {
     setFormData(prev => ({
       ...prev,
@@ -99,6 +115,7 @@ export default function PlayerRegistrationStep2() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (!validateBeforeSubmit()) return
     setIsLoading(true)
     setError('')
 
