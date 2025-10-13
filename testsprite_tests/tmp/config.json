@@ -2,5 +2,15 @@
   "status": "commited",
   "type": "frontend",
   "scope": "codebase",
-  "localEndpoint": "http://localhost:3000"
+  "localEndpoint": "http://localhost:3000",
+  "executionArgs": {
+    "projectName": "sepaknew",
+    "projectPath": "C:\\Users\\ASUS\\Documents\\SECOND SEMISTER\\agent\\sepaknew",
+    "testIds": [],
+    "additionalInstruction": "",
+    "envs": {
+      "API_KEY": "sk-user-AlNgqDYkYvAHbRTZZp5kHDbGDA28gs9d_ywU4oFh7Wq5H5D3qxU7WwlNnqwq0NLzT0byUqkxn5tX0prPPplwbW20xs6iI69i_PLhuNPUDqu2OohtiAaXgIVo9ewjOVAIxD8"
+    }
+  },
+  "proxy": "http://c75cd389-32ee-4ae5-bc73-b8b5eaef1e2b:CAVlJo7FfipztgfXdBgWGyj0ALbz9ljn@tun.testsprite.com:8080"
 }
