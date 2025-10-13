@@ -10,6 +10,7 @@ import { Calendar, MapPin, Clock, ArrowLeft, FileText, Download } from 'lucide-r
 import Link from 'next/link'
 import { format } from 'date-fns'
 import { DocumentViewer } from '@/components/common/DocumentViewer'
+import { EventRegistration } from '@/components/common/EventRegistration'
 
 export default function EventDetailPage() {
   const [event, setEvent] = useState(null)
@@ -194,6 +195,22 @@ export default function EventDetailPage() {
                     {event.description}
                   </p>
                 </div>
+              </CardContent>
+            </Card>
+
+            {/* Registration Component */}
+            <Card className="mb-8">
+              <CardHeader>
+                <CardTitle>Register for this Event</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <EventRegistration
+                  event={event}
+                  onRegister={async (formData) => {
+                    // Placeholder: wire up to a backend route when available
+                    console.log('Submitting event registration', formData)
+                  }}
+                />
               </CardContent>
             </Card>
 
