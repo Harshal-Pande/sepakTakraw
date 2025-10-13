@@ -153,12 +153,18 @@ export async function POST(request) {
 
 		const supabase = createClient();
 
-		const { data, error } = await supabase
+    const { data, error } = await supabase
 			.from("events")
 			.insert([validatedData])
 			.select();
 
-		if (error) throw error;
+    if (error) {
+      console.error('[EVENTS] Supabase insert error:', error)
+      return Response.json(
+        createErrorResponse('Failed to create event', 'EVENT_CREATE_ERROR'),
+        { status: 500 }
+      )
+    }
 
 		return Response.json(
 			createResponse(data[0], "Event created successfully"),

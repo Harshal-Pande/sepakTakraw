@@ -112,7 +112,7 @@ export async function POST(request) {
 		const contentType = request.headers.get("content-type");
 		console.log("Content-Type:", contentType);
 
-		if (contentType?.includes("multipart/form-data")) {
+    if (contentType?.includes("multipart/form-data")) {
 			// Handle file upload with form data
 			const formData = await request.formData();
 
@@ -176,7 +176,7 @@ export async function POST(request) {
 
 			const supabase = createClient();
 
-			const { data, error } = await supabase
+      const { data, error } = await supabase
 				.from("news")
 				.insert([
 					{
@@ -188,7 +188,13 @@ export async function POST(request) {
 				])
 				.select();
 
-			if (error) throw error;
+      if (error) {
+        console.error('[NEWS] Supabase insert error (multipart):', error)
+        return Response.json(
+          createErrorResponse('Failed to create news', 'NEWS_CREATE_ERROR'),
+          { status: 500 }
+        )
+      }
 
 			return Response.json(
 				createResponse(data[0], "News created successfully"),
@@ -206,12 +212,18 @@ export async function POST(request) {
 
 			const supabase = createClient();
 
-			const { data, error } = await supabase
+      const { data, error } = await supabase
 				.from("news")
 				.insert([validatedData])
 				.select();
 
-			if (error) throw error;
+      if (error) {
+        console.error('[NEWS] Supabase insert error (json):', error)
+        return Response.json(
+          createErrorResponse('Failed to create news', 'NEWS_CREATE_ERROR'),
+          { status: 500 }
+        )
+      }
 
 			return Response.json(
 				createResponse(data[0], "News created successfully"),

@@ -207,8 +207,18 @@ export default function EventDetailPage() {
                 <EventRegistration
                   event={event}
                   onRegister={async (formData) => {
-                    // Placeholder: wire up to a backend route when available
-                    console.log('Submitting event registration', formData)
+                    const res = await fetch('/api/event-registrations', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        event_id: event.id,
+                        ...formData,
+                      }),
+                    })
+                    if (!res.ok) {
+                      throw new Error('Failed to submit registration')
+                    }
+                    return res.json()
                   }}
                 />
               </CardContent>
