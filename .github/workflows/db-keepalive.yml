@@ -4,7 +4,6 @@ on:
   # Runs every minute for testing. Change later to daily like: '0 9 * * *'
   schedule:
     - cron: '*/1 * * * *'
-  # Allow manual trigger
   workflow_dispatch:
 
 jobs:
@@ -30,18 +29,15 @@ jobs:
       - name: Run keepalive cron script
         run: npm start
         env:
-          # REQUIRED: point to your deployed Next.js keepalive endpoint
-          NEXT_API_URL: ${{ secrets.NEXT_API_URL }}
-          # Optional API key header for your endpoint
-          NEXT_API_KEY: ${{ secrets.NEXT_API_KEY }}
+          # Use your LIVE endpoint (GitHub runner can't hit localhost)
+          NEXT_API_URL: https://sepak-takraw-maha.vercel.app/api/db-keepalive
+          NEXT_API_KEY: ""
 
-          # Email is optional; keep disabled unless you configure a provider
-          EMAIL_ENABLED: ${{ secrets.EMAIL_ENABLED }}
-          SMTP_HOST: ${{ secrets.SMTP_HOST }}
-          SMTP_PORT: ${{ secrets.SMTP_PORT }}
-          SMTP_USER: ${{ secrets.SMTP_USER }}
-          SMTP_PASS: ${{ secrets.SMTP_PASS }}
-          FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
-          TO_EMAIL: ${{ secrets.TO_EMAIL }}
-
-
+          # Email (Gmail App Password recommended)
+          EMAIL_ENABLED: "true"
+          SMTP_HOST: smtp.gmail.com
+          SMTP_PORT: "587"
+          SMTP_USER: "hmansuri882@gmail.com"
+          SMTP_PASS: "qwbz dxvs anct qetb"
+          FROM_EMAIL: "hmansuri882@gmail.com"
+          TO_EMAIL: "hassanmansuri570@gmail.com"
