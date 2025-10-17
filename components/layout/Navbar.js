@@ -10,14 +10,17 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { ModeToggle } from '@/components/mode-toggle'
 
 const navigationItems = [
-	{ name: 'ADMIN', href: '/admin/login' },
-	{ name: 'NATIONAL TEAM', href: '/national-team' },
-	{ name: 'COMPETITIONS', href: '/competitions' },
-	{ name: 'DEVELOPMENT', href: '/development' },
-	{ name: 'DOCUMENTS', href: '/documents' },
 	{ name: 'NEWS', href: '/news' },
+	{ name: 'EVENTS', href: '/events' },
+	{ name: 'RESULTS', href: '/results' },
+	{ name: 'ELECTIONS', href: '/elections' },
+	{ name: 'HISTORY', href: '/history' },
+	{ name: 'GENERAL BODY', href: '/general-body' },
+	{ name: 'MYAS COMPLIANCE', href: '/myas-compliance' },
+	{ name: 'ANTI-DOP GUIDELINES', href: '/anti-dop-guidelines' },
 	{ name: 'PLAYER REGISTRATION', href: '/player-registration/step1' },
-	{ name: 'FAN ZONE', href: '/fan-zone' },
+	{ name: 'CONTACT', href: '/contact' },
+	{ name: 'ADMIN', href: '/admin/login' },
 ]
 
 export default function Navbar() {
