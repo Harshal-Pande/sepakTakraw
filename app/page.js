@@ -3,8 +3,7 @@
 import { useState, useEffect } from 'react'
 import Hero from '@/components/layout/Hero'
 import { StatsSection } from '@/components/sections/StatsSection'
-import { NewsSection, FeaturedNewsSection } from '@/components/sections/NewsSection'
-import { EventsSection, UpcomingEventsSection } from '@/components/sections/EventsSection'
+import LatestMixedSection from '@/components/sections/LatestMixed'
 import { QuickLinksSection } from '@/components/sections/QuickLinks'
 
 export default function Home() {
@@ -38,19 +37,8 @@ export default function Home() {
       {/* Stats Section */}
       <StatsSection className="border-t border-gray-200" />
 
-      {/* Latest Updates Section (formerly Featured News) */}
-      <FeaturedNewsSection className="border-t border-gray-200" />
-
-      {/* Upcoming Events Section */}
-      <UpcomingEventsSection className="border-t border-gray-200" />
-
-      {/* Events Section */}
-      <EventsSection 
-        title="Recent Events" 
-        limit={6}
-        showViewAll={true}
-        className="border-t border-gray-200"
-      />
+      {/* Latest Mixed Section: News + Events */}
+      <LatestMixedSection className="border-t border-gray-200" />
     </div>
   )
 }
