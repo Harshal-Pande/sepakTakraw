@@ -32,7 +32,7 @@ const navigationItems = [
   { name: 'Elections', href: '/admin/elections', icon: Vote },
   { name: 'MYAS Compliance', href: '/admin/myas-compliance', icon: Shield },
   { name: 'Anti-DOP Guidelines', href: '/admin/anti-dop-guidelines', icon: AlertTriangle },
-  { name: 'RTI', href: '/admin/rti', icon: Info },
+  // { name: 'RTI', href: '/admin/rti', icon: Info }, // Disabled: route not implemented
   { name: 'History', href: '/admin/history', icon: History },
   { name: 'Contact', href: '/admin/contact', icon: Phone },
   { name: 'Hero Images', href: '/admin/hero-images', icon: Image },
