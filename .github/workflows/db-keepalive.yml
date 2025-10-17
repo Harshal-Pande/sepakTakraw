@@ -1,9 +1,9 @@
 name: Database KeepAlive Cron
 
 on:
-  # Runs daily at 09:00 UTC. Adjust as needed.
+  # Runs every minute for testing. Change later to daily like: '0 9 * * *'
   schedule:
-    - cron: '0 9 * * *'
+    - cron: '*/1 * * * *'
   # Allow manual trigger
   workflow_dispatch:
 
