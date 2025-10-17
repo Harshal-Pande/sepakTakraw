@@ -83,18 +83,44 @@ async function main() {
     console.log('Could not parse database stats:', e.message)
   }
 
-  const subject = `Database KeepAlive ${healthScore === 'excellent' ? '✅' : '⚠️'}: ${new Date().toISOString()}`
-  const text = `Database KeepAlive Report:
+  const websiteUrl = NEXT_API_URL.replace('/api/db-keepalive', '')
+  
+  const subject = `🌐 Sepaktakraw Federation - Database KeepAlive ${healthScore === 'excellent' ? '✅' : '⚠️'}: ${new Date().toISOString()}`
+  const text = `🌐 SEPAKTAKRAW FEDERATION - DATABASE KEEPALIVE REPORT
+
+📊 WEBSITE DETAILS:
+Website: ${websiteUrl}
+Organization: Sepaktakraw Federation of India
+Purpose: Official website for national Sepaktakraw sports federation
+Database: Supabase (PostgreSQL)
+
+🔍 KEEPALIVE SUMMARY:
 URL: ${NEXT_API_URL}
 Status: ${response.status}
 Health Score: ${healthScore}
 Database Status: ${dbStats.database_status || 'unknown'}
 Operations Performed: ${dbStats.total_operations || 'unknown'}
-Tables Checked: ${dbStats.news_articles?.count || 0} news, ${dbStats.events?.count || 0} events, ${dbStats.results?.count || 0} results
-System Log Created: ${dbStats.system_log_created ? 'Yes' : 'No'}
-Recommendation: ${dbStats.recommendation || 'No recommendation'}
+Execution Time: ${new Date().toISOString()}
 
-Full Response:
+📈 DATABASE STATISTICS:
+• News Articles: ${dbStats.news_articles?.count || 0} (${dbStats.news_articles?.recent_items || 0} recent)
+• Events: ${dbStats.events?.count || 0} (${dbStats.events?.recent_items || 0} recent)
+• Results: ${dbStats.results?.count || 0} (${dbStats.results?.recent_items || 0} recent)
+• General Body Members: ${dbStats.general_body?.count || 0}
+• Hero Images: ${dbStats.hero_images?.count || 0} (${dbStats.hero_images?.active_images || 0} active)
+• History Entries: ${dbStats.history?.count || 0}
+• Contact Records: ${dbStats.contact_info?.count || 0}
+
+⚙️ SYSTEM OPERATIONS:
+System Log Created: ${dbStats.system_log_created ? 'Yes' : 'No'}
+System Record Updated: ${dbStats.system_record_updated ? 'Yes' : 'No'}
+Queries Executed: ${dbStats.queries_executed || 'unknown'}
+Counts Executed: ${dbStats.counts_executed || 'unknown'}
+
+💡 RECOMMENDATION:
+${dbStats.recommendation || 'No recommendation'}
+
+📋 FULL RESPONSE DATA:
 ${typeof body === 'string' ? body : JSON.stringify(body, null, 2)}`
 
   const html = `
