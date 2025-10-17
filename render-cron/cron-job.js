@@ -162,7 +162,7 @@ ${typeof body === 'string' ? body : JSON.stringify(body, null, 2)}`
       <details style="margin-top: 20px;">
         <summary style="cursor: pointer; font-weight: bold;">Full Response Data</summary>
         <pre style="background: #f8f9fa; padding: 10px; border-radius: 5px; overflow-x: auto; margin-top: 10px;">${
-          typeof body === 'string' ? body : JSON.stringify(body, null, 2)
+    typeof body === 'string' ? body : JSON.stringify(body, null, 2)
         }</pre>
       </details>
     </div>`
