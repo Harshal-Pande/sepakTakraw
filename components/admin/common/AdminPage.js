@@ -31,8 +31,11 @@ export function AdminPage({
   const router = useRouter()
 
   useEffect(() => {
+    // Intentionally exclude fetchData from deps to avoid infinite loops
+    // because parent components recreate fetchData on each render.
     fetchData()
-  }, [currentPage, searchTerm, fetchData])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, searchTerm])
 
   const handleEdit = (item) => {
     router.push(`${createHref}/edit/${item.id}`)

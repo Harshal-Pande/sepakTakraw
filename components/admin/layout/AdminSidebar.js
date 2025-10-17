@@ -57,17 +57,17 @@ export default function AdminSidebar({ isOpen, onClose, userRole }) {
       {/* Mobile overlay */}
       {isOpen && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          className="fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden"
           onClick={onClose}
         />
       )}
 
       {/* Sidebar */}
       <div className={cn(
-        "fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0",
+        "fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 transition-transform duration-300 ease-in-out transform lg:translate-x-0 lg:static lg:inset-0",
         isOpen ? "translate-x-0" : "-translate-x-full"
       )}>
-        <div className="flex items-center justify-between p-4 border-b border-gray-200">
+        <div className="flex justify-between items-center p-4 border-b border-gray-200">
           <h2 className="text-lg font-semibold text-gray-900">Admin Panel</h2>
           <Button
             variant="ghost"
@@ -93,9 +93,9 @@ export default function AdminSidebar({ isOpen, onClose, userRole }) {
                 href={item.href}
                 onClick={onClose}
                 className={cn(
-                  "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
+                  "flex gap-3 items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors",
                   isActive
-                    ? "bg-primary-blue text-white"
+                    ? "text-white bg-primary-blue"
                     : "text-gray-700 hover:bg-gray-100"
                 )}
               >
@@ -107,10 +107,10 @@ export default function AdminSidebar({ isOpen, onClose, userRole }) {
         </nav>
 
         {/* User info */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-primary-blue rounded-full flex items-center justify-center">
-              <span className="text-white text-sm font-medium">
+        <div className="absolute right-0 bottom-0 left-0 p-4 border-t border-gray-200">
+          <div className="flex gap-3 items-center">
+            <div className="flex justify-center items-center w-8 h-8 rounded-full bg-primary-blue">
+              <span className="text-sm font-medium text-white">
                 {userRole?.charAt(0).toUpperCase()}
               </span>
             </div>
