@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -12,7 +12,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Loader2, CheckCircle, ArrowLeft, Upload } from 'lucide-react'
 
-export default function PlayerRegistrationStep2() {
+function PlayerRegistrationStep2Inner() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const referenceNumber = searchParams.get('ref')
@@ -626,5 +626,13 @@ export default function PlayerRegistrationStep2() {
         </Card>
       </div>
     </div>
+  )
+}
+
+export default function PlayerRegistrationStep2() {
+  return (
+    <Suspense fallback={<div className="py-12 min-h-screen bg-gray-50"><div className="px-4 mx-auto max-w-4xl sm:px-6 lg:px-8"><div className="py-12 text-center">Loading...</div></div></div>}>
+      <PlayerRegistrationStep2Inner />
+    </Suspense>
   )
 }
