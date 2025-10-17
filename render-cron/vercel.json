@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "cron-job-enhanced.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/db-keepalive",
+      "schedule": "0 9 * * *"
+    }
+  ]
+}

@@ -6,7 +6,8 @@
   "description": "Minimal Node.js project for Render Cron Job: ping Next.js API and send email",
   "main": "cron-job.js",
   "scripts": {
-    "start": "node cron-job.js"
+    "start": "node cron-job-enhanced.js",
+    "test": "node cron-job-enhanced.js"
   },
   "dependencies": {
     "dotenv": "^16.6.1",
