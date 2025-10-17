@@ -199,7 +199,7 @@ export default function PlayerRegistrationStep2() {
                       2
                     </div>
                     <p className="text-gray-700">
-                      You'll receive an email notification about the status of your registration
+                      You&apos;ll receive an email notification about the status of your registration
                     </p>
                   </div>
                   <div className="flex gap-3 items-start">
@@ -207,7 +207,7 @@ export default function PlayerRegistrationStep2() {
                       3
                     </div>
                     <p className="text-gray-700">
-                      If approved, you'll receive further instructions for participation
+                      If approved, you&apos;ll receive further instructions for participation
                     </p>
                   </div>
                 </div>
@@ -625,7 +625,6 @@ export default function PlayerRegistrationStep2() {
           </CardContent>
         </Card>
       </div>
-  
-    )
-  }
+    </div>
+  )
 }
