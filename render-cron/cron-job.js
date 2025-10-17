@@ -8,6 +8,10 @@
 
 import nodemailer from 'nodemailer'
 import { fetch } from 'undici'
+import dotenv from 'dotenv'
+
+// Load environment variables from .env file
+dotenv.config()
 
 async function sendEmail({ host, port, user, pass, from, to, subject, text, html }) {
   const transporter = nodemailer.createTransport({
@@ -66,11 +70,76 @@ async function main() {
     throw new Error(`Upstream returned HTTP ${response.status}`)
   }
 
-  const subject = `Cron OK: ${new Date().toISOString()}`
-  const text = `Pinged ${NEXT_API_URL} successfully. Status: ${response.status}. Body: ${typeof body === 'string' ? body : JSON.stringify(body)}`
-  const html = `<p>Pinged <code>${NEXT_API_URL}</code> successfully.</p><p>Status: <b>${response.status}</b></p><pre>${
-    typeof body === 'string' ? body : JSON.stringify(body, null, 2)
-  }</pre>`
+  // Parse the response to extract database health information
+  let dbStats = {}
+  let healthScore = 'unknown'
+  
+  try {
+    if (typeof body === 'object' && body.data) {
+      dbStats = body.data
+      healthScore = body.data.health_score || 'unknown'
+    }
+  } catch (e) {
+    console.log('Could not parse database stats:', e.message)
+  }
+
+  const subject = `Database KeepAlive ${healthScore === 'excellent' ? '✅' : '⚠️'}: ${new Date().toISOString()}`
+  const text = `Database KeepAlive Report:
+URL: ${NEXT_API_URL}
+Status: ${response.status}
+Health Score: ${healthScore}
+Database Status: ${dbStats.database_status || 'unknown'}
+Operations Performed: ${dbStats.total_operations || 'unknown'}
+Tables Checked: ${dbStats.news_articles?.count || 0} news, ${dbStats.events?.count || 0} events, ${dbStats.results?.count || 0} results
+System Log Created: ${dbStats.system_log_created ? 'Yes' : 'No'}
+Recommendation: ${dbStats.recommendation || 'No recommendation'}
+
+Full Response:
+${typeof body === 'string' ? body : JSON.stringify(body, null, 2)}`
+
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto;">
+      <h2 style="color: ${healthScore === 'excellent' ? '#28a745' : '#ffc107'};">Database KeepAlive Report ${healthScore === 'excellent' ? '✅' : '⚠️'}</h2>
+      
+      <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 10px 0;">
+        <h3>Summary</h3>
+        <p><strong>URL:</strong> <code>${NEXT_API_URL}</code></p>
+        <p><strong>Status:</strong> <span style="color: ${response.status === 200 ? 'green' : 'red'};">${response.status}</span></p>
+        <p><strong>Health Score:</strong> <span style="color: ${healthScore === 'excellent' ? 'green' : 'orange'};">${healthScore}</span></p>
+        <p><strong>Database Status:</strong> ${dbStats.database_status || 'unknown'}</p>
+      </div>
+      
+      <div style="background: #e9ecef; padding: 15px; border-radius: 5px; margin: 10px 0;">
+        <h3>Database Statistics</h3>
+        <ul>
+          <li>News Articles: ${dbStats.news_articles?.count || 0} (${dbStats.news_articles?.recent_items || 0} recent)</li>
+          <li>Events: ${dbStats.events?.count || 0} (${dbStats.events?.recent_items || 0} recent)</li>
+          <li>Results: ${dbStats.results?.count || 0} (${dbStats.results?.recent_items || 0} recent)</li>
+          <li>General Body: ${dbStats.general_body?.count || 0} members</li>
+          <li>Hero Images: ${dbStats.hero_images?.count || 0} (${dbStats.hero_images?.active_images || 0} active)</li>
+          <li>History Entries: ${dbStats.history?.count || 0}</li>
+        </ul>
+      </div>
+      
+      <div style="background: #d1ecf1; padding: 15px; border-radius: 5px; margin: 10px 0;">
+        <h3>System Operations</h3>
+        <p><strong>Total Operations:</strong> ${dbStats.total_operations || 'unknown'}</p>
+        <p><strong>System Log Created:</strong> ${dbStats.system_log_created ? '✅ Yes' : '❌ No'}</p>
+        <p><strong>System Record Updated:</strong> ${dbStats.system_record_updated ? '✅ Yes' : '❌ No'}</p>
+      </div>
+      
+      <div style="background: #fff3cd; padding: 15px; border-radius: 5px; margin: 10px 0;">
+        <h3>Recommendation</h3>
+        <p>${dbStats.recommendation || 'No recommendation provided'}</p>
+      </div>
+      
+      <details style="margin-top: 20px;">
+        <summary style="cursor: pointer; font-weight: bold;">Full Response Data</summary>
+        <pre style="background: #f8f9fa; padding: 10px; border-radius: 5px; overflow-x: auto; margin-top: 10px;">${
+          typeof body === 'string' ? body : JSON.stringify(body, null, 2)
+        }</pre>
+      </details>
+    </div>`
 
   const info = await sendEmail({
     host: SMTP_HOST,

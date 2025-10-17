@@ -2,15 +2,15 @@
   "name": "render-cron-job",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "description": "Minimal Node.js project for Render Cron Job: ping Next.js API and send email",
   "main": "cron-job.js",
   "scripts": {
     "start": "node cron-job.js"
   },
   "dependencies": {
-    "nodemailer": "^6.9.14",
+    "dotenv": "^16.6.1",
+    "nodemailer": "^6.10.1",
     "undici": "^6.19.8"
   }
 }
-
-
