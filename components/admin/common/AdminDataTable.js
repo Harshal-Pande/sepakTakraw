@@ -65,11 +65,13 @@ export function AdminDataTable({
             className="pl-10"
           />
         </div>
-        <Button asChild>
-          <Link href={createHref}>
-            {createLabel}
-          </Link>
-        </Button>
+        {createHref && createLabel ? (
+          <Button asChild>
+            <Link href={createHref}>
+              {createLabel}
+            </Link>
+          </Button>
+        ) : null}
       </div>
 
       {/* Table */}
