@@ -57,7 +57,7 @@ export function AdminDataTable({
       {/* Search and Create */}
       <div className="flex justify-between items-center">
         <div className="relative w-64">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+          <Search className="absolute left-3 top-1/2 w-4 h-4 text-gray-400 transform -translate-y-1/2" />
           <Input
             placeholder="Search..."
             value={searchTerm}
@@ -75,7 +75,7 @@ export function AdminDataTable({
       </div>
 
       {/* Table */}
-      <div className="border rounded-lg">
+      <div className="rounded-lg border">
         <Table>
           <TableHeader>
             <TableRow>
@@ -90,16 +90,16 @@ export function AdminDataTable({
           <TableBody>
             {loading ? (
               <TableRow>
-                <TableCell colSpan={columns.length + 1} className="text-center py-8">
-                  <div className="flex items-center justify-center">
-                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary-blue"></div>
+                <TableCell colSpan={columns.length + 1} className="py-8 text-center">
+                  <div className="flex justify-center items-center">
+                    <div className="w-6 h-6 rounded-full border-b-2 animate-spin border-primary-blue"></div>
                     <span className="ml-2">Loading...</span>
                   </div>
                 </TableCell>
               </TableRow>
             ) : data.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={columns.length + 1} className="text-center py-8 text-gray-500">
+                <TableCell colSpan={columns.length + 1} className="py-8 text-center text-gray-500">
                   {emptyMessage}
                 </TableCell>
               </TableRow>
@@ -121,13 +121,13 @@ export function AdminDataTable({
                       <DropdownMenuContent align="end">
                         {onView && (
                           <DropdownMenuItem onClick={() => onView(item)}>
-                            <Eye className="w-4 h-4 mr-2" />
+                            <Eye className="mr-2 w-4 h-4" />
                             View
                           </DropdownMenuItem>
                         )}
                         {onEdit && (
                           <DropdownMenuItem onClick={() => onEdit(item)}>
-                            <Edit className="w-4 h-4 mr-2" />
+                            <Edit className="mr-2 w-4 h-4" />
                             Edit
                           </DropdownMenuItem>
                         )}
@@ -136,7 +136,7 @@ export function AdminDataTable({
                             onClick={() => handleDelete(item.id)}
                             className="text-red-600"
                           >
-                            <Trash2 className="w-4 h-4 mr-2" />
+                            <Trash2 className="mr-2 w-4 h-4" />
                             Delete
                           </DropdownMenuItem>
                         )}
@@ -152,7 +152,7 @@ export function AdminDataTable({
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-between">
+        <div className="flex justify-between items-center">
           <div className="text-sm text-gray-500">
             Page {currentPage} of {totalPages}
           </div>
