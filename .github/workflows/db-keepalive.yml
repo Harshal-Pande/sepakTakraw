@@ -1,0 +1,47 @@
+name: Database KeepAlive Cron
+
+on:
+  # Runs daily at 09:00 UTC. Adjust as needed.
+  schedule:
+    - cron: '0 9 * * *'
+  # Allow manual trigger
+  workflow_dispatch:
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: render-cron
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: |
+          npm ci || npm install
+
+      - name: Run keepalive cron script
+        run: npm start
+        env:
+          # REQUIRED: point to your deployed Next.js keepalive endpoint
+          NEXT_API_URL: ${{ secrets.NEXT_API_URL }}
+          # Optional API key header for your endpoint
+          NEXT_API_KEY: ${{ secrets.NEXT_API_KEY }}
+
+          # Email is optional; keep disabled unless you configure a provider
+          EMAIL_ENABLED: ${{ secrets.EMAIL_ENABLED }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
+          TO_EMAIL: ${{ secrets.TO_EMAIL }}
+
+
