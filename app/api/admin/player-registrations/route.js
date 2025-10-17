@@ -1,14 +1,10 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-)
+import { createClient } from '@/lib/supabase'
 
 // Get all registrations (admin only)
 export async function GET(request) {
   try {
+    const supabase = createClient()
     const { searchParams } = new URL(request.url)
     const status = searchParams.get('status')
     const limit = parseInt(searchParams.get('limit')) || 50
