@@ -46,14 +46,19 @@ async function main() {
     SMTP_PASS,
     TO_EMAIL,
     FROM_EMAIL,
+    EMAIL_ENABLED,
   } = process.env
 
   if (!NEXT_API_URL) throw new Error('Missing env: NEXT_API_URL')
-  if (!SMTP_HOST) throw new Error('Missing env: SMTP_HOST')
-  if (!SMTP_USER) throw new Error('Missing env: SMTP_USER')
-  if (!SMTP_PASS) throw new Error('Missing env: SMTP_PASS')
-  if (!TO_EMAIL) throw new Error('Missing env: TO_EMAIL')
-  if (!FROM_EMAIL) throw new Error('Missing env: FROM_EMAIL')
+  // Email is optional; guard by EMAIL_ENABLED
+  const shouldSendEmail = String(EMAIL_ENABLED || 'true').toLowerCase() !== 'false'
+  if (shouldSendEmail) {
+    if (!SMTP_HOST) throw new Error('Missing env: SMTP_HOST')
+    if (!SMTP_USER) throw new Error('Missing env: SMTP_USER')
+    if (!SMTP_PASS) throw new Error('Missing env: SMTP_PASS')
+    if (!TO_EMAIL) throw new Error('Missing env: TO_EMAIL')
+    if (!FROM_EMAIL) throw new Error('Missing env: FROM_EMAIL')
+  }
 
   const headers = { 'Content-Type': 'application/json' }
   if (NEXT_API_KEY) headers['x-api-key'] = NEXT_API_KEY
@@ -247,19 +252,26 @@ ${typeof body === 'string' ? body : JSON.stringify(body, null, 2)}`
     </body>
     </html>`
 
-  const info = await sendEmail({
-    host: SMTP_HOST,
-    port: SMTP_PORT,
-    user: SMTP_USER,
-    pass: SMTP_PASS,
-    from: FROM_EMAIL,
-    to: TO_EMAIL,
-    subject,
-    text,
-    html,
-  })
-
-  console.log('[cron] Email sent:', info && info.messageId)
+  if (shouldSendEmail) {
+    try {
+      const info = await sendEmail({
+        host: SMTP_HOST,
+        port: SMTP_PORT,
+        user: SMTP_USER,
+        pass: SMTP_PASS,
+        from: FROM_EMAIL,
+        to: TO_EMAIL,
+        subject,
+        text,
+        html,
+      })
+      console.log('[cron] Email sent:', info && info.messageId)
+    } catch (e) {
+      console.error('[cron] Email failed (non-fatal):', e?.message || e)
+    }
+  } else {
+    console.log('[cron] EMAIL_ENABLED=false — skipping email send')
+  }
 }
 
 main()
